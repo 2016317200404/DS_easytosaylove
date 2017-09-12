@@ -1,0 +1,72 @@
+#include<iostream>
+using namespace std;
+struct people
+{
+    int num;
+    int pw;
+    people *next;
+};
+void CreateFromTail(people *&f,int x);
+void func(people *&f,int m,int n);
+void Delete(people *&f,int n);
+int main()
+{
+    int i,m,n;
+    people *head=NULL;
+    cin>>n;
+    for(i=1;i<=n;i++)
+        CreateFromTail(head,i);
+    cout<<"input m:";
+    cin>>m;
+    func(head,m,n);
+}
+void CreateFromTail(people *&f,int x)
+{
+    people *p=NULL;
+    people *pr=f;
+    p=new people;
+    {if(f==NULL)
+        f=p;
+    else{
+        while(pr->next!=f)
+            {pr=pr->next;}
+        pr->next=p;
+    }}
+    p->num=x;
+    cin>>p->pw;
+    p->next=f;
+
+}
+void show(people *&f,int n)
+{
+    int i;
+    for(i=1;i<=n;i++)
+    {cout<<f->pw<<" ";
+    f=f->next;}
+    cout<<endl;
+}
+void func(people *&f,int m,int n)
+{
+    people *p=f;
+    people *q=f;
+    people *qr;
+    int i;
+    int j;
+    int y=n;
+    for(i=1;i<=y;i++)
+    {
+        for(j=1;j<m;j++)
+            p=p->next;
+        cout<<p->num<<" ";
+        m=p->pw;
+        while(q->num!=p->num)
+        {
+            qr=q;
+            q=q->next;
+        }
+        qr->next=q->next;
+        p=p->next;
+        n=n-1;
+    }
+}
+
