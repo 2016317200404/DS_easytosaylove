@@ -1,0 +1,88 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+//创建结构体
+typedef struct node
+{
+    int data1,data2;//编号和密码
+    struct node *next;
+}node;
+
+//定义关于链表的函数(单向循环列表)
+node *create(int n)
+{
+    node *p=NULL,*head;
+    head=(node*)malloc(sizeof(node));
+    p=head;
+    int i=0;
+    int *k=NULL;
+    k=(int*)malloc(n*sizeof(int));
+    node *s;
+    if(0!=n)
+    {
+        while(i<n)
+        {
+            printf("请输入编号%d的密码值:",i+1);
+            scanf("%d",&k[i]);
+            s=(node*)malloc(sizeof(node));
+            s->data1=i+1;
+            s->data2=k[i];
+            p->next=s;
+            p=s;
+            i++;
+        }
+        s->next=head->next;
+    }
+    free(k);
+    free(head);
+    return s->next;
+}
+int main()
+{
+    int n,m=20;
+    printf("请输入一个总人数和上限数:");
+    scanf("%d %d",&n,&m);
+    node *p=create(n);
+    node *temp;
+    int i,k;
+    //求出列结点的编号关键在于使p指向出列结点前一个位置
+    //注意余数有0 ,1,其他   这三种情况,每种情况对p的操作有细微的区别
+    //余数是不停更新的,所以不要忘了对m,n的操作
+    while(p!=p->next)//链表不只一个结点
+    {
+        k=m%n;//余数表示当前位置起第m个结点出列
+        if(k==0)//当前位置的末尾结点是出列结点
+        {
+            for(i=1;i<n-1;i++)
+            {
+                p=p->next;
+            }
+        }
+            else
+            {
+                if(k==1)//当前起始位置就是出列结点
+                {
+                   for(i=1;i<n;i++)
+                   {
+                       p=p->next;
+                   }
+                }
+                else
+                {
+                    for(i=1;i<k-1;i++)//该循环使得p指向第m-1个结点
+                    {
+                        p=p->next;
+                    }
+                }
+              }
+        printf("%d(%d)----",p->next->data1,p->next->data2);//第m-1个结点的next指向第m个结点,取其密码
+        m=p->next->data2;//将出列人的密码作为新的上限数
+        temp=p->next;
+        p->next=temp->next;//删除第m个结点
+        free(temp);
+        n=n-1;//总数减一
+        p=p->next;//从删除的结点后第一个结点开始
+    }
+    printf("%d(%d)\n",p->data1,p->data2);
+    return 0;
+}
