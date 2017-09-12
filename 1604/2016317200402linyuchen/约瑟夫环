@@ -1,0 +1,67 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define maxsize 100
+typedef struct Node
+{
+    int data;
+    struct Node *next;
+}Node,*LinkList;
+InitList(LinkList *L)
+{
+    *L=(LinkList)malloc(sizeof(Node));
+    (*L)->next=NULL;
+}
+void CreateLinkList(LinkList L1,int n)
+{
+    Node *rear,*s;
+    int x,i;
+    rear=L1;
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&x);
+        s=(Node*)malloc(sizeof(Node));
+        s->data=x;
+        rear->next=s;
+        rear=s;
+    }
+    rear->next=L1;
+}
+void YSFCircle(LinkList L1,int m,int n)
+{
+    scanf("%d %d",&m,&n);
+    InitList(&L1);
+    CreateLinkList(L1,n);
+    int tx,i,j;
+    int a[maxsize];
+    tx=m%n;
+    m=m-1;
+    for(i=0;i<n;i++)
+    {
+        while(m!=0)
+        {
+            while(L1->data!=0)
+            {
+                m--;
+                L1=L1->next;
+            }
+        }
+        m=L1->data;
+        a[i]=tx;
+        L1->data=0;
+        tx=tx+m+1;
+        if(tx>n)
+        {
+            tx=tx%n;
+        }
+    }
+    for(j=0;j<n;j++)
+    {
+        printf("%d ",a[i]);
+    }
+}
+int main()
+{
+    int m,n;
+    LinkList L1;
+    YSFCircle(L1,m,n);
+}
