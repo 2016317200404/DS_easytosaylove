@@ -1,0 +1,51 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#define MAXSIZE 100
+typedef struct{
+    int elem[MAXSIZE];
+    int length;
+}SqList;
+void DispList(SqList *L){
+    int i;
+    for(i=0;i<L->length;i++)
+        printf("%d ",L->elem[i]);
+    printf("\n");
+}
+void Different(SqList *A, SqList *B,SqList *C){
+    int i=0,j=0,k=0;
+    for (i=0;i<A->length;i++)
+    {
+        j=0;
+        while(j<B->length && B->elem[j]!=A->elem[i])
+            j++;
+        if(j==B->length){
+            C->elem[k]=A->elem[i];
+            k++;
+        }
+
+    }
+    C->length=k ;
+}
+
+void copy(int *a,int *b,int c){
+    while(c--){
+        *a++ = *b++;
+    }
+}
+int main()
+{
+     SqList *A = (SqList*)malloc(sizeof(SqList));
+     int case1[8] = {25,34,57,50,16,48,9,63};
+     int case2[8] = {12,50,23,79,4,34,25,13};
+     copy(A->elem,case1,8);
+     A->length=8;
+     SqList *B = (SqList*)malloc(sizeof(SqList));
+     copy(B->elem,case2,2);
+     B->length=8;
+    SqList *C = (SqList*)malloc(sizeof(SqList));
+    C->length=0;
+    Different(A,B,C);
+    DispList(C);
+    return 0;
+}
