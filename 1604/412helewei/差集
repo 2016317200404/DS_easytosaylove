@@ -1,0 +1,48 @@
+#include<iostream>
+#include<cstdio>
+using namespace std;
+struct SeqList
+{
+    int elem[100];
+    int last;
+}a,b,c;
+bool locate(int e)
+{
+    int i=0;
+    while(i<=b.last&&(b.elem[i]!=e))
+        i++;
+    if(i<=b.last)
+        return true;
+    else
+        return false;
+}
+void solve()
+{
+    int cnt=0;
+    for(int i=0;i<=a.last;i++)
+        if(!locate(a.elem[i]))
+            c.elem[cnt++]=a.elem[i];
+    c.last=cnt-1;
+}
+int main()
+{
+    printf("ÊäÈëË³Ðò±í³¤¶È:\n");
+    printf("a:");
+    scanf("%d",&a.last);
+    a.last--;
+    printf("b:");
+    scanf("%d",&b.last);
+    b.last--;
+    for(int i=0;i<=a.last;i++)
+        scanf("%d",&a.elem[i]);
+    for(int i=0;i<=b.last;i++)
+        scanf("%d",&b.elem[i]);
+    solve();
+    for(int i=0;i<=c.last;i++)
+        printf("%d ",c.elem[i]);
+    return 0;
+}
+/*
+25 34 57 50 16 48 09 63
+12 50 23 79 04 34 25 13
+*/
