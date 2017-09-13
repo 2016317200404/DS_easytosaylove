@@ -1,0 +1,36 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define MAXSIZE 100
+typedef struct{
+    int elem[MAXSIZE];
+    int length;
+}SqList;
+void Adjust(SqList *L){
+    int i=0,j=L->length-1;
+    while(i<j)
+    {
+        while(L->elem[i]%2!=0)
+            i++;
+        while(L->elem[j]%2==0)
+            j--;
+        if(i<j)
+        {
+            int t;
+            t=L->elem[i];
+            L->elem[i]=L->elem[j];
+            L->elem[j]=t;
+        }
+    }
+}
+void main(){
+    int i;
+    SqList *la = (SqList*)malloc(sizeof(SqList));
+    scanf("%d",&la->length);
+    for(i=0;i<la->length;i++){
+        scanf("%d",&la->elem[i]);
+    }
+    Adjust(la);
+    for(i=0;i<la->length;i++){
+        printf("%d ",la->elem[i]);
+    }
+}
