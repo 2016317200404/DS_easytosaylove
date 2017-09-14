@@ -1,0 +1,31 @@
+#include<stdio.h>
+main()
+{
+    int la[8]={25,35,57,50,16,48,9,63};
+    int *firstp=la;            /* 头指针 */
+    int *lastp=la+7;           /* 尾指针 */
+    int i;                     /* 循环数 */
+    int temp;                  /* 交换数值 */
+    for(i=0;i<8;i++)
+    {
+        if(*firstp%2==1)        /* 头指针的元素为奇，指针后移 */
+            firstp++;
+        if(*firstp%2==0)        /* 头指针的元素为偶，判断尾指针 */
+        {
+            if(*lastp%2==0)     /* 尾指针的元素为偶，指针前移 */
+                lastp--;
+            if(*lastp%2==1)     /* 尾指针的元素为奇，互换值 */
+            {
+                temp=*firstp;       /* 两数的换值 */
+                *firstp=*lastp;
+                *lastp=temp;
+            }
+        }
+        if(firstp==lastp)        /* 两指针指向同一地址，结束 */
+            break;
+    }
+    for(i=0;i<8;i++)
+    {
+        printf("%d ",la[i]);
+    }
+}
