@@ -1,0 +1,10 @@
+void DelList(list s)
+{
+    Node *pre;
+    pre=s;
+    while(pre->next->next!=s)
+    {
+        pre=pre->next;
+    }
+    pre->next=s;
+}
