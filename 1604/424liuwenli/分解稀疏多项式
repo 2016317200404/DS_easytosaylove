@@ -1,0 +1,22 @@
+void separate(Polynode L)
+{
+    Polynode* q=L;
+    Polynode* p=q->next;
+    Polynode* o;
+    o=(Polynode*)malloc(sizeof(Polynode));
+    while(p!=NULL)
+    {
+        if((p->exp)%2==0)//满足偶次项条件的结点:
+        {
+            q->next=p->next;                            //先把前驱结点连到后驱结点
+            o->next=p;                                         //再把该结点连到o的后面
+            o=o->next;                                          //把o后移以便前一个语句能循环连接
+            p=q->next;
+        }
+        else//剩下的就是奇次项多项式:直接把p后移
+        {
+            q=p;
+            p=p->next;
+        }
+    }
+}
