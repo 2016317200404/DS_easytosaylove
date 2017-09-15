@@ -1,0 +1,18 @@
+node* DelMax(List L)
+{
+    node *p,*q;         //p用来遍历, q用来记录最大值结点的位置
+    p=head->next;
+    int max;
+    max=p->data;
+    q=p;
+    while(p->next!=NULL)
+    {
+        p=p->next;
+        if(p->data>max)
+        {
+            max=p->data;
+            q=p;
+        }
+    }
+    return q;
+}
