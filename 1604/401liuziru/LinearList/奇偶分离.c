@@ -1,4 +1,4 @@
-#include<stdio.h>
+c#include<stdio.h>
 
 int main(){
     int la[50],i=0,temp;
