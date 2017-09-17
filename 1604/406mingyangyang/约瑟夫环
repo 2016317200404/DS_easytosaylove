@@ -1,0 +1,64 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+    int elem;
+    int m;
+    struct node *next;
+}node;
+node* createlist(node*head,int n)
+{
+    node*p,*rear;
+    p=(node*)malloc(sizeof(node));
+    scanf("%d",&(p->m));
+    p->elem=1;
+    p->next=NULL;
+    head=rear=p;
+    int i=2;
+    for(i=2;i<=n;i++)
+    {
+        p=(node*)malloc(sizeof(node));
+        p->elem=i;
+        scanf("%d",&(p->m));
+        p->next=NULL;
+        rear->next=p;
+        rear=p;
+    }
+    rear->next=head;
+    return head;
+}
+void del(node*head,int n,int e)
+{
+    int i,j,count=n;
+    node*p=head,*q=head;
+    for(i=1;i<n;i++)
+    {
+        for(j=1;j<count;j++)
+        {
+            p=p->next;
+        }
+        for(j=1;j<e;j++)
+        {
+            p=p->next;
+        }
+        q=p->next;
+        e=q->m;
+        printf("%d ",q->elem);
+        p->next=p->next->next;
+        free(q);
+        count--;
+        p=p->next;
+    }
+    printf("%d\n",p->elem);
+    free(p);
+}
+int main()
+{
+    node*head;
+    head=createlist(head ,7);
+    del(head,7,20);
+    return 0;
+}
+
+
+
