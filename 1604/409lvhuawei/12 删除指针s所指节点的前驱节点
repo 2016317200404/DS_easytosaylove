@@ -1,0 +1,21 @@
+#include<stdio.h>
+typedef struct clnode{
+    int data;
+    struct cl *next;
+}node;
+void del(node *s)
+{
+    node *p,*h;
+    h=s;
+    while(h->next!=s)
+    {
+        p=h;
+        h=h->next;
+    }
+    s=p->next;
+    free(h);
+}
+int main()
+{
+
+}
