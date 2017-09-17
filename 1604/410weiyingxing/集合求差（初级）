@@ -1,0 +1,79 @@
+#include <stdio.h>
+#include<malloc.h>//malloc()分配单元格
+#define MaxSize 40
+typedef struct
+{
+    int data[MaxSize];
+    int last;
+} seqlist;
+int listEmpty(seqlist*L)
+{
+    return (L->last==0);
+}
+int ListLength(seqlist *L)
+{
+    return (L->last);
+}
+
+void Displist(seqlist*L)
+{
+    int i;
+    if(listEmpty(L))
+        return;
+            else
+                for(i=0; i<L->last; i++)
+            {
+                printf("%d",L->data[i]);
+                printf("\t");
+
+            }
+    printf("\n");
+
+}
+void qc(seqlist *a,seqlist *b,seqlist*c)
+{
+    int i,j,k;
+    k=0;
+    for(i=0; i<a->last; i++)
+    {
+        j=0;
+        while(j<b->last&& b->data[j]!=a->data[i])
+            j++;
+        if(j==b->last)//注意不可将等号打成赋值号，不然原样输出a;
+        {
+            c->data[k]=a->data[i];
+            k++;
+        }
+    }
+    c->last=k;
+}
+int main()
+{
+    seqlist *a=(seqlist *)malloc(sizeof(seqlist));
+    a->last=0;
+    a->data[0]=25;
+    a->data[1]=34;
+    a->data[2]=57;
+    a->data[3]=50;
+    a->data[4]=16;
+    a->data[5]=48;
+    a->data[6]=9;
+    a->data[7]=63;
+    a->last=8;
+    seqlist *b=(seqlist *)malloc(sizeof(seqlist));
+    b->data[0]=12;
+    b->data[1]=50;
+    b->data[2]=23;
+    b->data[3]=79;
+    b->data[4]=04;
+    b->data[5]=34;
+    b->data[6]=25;
+    b->data[7]=13;
+    b->last=8;
+    seqlist *c=(seqlist *)malloc(sizeof(seqlist));
+    c->last=0;
+    qc(a,b,c);
+    Displist(a);
+    Displist(b);
+    Displist(c);
+}
