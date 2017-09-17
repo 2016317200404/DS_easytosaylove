@@ -1,0 +1,54 @@
+#include<stdio.h>
+#include<malloc.h>
+typedef struct node
+{
+    int code;
+    int key;
+    struct node *next;
+}ynode;
+ynode *keyinput(int n)
+{
+    int i,k;
+    ynode *l,*r,*s;
+    l=(ynode *)malloc(sizeof(ynode));
+    l->next=NULL;
+    r=l;
+    printf("please input the key of everyone ：");
+    for(i=1;i<=n;i++)
+    {
+        scanf("%d",&k);
+        s=(ynode *)malloc(sizeof(ynode));
+        s->code=i;
+        s->key=k;
+        r->next=s;
+        r=s;
+    }
+    r->next=l->next;
+    return l;
+}
+show(int m,int n,ynode *l)
+{
+    int j,i=1;
+    ynode *p,*q;
+    p=l;
+    while(i<=n)
+    {
+        for(j=1;j<m;j++) p=p->next;
+        q=p->next;
+        p->next=q->next;
+        printf("%d ",q->code);
+        i++;
+        m=q->key;
+        free(q);
+    }
+    return ;
+}
+void main()
+{
+    int n,key;
+    ynode *l;
+    printf("please input the first number and  the fist key：");
+    scanf("%d %d",&n,&key);
+    l=keyinput(n);
+    show(key,n,l);
+}
