@@ -1,0 +1,22 @@
+ void Turn(List L)
+{
+    p=L->next;  //永远指向头结点后面的结点,方便结点的插入
+    q=p->next;   //永远指向判断的结点(偶数项就插入到头结点后面)
+    int s=2;  //s表示q指向结点的项数
+    while(p->next!=NULL)
+    {
+        if(s%2==0)
+        {
+            L->next=q;
+            p->next=q->next;
+            q->next=p;
+            q=p->next;
+            p=L->next;
+        }
+        else
+        {
+            q=q->next;
+        }
+        s++;
+    }
+}
