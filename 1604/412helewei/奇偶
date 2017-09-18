@@ -1,0 +1,29 @@
+#include<cstdio>
+#include<iostream>
+using namespace std;
+struct SerList
+{
+    int elem[100];
+    int last;
+}la,lb;
+int main()
+{
+    int cnt1,cnt2;
+    printf("ÊäÈë±í³¤¶È:\n");
+    scanf("%d",&la.last);
+    lb.last=--la.last;
+    cnt1=0;
+    cnt2=lb.last;
+    for(int i=0;i<=la.last;i++)
+        scanf("%d",&la.elem[i]);
+    for(int i=0;i<=la.last;i++)
+    {
+        if(la.elem[i]%2==1)
+            lb.elem[cnt1++]=la.elem[i];
+        else
+            lb.elem[cnt2--]=la.elem[i];
+    }
+    for(int i=0;i<=la.last;i++)
+        printf("%d ",lb.elem[i]);
+    return 0;
+}
