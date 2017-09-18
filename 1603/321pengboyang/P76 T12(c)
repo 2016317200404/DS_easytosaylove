@@ -1,0 +1,54 @@
+#include<stdio.h>
+typedef struct LIST    /*LIST为结构体的名字 */
+{
+    struct LIST* next;  /* 结构体的指针，指向的是结构体，因此是LIST *类型 */
+    int data;           /* 结构体的数据，整型 */
+}LIST,*Pl;              /* 结构体的别名，LIST *就相当于Pl，无差别 */
+int main()
+{
+    Pl s;      /* 设置题目给出的要删除结点的指针，也可以写成 LIST * s模式 */
+    Pl n;      /* 设置新结点的指针，方便存入数据 */
+    Pl head;   /* 设置尾差法的头指针，方便最后一个元素循环 */
+    Pl l;      /* 设置一个遍历整个链表的指针，同时方便尾插法的建立 */
+    int i;     /* 循环参数 */
+    int d;     /* 设置结点的数据参数 */
+    scanf("%d",&d);     /* 输入头指针的数据 */
+    head=(Pl)malloc(sizeof(LIST));  /* 建立结点 */
+    l=head;                 /* 固定head指针，用l指针遍历 */
+    head->data=d;           /* 设置data */
+    head->next=NULL;        /* 由于是头结点即第一个结点，因此next目前指向NULL */
+    for(i=0;i<4;i++)        /* 循环创建4个结点 */
+    {
+        scanf("%d",&d);
+        n=(Pl)malloc(sizeof(LIST));
+        n->data=d;
+        l->next=n;          /* 指向头结点的l的next指向了n，创立联接关系 */
+        l=n;                /* l后移到当前最后一个结点 */
+    }
+    scanf("%d",&d);
+    n=(Pl)malloc(sizeof(LIST));
+    l->next=n;
+    s=n;                    /* 设置s指针指向的结点 */
+    n->data=d;
+    n->next=head;           /* 最后一个结点的next指向头部，完成循环 */
+    l=head;                 /* l指针指向头部，开始无数据删除遍历 */
+    for(i=0;i<7;i++)        /* 循环7个数，即重复一个头部
+    {
+        printf("%d ",l->data);
+        l=l->next;
+    }
+    printf("\n");
+    l=head;                 /* l指针指向头部，开始有数据是删除遍历 */
+    while(l->next->data!=s->data) /* 当l的next，即l的下一个结点的数据为s的数据时，结束循环*/
+    {
+        l=l->next;           /* 否则l继续遍历 */
+    }
+    l->next=s->next;         /* 用l的next指向它的下一个结点（s）的下一个结点，完成删除 */
+    free(s);                 /* 施放s，避免内存占用 */
+    l=head;                  /* l指向头部，开始检查是否删除s结点 */
+    for(i=0;i<6;i++)         /* 循环6个数，即重复一个头部 */
+    {
+        printf("%d ",l->data);
+        l=l->next;
+    }
+}
