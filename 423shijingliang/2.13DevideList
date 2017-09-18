@@ -1,0 +1,73 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct NODE
+{
+    int data;
+    struct NODE *next;
+}List;
+void Print(List *head)
+{
+    int i;
+    List *p;
+    p=head->next;
+    for(i=0;i<10;i++)
+    {
+        printf("%d",p->data);
+        p=p->next;
+    }
+    printf("\n");
+}
+void DivideList(List *L,List *A,List *B,List *C)
+{
+    List *p,*q;
+    p=L->next;
+    List *a=A;
+    List *b=B;
+    List *c=C;
+    while(p)
+    {
+        if(p->data>='a'&&p->data<'z'||p->data>='A'&&p->data<='Z')
+        {
+            q=p;
+            p=p->next;
+            a->next=q;
+            q->next=A;
+            a=a->next;
+        }
+        else if(p->data>='0'&&p->data<='9')
+        {
+            q=p;
+            p=p->next;
+            b->next=q;
+            q->next=B;
+            b=b->next;
+        }
+        else{
+            q=p;
+            p=p->next;
+            c->next=q;
+            q->next=C;
+            c=c->next;
+        }
+    }
+}
+void main()
+{
+    int i;
+    List *L,*A,*B,*C;
+    List *p,*q,*head;
+    head=q=(List*)malloc(sizeof(List));
+    for(i=0;i<10;i++)
+    {
+        p=(List*)malloc(sizeof(List));
+        p->data=i;
+    }
+    p->next=head->next;
+    printf("原链表:");
+    printf("\n");
+    Print(head->next);
+    DivideList(L,A,B,C);
+    printf("循环链表:");
+    printf("\n");
+    Print(head->next);
+}
