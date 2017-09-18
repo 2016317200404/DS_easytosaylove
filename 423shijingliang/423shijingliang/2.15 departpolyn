@@ -1,0 +1,102 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct term
+{
+    double coef;
+    int exp;
+    struct term *next;
+}term,*polynomial;
+int depart(polynomial &head,polynomial &Odd,polynomial &Even)//奇数项，偶数项
+{
+    int i=1;
+    int j=1;
+    polynomial odd,even,p;
+    Odd=Even=NULL;
+    p=head;
+    while(1)
+    {
+        if(p->exp%2)
+        {
+            if(i)
+            {
+              i=0;
+              Odd=p;
+              odd=Odd;
+            }
+            else{
+              odd->next=p;
+              odd=odd->next;
+            }
+         p=p->next;
+         odd->next=Odd;
+        }
+        else
+        {
+            if(i)
+            {
+                j=0;
+                Even=p;
+                even=Even;
+            }
+            else{
+                even->next=p;
+                even=even->next;
+            }
+            p=p->next;
+            even->next=Even;
+        }
+        if(p==head)
+            break;
+    }
+    return 1;
+}
+void print(polynomial head)
+{
+    polynomial p=head;
+    if(!head)
+    {
+        printf("该表为空");
+        return 0;
+    }
+    while(1)
+    {
+        if(p->next!=head)
+        {
+            printf("%gm^%d+",p->coef,p->exp);
+        }
+        else printf("%gm^%d+",p->coef,p->exp);
+        p=p->next;
+        if(p==head)  break;
+    }
+    printf("\n");
+}
+void main()
+{
+    int i;
+    polynomial head,h,Odd,Even,newbase;
+    head=(polynomial)malloc(sizeof(term));
+    head->coef=2.0;
+    head->exp=0;
+    h=head;
+    for(i=1;i<11;i++)
+    {
+        newbase=(polynomial)malloc(sizeof(term));
+        newbase->coef=2.0*i;
+        newbase->exp=i*3;
+        h->next=newbase;
+        h=h->next;
+    }
+    h->next=head;
+    printf("原稀疏多项式:");
+    print(head);
+    printf("\n");
+    if(depart(head,Odd,Even))
+    {
+        printf("分解后的奇数项稀疏多项式:");
+        print(Odd);
+        printf("\n");
+        printf("分解后的偶数项稀疏多项式:");
+        print(Even);
+        printf("\n");
+    }
+}
