@@ -1,0 +1,85 @@
+typedef struct DNode
+{
+    int data;
+    int freq;
+    struct DNode *prior,*next;
+}DNode,* DoubleList;
+void CreateDList(DoubleList L)
+{
+    DNode *s;
+    int c,n,i;
+    int flag=1;
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&c);
+        s->data=c;
+        s->next=L->next;
+        s->prior=L->prior;
+        L->next=s;
+    }
+
+}
+int InsertDList(DoubleList L,int i,int e)
+{
+     DNode *s,*p;
+     int k=0;
+     p=L;
+     while(p!=NULL && k<i)
+     {
+         p=p->next;
+         k=k+1;
+     }
+     s=(DNode*)malloc(sizeof(DNode));
+     if(s)
+     {
+         s->data=e;
+         s->prior=p->prior;
+         p->prior->next=s;
+         s->next=p;
+         p->prior=s;
+         return TRUE;
+     }
+     else return FALSE;
+}
+int DelDList(DoubleList L,int i,int *e)
+{
+    DNode *p;
+    int k=0;
+    p=L;
+    while(p->nex!=NULL && k<i)
+    {
+        p=p->next;
+        k=k+1;
+    }
+    *e=p->data;
+    p->prior->next=p->next;
+    p->next-prior=p->prior;
+    free(p);
+    return TRUE;
+}
+DNode * Locate(DoubleList L;int x)
+{
+    int i=0;
+    int *e;
+    CreateDList(L);
+    scanf("%d",&x);
+    while(x != L->data)
+    {
+        L=L->next;
+        i++;
+        if(i>=n)
+        {
+            return 0;
+        }
+    }
+    L->freq++;
+    DelDList(L,i,&e);
+    while(L->freq>=L->prior->freq)
+    {
+        
+        i--;
+        InsertDList(L,i,e);
+    }
+    return *L;
+}
