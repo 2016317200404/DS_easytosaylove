@@ -1,0 +1,177 @@
+#include<stdio.h>
+
+int i=0;
+#define MaxSize 20
+typedef int ElemType;
+typedef struct SeqList
+{
+    ElemType elem[MaxSize];
+    int length;
+}SeqList;
+
+int Empty(SeqList *L)
+{
+    if(L->length==0)
+        return 1;
+    else
+        return 0;
+}
+void Initlist1(SeqList *L)
+{
+    L->length=0;
+}
+
+void Initlist2(SeqList *L,int m)
+{
+    L->elem[i]=m;
+    L->length++;
+    i++;
+}
+
+void Sort(SeqList *L)
+{
+    int k,j;
+    ElemType temp;
+    for(k=0;k<L->length-1;k++)
+    {
+        for(j=k+1;j<L->length;j++)
+        {
+            if(L->elem[k]>L->elem[j])
+                temp=L->elem[k],L->elem[k]=L->elem[j],L->elem[j]=temp;
+        }
+    }
+}
+
+int Locate(SeqList *L,int a)
+{
+    int k,flag=0;
+    if(L->length!=0)
+    {
+        for(k=0;k<L->length;k++)
+        {
+            if(L->elem[k]==a)
+            {
+                return k+1;
+                flag=1;
+            }
+        }
+        if(flag==0)
+            return -1;
+    }
+    else
+        printf("线性表长度为零!\n");
+}
+int Getdata(SeqList *L,int k)
+{
+    int j;
+    if(Empty(L)==0&&(k>=1&&k<L->length))
+    {
+        return L->elem[k-1];
+    }
+    else
+        printf("Error!\n");
+}
+
+void Insert(SeqList *L,int num,int m)
+{
+    int j;
+    if(Empty(L)==0&&(num>=1&&num<=L->length+1))
+    {
+        if(num==1)
+        {
+            for(j=L->length-1;j>=0;j--)
+                L->elem[j+1]=L->elem[j];
+            L->elem[0]=m;
+            L->length++;
+        }
+        else if(num==L->length+1)
+        {
+            L->elem[L->length]=m;
+            L->length++;
+        }
+        else
+        {
+            for(j=L->length-1;j>=num-1;j--)
+               L->elem[j+1]=L->elem[j];
+            L->elem[num-1]=m;
+            L->length++;
+        }
+    }
+    else
+        printf("Error!\n");
+}
+
+void Delete(SeqList *L,int num)
+{
+    int j;
+    if(Empty(L)==0&&(num>=1&&num<=L->length))
+    {
+        if(num==1)
+        {
+            for(j=0;j<L->length-1;j++)
+                L->elem[j]=L->elem[j+1];
+            L->length--;
+        }
+        else if(num==L->length-1)
+        {
+            L->length--;
+        }
+        else
+        {
+            for(j=num-1;j<L->length-1;j++)
+               L->elem[j]=L->elem[j+1];
+            L->length--;
+        }
+    }
+    else
+        printf("Error!\n");
+}
+
+void Display(SeqList *L)
+{
+    int j;
+    for(j=0;j<L->length;j++)
+        printf("%d ",L->elem[j]);
+    printf("\n");
+}
+
+int main()
+{
+    int a[10]={10,5,7,1,9,8,3,2,6,4},j,temp;
+    SeqList L;
+
+    Initlist1(&L);
+    if(Empty(&L))
+        printf("线性表为空!\n");
+    for(j=0;j<10;j++)
+    {
+        temp=a[j];
+        Initlist2(&L,temp);
+    }
+    Display(&L);
+
+    Sort(&L);
+    Display(&L);
+    printf("\n");
+
+    Insert(&L,11,20);
+    Display(&L);
+
+    Insert(&L,1,20);
+    Display(&L);
+
+    Insert(&L,5,20);
+    Display(&L);
+    printf("\n");
+
+    Delete(&L,13);
+    Display(&L);
+
+    Delete(&L,1);
+    Display(&L);
+
+    Delete(&L,4);
+    Display(&L);
+
+    return 0;
+}
