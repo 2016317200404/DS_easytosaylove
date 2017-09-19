@@ -1,0 +1,76 @@
+#include<stdio.h>
+typedef struct LIST
+{
+    struct LIST *next;
+    int data;
+}LIST,*L;
+int main()
+{
+    L n;
+    L head;
+    L l;
+    L max;
+    int i;
+    int d;
+    int m;
+    scanf("%d",&d);
+    head=(L)malloc(sizeof(LIST));
+    head->data=d;
+    head->next=NULL;
+    l=head;
+    for(i=0;i<5;i++)
+    {
+        scanf("%d",&d);
+        n=(L)malloc(sizeof(LIST));
+        n->data=d;
+        l->next=n;
+        l=n;
+    }
+    scanf("%d",&d);
+    n=(L)malloc(sizeof(LIST));
+    n->data=d;
+    l->next=n;
+    n->next=NULL;
+    m=head->data;
+    max=head;
+    l=head->next;
+    while(l->next!=NULL)
+    {
+        if((l->data)>m)
+        {
+            m=l->data;
+            max=l;
+        }
+        l=l->next;
+    }
+    printf("%d",m);
+    printf("\n");
+    l=head;
+    if(head==max)
+    {
+        l=l->next;
+        free(max);
+        head=l;
+    }
+    else
+    {
+        while(l->next!=max&&l->next!=NULL)
+        {
+            l=l->next;
+        }
+        l->next=max->next;
+        free(max);
+    }
+    l=head;
+    for(i=0;i<6;i++)
+    {
+        printf("%d ",l->data);
+        l=l->next;
+    }
+  /*  while(l->next!=NULL)
+    {
+        printf("%d ",l->data);
+        l=l->next;
+    } */
+}
+
