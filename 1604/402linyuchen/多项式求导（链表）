@@ -1,0 +1,29 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct Node
+{
+    int exp;
+    int coef;
+    struct Node *next;
+}Node,* LinkList;
+void derivative(SimpleCircLinkList &ha)
+{
+    Node<ElemType> *q, *pa;
+    q=ha;
+    pa=ha->next;
+    while(pa->exp!=ha)  //pa->exp!=-1
+    {
+        if(pa->exp==0)
+        {
+            delete pa;
+            pa=ha->next;
+        }
+        else
+        {
+            pa->coef=(pa->coef)*(pa->exp);
+            pa->exp--;
+            q=ha->next;
+            pa=pa->next;
+         }
+    }
+}
