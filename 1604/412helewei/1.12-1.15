@@ -1,0 +1,98 @@
+1.12
+void dellist(node *s)
+{
+    node *p;
+    node *q=s;
+    s=s->next;
+    while(s!=q)
+    {
+        p=s;
+        s=s->next;
+    }
+    p->next=s->next;
+}
+1.13
+void solve(List *L,Clist *a,Clist *b,Clist *c)
+{
+    *a=(Clist)malloc(sizeof(node));
+    *b=(Clist)malloc(sizeof(node));
+    *c==(Clist)malloc(sizeof(node));
+    node *p=a;
+    node *q=b;
+    node *r=c;
+    node *s=L->next;
+    while(s!=NUll)
+    {
+        if(s->data>='0'&&s->data<='9')
+        {
+            p->next=s;
+            p=p->next
+        }
+        else if(s->data>='a'&&s->data<='z'||s->data>='A'&&s->data<='Z')
+        {
+            q->next=s;
+            q=q->next;
+        }
+        else
+        {
+            r->next=s;
+            r=r->next;
+        }
+        s=s->next;
+    }
+    p->next=a;
+    q->next=b;
+    r->next=c;
+}
+1.14
+int findmax(LinkList *l)
+{
+    int ma;
+    node *p=l->next;
+    while(p!=NULL)
+    {
+        if(ma<p->data)
+            ma=p->data;
+        p=p->next;
+    }
+    return ma;
+}
+void delmax(LinkList *l)
+{
+    int ma=findmax(l);
+    node *p=l->next;
+    node q=l;
+    while(1)
+    {
+        if(p->data==ma)
+        {
+            q->next=p->next;
+            break;
+        }
+        q=p;
+        p=p->next;
+    }
+}
+1.15
+void solve(linklist *a,linklist *b,clinklist *L)
+{
+    node *p=a;
+    node *q=b;
+    node *r=L->next;
+    while(r!=L)
+    {
+        if(r->data%2==0)
+        {
+            p->next=r;
+            p=p->next;
+        }
+        else
+        {
+            q->next=r;
+            q=q->next;
+        }
+        r=r->next;
+    }
+    p->next=NULL;
+    q->next=NULL;
+}
