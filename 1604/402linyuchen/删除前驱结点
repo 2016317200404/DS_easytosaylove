@@ -1,0 +1,53 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct Node
+{
+    int data;
+    int num;
+    struct Node *next;
+}Node,* LinkList;
+void CreateCLinkList(LinkList L)
+{
+    Node *rear,*s;
+    int c,n,i;
+    L->num=0;
+    rear=L;
+    scanf("%d",&n)
+    for(i=0;i<n;i++)
+    {
+        s=(Node*)malloc(sizeof(Node));
+        scanf("%d",&c);
+        s->data=c;
+        rear->next=s;
+        rear=s;
+        L->num++;
+    }
+    rear->next=L;
+}
+void DelList(LinkList L,int i)
+{
+    Node *pre,*r;
+    int k;
+    pre=L;
+    k=0;
+    while(pre->next!=NULL&&k<i-1)
+    {
+        pre=pre->next;
+        k=k+1;
+    }
+    r=pre->next;
+    pre->next=r->next;
+    free(r);
+}
+void DelBefore(LinkList L,Node *s)
+{
+    CreateCLinkList(L);
+    int x;
+    Node *p;
+    while(p->data!=s->data)
+    {
+        p=p->next;
+    }
+    x=p->num-1;
+    DelList(L,x);
+}
