@@ -1,0 +1,28 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct Node
+{
+    int data;
+    struct Node *back;
+    struct Node *next;
+}Node,* LinkList;
+void unknown  (BNODETP   &L)
+{
+    p=L->next;
+    q=p->next;
+    r=q->next；
+    while (q!=L)
+    {
+        while (p!=L) && (p->data>q->data)
+            p=p->back;
+        q->back->next=r;
+        r->back=q->back;
+        q->next=p->next;
+        q->back=p;
+        p->next->back=q;
+        q->next=r->back;
+        q=r;
+        p=q->back;
+        r=r->next;
+    }
+}
