@@ -1,0 +1,88 @@
+#include<stdio.h>
+#include<malloc.h>
+typedef int elemtype;
+typedef struct
+{
+    elemtype *a;
+    int length;
+    int listsize;
+}seqlist;
+int inlist(seqlist *L,int k)
+{
+    L->a=(elemtype *)malloc(100*sizeof(elemtype));
+    L->length=k;
+    L->listsize=100;
+    return 1;
+}
+void sortlist(seqlist *L)
+{
+    int i,j,temp;
+    temp=0;
+    for(i=0;i<L->length-1;i++)
+    {
+        for(j=i+1;j<L->length;j++)
+        {
+            if(L->a[i]>L->a[j])
+            {
+            temp=L->a[i];
+            L->a[i]=L->a[j];
+            L->a[j]=temp;
+            }
+        }
+    }
+}
+void alist(seqlist *LA,seqlist *LB,seqlist *LC)
+{
+    int i=0,j=0,k=0;
+    while(i<LA->length&&j<LB->length)
+    if(LA->a[i]<LB->a[j])
+    {
+        LC->a[k++]=LA->a[i++];
+    }
+    else if(LA->a[i]>LB->a[j])
+    {
+        j++;
+    }
+    else
+    {
+        i++;
+        j++;
+    }
+    if(i<LA->length)
+    {
+        while(i<=LA->length)
+        LC->a[k++]=LA->a[i++];
+    }
+    int h;
+     for(h=0;h<k;h++)
+     {
+         printf("%d ",LC->a[h]);
+     }
+}
+int main()
+{
+    seqlist l,b,c;
+    int m,n,i,j;
+    printf("请输入集合1的长度： \n");
+    scanf("%d",&m);
+    inlist(&l,m);
+    printf("请输入集合1的值： \n");
+    for(i=0;i<m;i++)
+    {
+        scanf("%d",&l.a[i]);
+    }
+    sortlist(&l);
+    printf("请输入集合2的长度： \n");
+    scanf("%d",&n);
+    inlist(&b,n);
+    printf("请输入集合2的值： \n");
+    for(j=0;j<n;j++)
+    {
+        scanf("%d",&b.a[j]);
+    }
+    sortlist(&b);
+    inlist(&c,m+n);
+    alist(&l,&b,&c);
+    return 0;
+
+}
