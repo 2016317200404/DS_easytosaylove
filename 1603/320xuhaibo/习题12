@@ -1,0 +1,81 @@
+#include<stdio.h>
+#include<stdlib.H>
+#include<time.h>
+typedef struct Node
+{
+    int x;
+    struct Node* next;
+}Node;
+Node* SetNode(int n);  /*创建有n个节点的链表*/
+void DeleteNode(Node *p , int n);
+int main()
+{
+   int n;
+   Node *q;
+   scanf("%d",&n);
+   q = SetNode(n);
+   printf("%d \n",q -> x);
+   DeleteNode(q,n);
+   return 0;
+}
+Node* SetNode(int n)
+{
+    int y , z;
+    Node *pt , *pb , *ps;
+    pt = (Node*)malloc(sizeof(Node));
+    ps = pt;
+    pt -> x = 0;
+    pt -> next = NULL;
+    for(y = 1 ; y < n ; y ++)
+    {
+        pb = (Node*)malloc(sizeof(Node));
+        pt -> next = pb;
+        pb -> x = y;
+        pb -> next = NULL;
+        pt = pt -> next;
+    }
+    pb -> next = ps;
+    printf("%d ",ps -> x);
+    pb = ps -> next;
+    while(pb != ps)
+    {
+        printf("%d ",pb -> x);
+        pb = pb -> next;
+    }
+    printf("\n");
+    srand(time(NULL));
+    z = rand() % 10 + 1;
+    printf("%d \n",z);
+    for(y = 0 ; y < z ; y ++)
+    {
+        ps = ps -> next;
+    }
+    return ps;
+}
+void DeleteNode(Node *p , int n)
+{
+    Node *p1 , *p2;
+    printf("%d ", p -> x);
+    p1 = p -> next;
+    while(p1 != p)
+    {
+        printf("%d ",p1 -> x);
+        p1 = p1 -> next;
+    }
+    printf("\n");
+    p1 = p1 -> next;
+    while(p1 -> next -> next != p)
+    {
+        p1 = p1 -> next;
+    }
+    p2 = p1 -> next;
+    p1 -> next = p;
+    free(p2);
+    printf("%d ", p -> x);
+    p1 = p -> next;
+    while(p1 != p)
+    {
+        printf("%d ",p1 -> x);
+        p1 = p1 -> next;
+    }
+}
