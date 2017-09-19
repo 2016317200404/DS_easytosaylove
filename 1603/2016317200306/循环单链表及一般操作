@@ -17,5 +17,14 @@ void CreateCLinkList(LinkList L) {
     Node *rear,*s;
     int c;
     rear = L;
+    scanf("%d",&c);
+    while(c!=0) {
+        s = (Node *)malloc(sizeof(Node));
+        s->data = c;
+        rear->next = s;
+        rear = s;
+        scanf("%d",&c);
+    }
+    rear->next = L;
 
 }
