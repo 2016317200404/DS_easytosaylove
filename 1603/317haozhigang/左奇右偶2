@@ -1,0 +1,52 @@
+#include<stdio.h>
+void read(int a[]);
+void sort(int a[]);
+void Print(int a[]);
+main()
+{
+    int a[10];
+    read(a);
+    sort(a);
+    Print(a);
+};
+void read(int a[])
+{
+    int i;
+    for(i=0;i<10;i++)
+    {
+        scanf("%d",&a[i]);
+    }
+}
+void sort(int a[])
+{
+    int *p1,*p2;
+    p1=a;
+    p2=&a[9];
+    while(p1<=p2)
+  {
+        if(*p1%2==0)
+     {
+        if(*p2%2==1)
+        {
+            int temp;
+            temp=*p1;
+            *p1=*p2;
+            *p2=temp;
+            p1++;
+            p2--;
+        }
+        else
+           p2--;
+     }
+     else
+       p1++;
+  }
+}
+void Print(int a[])
+{
+    int i;
+    for(i=0;i<10;i++)
+    {
+        printf("%d ",a[i]);
+    }
+}
