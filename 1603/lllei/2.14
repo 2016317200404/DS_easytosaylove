@@ -1,0 +1,25 @@
+int findList(LinkList L)
+{
+    Node *pre;
+    int i=0;
+    pre=L;
+    while(pre->next!=NULL)
+    {
+        pre=pre->next;
+        if(i<=pre->data)
+        {
+            i=pre->data;
+        }
+    }
+    return i;
+}
+int DelList(LinkList L,int i,ElemType *e)/*在带头结点的单链表中删除元素并存入变量*e中*/
+{
+    Node *pre,*r;
+    int k;
+    pre=L;
+    k=0;
+    while(pre->next!=NULL&&k<i-1)
+    {
+        pre=pre->next;
+ 
