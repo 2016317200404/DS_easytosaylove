@@ -1,0 +1,69 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct Node
+{
+    int data;
+    struct Node *back;
+    struct Node *next;
+}Node,* LinkList;
+void Sort(LinkList L)
+{
+    p=L->next;
+    q=p->next;
+    r=q->next;
+    while (q!=L)
+    {
+        while (p!=L) && (p->data>q->data)
+            p=p->back;
+        q->back->next=r;
+        r->back=q->back;
+        q->next=p->next;
+        q->back=p;
+        p->next->back=q;
+        q->next=r->back;
+        q=r;
+        p=q->back;
+        r=r->next;
+    }
+}
+void CreateCLinkList(LinkList L,int n)
+{
+    Node *rear,*s;
+    int c,i;
+    L->num=0;
+    rear=L;
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+        s=(Node*)malloc(sizeof(Node));
+        scanf("%d",&c);
+        s->data=c;
+        rear->next=s;
+        rear=s;
+        L->num++;
+    }
+    rear->next=L;
+}
+void DelList(LinkList L,int i)
+{
+    Node *pre,*r;
+    int k;
+    pre=L;
+    k=0;
+    while(pre->next!=NULL&&k<i-1)
+    {
+        pre=pre->next;
+        k=k+1;
+    }
+    r=pre->next;
+    pre->next=r->next;
+    free(r);
+}
+void DelMax(LinkList L,int i)
+{
+    Node *p;
+    int n;
+    CreateCLinkList(L,n);
+    Sort(L);
+    DelList(L,n);
+}
