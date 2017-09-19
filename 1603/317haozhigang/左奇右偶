@@ -1,0 +1,48 @@
+#include<stdio.h>
+#define N 10
+int main()
+{
+  int a[N];
+ int i,j,temp,flag=-1;
+ int *p=a;
+ for(i=0;i<N;i++)
+ {
+     scanf("%1d",&a[i]);
+ }
+  for(i=0;i<N;i++)
+ {
+     if(i==N-1) break;
+     if(a[i]%2==0&&a[i+1]%2==1)
+     {
+         if(flag!=-1)
+         {
+             temp=a[i+1];
+             a[i+1]=a[flag];
+             a[flag]=temp;
+             i=flag;
+             flag=-1;
+
+         }else{
+         temp=a[i];
+         a[i]=a[i+1];
+         a[i+1]=temp;
+        }
+     }
+    else if(a[i]%2==0&&a[i+1]%2==0)
+     {
+         if(flag==-1)
+         flag=i;
+
+     }
+    else if(a[i]%2==1&&a[i+1]%2==1)
+     {
+         i++;
+
+     }
+ }
+   for(j=0;j<N;j++)
+   {
+       printf("%d ",a[j]);
+   }
+
+}
