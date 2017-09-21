@@ -1,0 +1,20 @@
+void der(linklist &l)
+{
+    node *q,*p;
+    q=l;
+    p=l->next;
+    while(p->next==l)
+    {
+        if(p->coef==0)
+        {
+            p->next=p->next;
+            p=p->next;
+        }
+        else{
+            p->coef=p->coef--;
+            p->exp=p->exp*p->coef;
+            q=p;
+            p=p->next;
+        }
+    }
+}
