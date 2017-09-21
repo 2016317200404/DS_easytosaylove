@@ -1,0 +1,128 @@
+
+#include<stdio.h>
+#include<stdlib.h>
+struct link
+{
+    int data;
+    struct link *next;
+};
+void AppendNode(struct link **head);
+void DeleteMemory(struct link **head1,struct link *head2);
+void Display(struct link *head);
+int main()
+{
+    struct link *head_a=NULL,*head_b=NULL;
+    int i;
+    for(i=1;i<6;i++)
+   {
+        AppendNode(&head_a);
+    }
+        for(i=1;i<6;i++)
+    {
+        AppendNode(&head_b);
+    }
+    //Display(head_a);
+    //Display(head_b);
+    DeleteMemory(&head_a,head_b);
+    Display(head_a);
+    return 0;
+
+}
+void AppendNode(struct link **head)//尾插法
+{
+     struct link *p=(struct link*)malloc(sizeof(struct link));
+     struct link *pr=NULL;
+     int data;
+        if(p==NULL)
+        {
+            printf("申请内存失败！");
+            exit(0);
+        }
+        else
+        {
+            scanf("%d",&data);
+            p->next=NULL;
+            p->data=data;
+        }
+       if(*head==NULL)
+       {
+           *head=p;
+       }
+       else
+       {
+           pr=*head;
+           while(pr->next!=NULL)
+           {
+               pr=pr->next;
+           }
+           pr->next=p;
+       }
+
+}
+void DeleteMemory(struct link **head1,struct link *head2)//删除相同元素
+{
+    struct link *p1=*head1,*p2=head2,*pr=*head1,*pt,*pw;
+    while(p2!=NULL)//遍历链表2
+    {
+        if(p1==NULL)//链表1为空退出
+        {
+            break;
+        }
+        if(p1->next==NULL&&p1->data==p2->data)//只有一个结点且是要删除结点，另头指针为空即可
+        {
+            *head1=NULL;
+            free(p1);
+            break;
+        }
+        while(p1!=NULL&&p1->next!=NULL)//结点在两个以上时要用指针记录当前结点的前一结点
+        {
+            pr=p1;
+            p1=p1->next;
+            while(pr!=NULL&&pr->data==p2->data)//判断前一结点
+            {
+                   if(pr==*head1){//前一结点为头结点
+                    *head1=(*head1)->next;
+                    if(p1!=NULL)
+                    p1=p1->next;
+                     free(pr);
+                     pr=*head1;}
+                 else                //前一结点不是头结点
+                   {                 //找到前一结点的前结点
+                       pw=*head1;
+                       while(pw->next!=pr)
+                       {
+                           pw=pw->next;
+                       }
+                       pw->next=pr->next;
+                       free(pr);
+                       pr=p1;
+                       p1=p1->next;
+                   }
+
+            }
+            if(p1!=NULL&&p1->data==p2->data)//判断当前结点
+            {
+                pr->next=p1->next;
+                pt=p1;
+                p1=p1->next;
+                free(pt);
+            }
+        }
+     p1=*head1;
+       p2=p2->next;
+
+    }
+
+}
+void Display(struct link *head)//遍历链表
+{
+    struct link *p=head;
+    if(head==NULL)
+    exit(0);
+    while(p!=NULL)
+    {
+        printf("%d ",p->data);
+        p=p->next;
+    }
+    printf("\n");
+}
