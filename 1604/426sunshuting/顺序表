@@ -1,0 +1,43 @@
+#include<stdio.h>
+#include<malloc.h>
+#define Max 10
+typedef struct SeqList
+{
+    int elem[Max];
+    int length;
+}SeqList;
+void change(SeqList *la)
+{
+    int i=0,j,t;
+    j=Max;
+    while(i<j)
+    {
+        if(la->elem[i]%2!=0)
+        {
+            i++;
+        }
+        if(la->elem[j]%2==0)
+        {
+            j--;
+        }
+        else if(la->elem[i]%2==0&&la->elem[j]%2!=0)
+        {
+            t=la->elem[i];
+            la->elem[i]=la->elem[j];
+            la->elem[j]=t;
+        }
+    }
+}
+void main()
+{
+    int i,j;
+    SeqList *la;
+    la=(SeqList*)malloc(sizeof(SeqList));
+    la->length=0;
+    for(i=0;i<Max;i++)
+        scanf("%d",&la->elem[i]);
+    la->length=10;
+    change(la);
+    for(j=0;j<Max;j++)
+        printf("%d ",la->elem[j]);
+}
