@@ -1,0 +1,92 @@
+#include<stdio.h>
+typedef struct LIST
+{
+    int coef;
+    int exp;
+    struct LIST* next;
+    struct LIST* back;
+}LIST,*L;
+int main()
+{
+    L head;
+    int c;
+    int e;
+    L l;
+    L la;
+    L lb;
+    L n;
+    int i;
+    int temp;
+    head=(L)malloc(sizeof(LIST));
+    head->coef=7;
+    head->exp=9;
+    head->next=NULL;
+    head->back=NULL;
+    l=head;
+
+    n=(L)malloc(sizeof(LIST));
+    n->coef=4;
+    n->exp=8;
+    l->next=n;
+    n->back=l;
+    l=n;
+
+    n=(L)malloc(sizeof(LIST));
+    n->coef=5;
+    n->exp=6;
+    l->next=n;
+    n->back=l;
+    l=n;
+
+    n=(L)malloc(sizeof(LIST));
+    n->coef=4;
+    n->exp=3;
+    l->next=n;
+    n->back=l;
+    l=n;
+
+    n=(L)malloc(sizeof(LIST));
+    n->coef=1;
+    n->exp=2;
+    l->next=n;
+    n->back=l;
+    l=n;
+
+    l->next=head;
+    head->back=l;
+
+    l=head;
+    for(i=0;i<5;i++)
+    {
+        printf("%d %d",l->coef,l->exp);
+        printf("\n");
+        l=l->next;
+    }
+    printf("\n");
+
+    la=head;
+    lb=head->back;
+    do
+    {
+        if(la->exp%2!=0)
+            la=la->next;
+        if(la->exp%2==0)
+        {
+            while(lb->exp%2==0)
+                lb=lb->back;
+            temp=la->coef;
+            la->coef=lb->coef;
+            lb->coef=temp;
+            temp=la->exp;
+            la->exp=lb->exp;
+            lb->exp=temp;
+        }
+    }while(la==lb);
+    l=head;
+    for(i=0;i<5;i++)
+    {
+        printf("%d %d",l->coef,l->exp);
+        printf("\n");
+        l=l->next;
+    }
+}
