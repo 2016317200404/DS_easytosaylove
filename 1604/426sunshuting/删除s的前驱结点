@@ -2,7 +2,7 @@ int DelList(LinkList L,node *s)
 {
     node *pre,*r;
     pre=L;
-    while(pre->next!=NULL&&pre->next!=s)
+    while(pre->next!=NULL&&pre->next->next!=s)
     {
         pre=pre->next;
     }
