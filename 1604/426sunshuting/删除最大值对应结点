@@ -1,0 +1,16 @@
+void deletemax(LinkList *l)
+{
+    int max;
+    node *q,*p;
+    q=l;p=q->next;
+    while(p!=NULL)
+    {
+        max=p->data;
+        p=p->next;
+        if(max<p->data)
+            max=p->data;
+        p=p->next;
+    }
+    q->next=p;
+    q->next=p->next;
+}
