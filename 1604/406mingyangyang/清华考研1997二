@@ -1,0 +1,86 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+    int d;
+    int f;
+    struct node *back;
+    struct node *next;
+}node;
+node*creatlist(node*head,int n)
+{
+    node*rear,*p;
+    head=malloc(sizeof(node));
+    head->back=NULL;
+    head->next=NULL;
+    rear=head;
+    int i=0;
+    while(n--)
+    {
+        p=malloc(sizeof(node));
+        p->back=NULL;
+        p->next=NULL;
+        p->d=i;
+        i++;
+        p->f=0;
+        rear->next=p;
+        p->back=rear;
+        rear=p;
+    }
+    return head;
+}
+node* locate(node*l,int x)
+{
+    node*p,*r;
+    p=l->next;
+    r=p;
+    while(p!=NULL)
+    {
+        if((p->d)==x)
+        {
+           (p->f)++;
+            p->back->next=p->next;
+            p->next->back=p->back;
+           break;
+        }
+        p=p->next;
+    }
+    while(r!=NULL)
+    {
+        if(p->f>r->f)
+        {
+            p->back=r->back;
+            p->next=r;
+            r->back->next=p;
+            r->back=p;
+            break;
+        }
+        r=r->next;
+
+    }
+    return l;
+}
+void show(node*head)
+{
+    node*p;
+    p=head->next;
+    while(p!=NULL)
+    {
+        printf("%d:%d\t",p->d,p->f);
+        p=p->next;
+    }
+    printf("\n");
+}
+int main()
+{
+    node*head;
+    int i=20,n;
+    head=creatlist(head,10);
+    for(i=0;i<10;i++)
+    {
+        scanf("%d",&n);
+        head=locate(head,n);
+    }
+    show(head);
+    return 0;
+}
