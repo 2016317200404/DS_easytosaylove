@@ -1,0 +1,33 @@
+void Link(LinkList L,LinkList la,LinkList lb,LinkList lc)
+{
+    Node *p,*q,*a,*b,*c;
+    p=L->next;
+    a=la;b=lb;c=lc;
+    while(p)
+    {
+        if(p->data>='0'&&p->data<='9')
+        {
+            q=p;
+            p=p->next;
+            a->next=q;
+            q->next=la;
+            a=a->next;
+        }
+        else if(p->data>='a'&&p->data<='z'||p->data>='A'&&p->data<='Z')
+        {
+            q=p;
+            p=p->next;
+            b->next=q;
+            q->next=lb;
+            b=b->next;
+        }
+        else
+        {
+            q=p;
+            p=p->next;
+            c->next=q;
+            q->next=lc;
+            c=c->next;
+        }
+    }
+}
