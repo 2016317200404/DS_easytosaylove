@@ -1,0 +1,11 @@
+void Delete(node s)
+{
+node *p;
+p=s;
+if(p->next->next!=s)
+{
+p->next=p->next->next;
+}
+else
+p->next=s;
+}
