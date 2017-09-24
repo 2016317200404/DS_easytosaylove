@@ -1,4 +1,4 @@
-void Delete(node s)
+void Delete(Linklist s)
 {
 node *p;
 p=s;
