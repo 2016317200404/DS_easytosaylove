@@ -1,0 +1,9 @@
+void delete(List L,Node *p){
+    Node *rear, *temp = p;
+    while(temp->next != p){
+        rear = temp;
+        temp = temp->next;
+    }
+    rear ->next = p;
+    free(temp);
+}
