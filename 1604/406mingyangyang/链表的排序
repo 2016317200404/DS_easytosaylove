@@ -1,0 +1,71 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+    int e;
+    struct node*back;
+    struct node*next;
+}node,*list;
+node*createlist(node*head,int n)
+{
+    node*p,*rear;
+    head=malloc(sizeof(node));
+    head->back=NULL;
+    head->next=NULL;
+    rear=head;
+    while(n--)
+    {
+        p=malloc(sizeof(node));
+        p->back=NULL;
+        p->next=NULL;
+        scanf("%d",&(p->e));
+        rear->next=p;
+        p->back=rear;
+        rear=p;
+    }
+    p->next=head;
+    head->back=p;
+    return head;
+}
+void sort(list*l)
+{
+    node*p,*q,*r;
+    p=(*l)->next;
+    q=p->next;
+    r=q->next;
+    while(q!=*l)
+    {
+        while((p!=*l)&&(p->e>q->e))
+        {
+            p=p->back;
+        }
+        q->back->next=r;
+        r->back=q->back;
+        q->back=p;
+        q->next=p->next;
+        p->next=q;
+        q->next->back=q;
+        q=r;
+        p=q->back;
+        r=r->next;
+    }
+}
+void show(list l)
+{
+    node*p;
+    p=l->next;
+    while(p!=l)
+    {
+        printf("%d ",p->e);
+        p=p->next;
+    }
+    printf("\n");
+}
+int main()
+{
+    node*head;
+    head=createlist(head,5);
+    sort(&head);
+    show(head);
+    return 0;
+}
