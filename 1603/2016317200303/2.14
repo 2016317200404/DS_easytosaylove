@@ -1,0 +1,67 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct Node
+{
+    int data;
+    struct Node *next;
+}Node,*LinkList;
+void InitList(LinkList *L)
+{
+    * L=(LinkList)malloc(sizeof(Node));
+    (*L)->next=NULL;
+}
+void CreateFormHead(LinkList L)
+{
+    Node *s;
+    char c;
+    c=getchar();
+    if(c!=-1)
+    {
+        s=(Node*)malloc(sizeof(Node));
+        s->data=c;
+         s->next=L->next;
+         L->next=s;
+         scanf("%d",&c);
+
+    }
+}
+void FindMax(LinkList L)
+{
+
+ {
+     Node*p,*r,*temp;
+     p=L;
+     r=L;
+     while(p->next!=NULL)
+     {
+         if(p->next->data>r->next->data)
+         {
+            r=p;
+         }
+         p=p->next;
+     }
+     temp=r->next;
+
+     r->next=temp->next;
+     free(temp);
+ }
+
+}
+void Print(LinkList L)
+ {
+     Node*p;
+     p=L;
+     while(p->next!=NULL)
+     {
+         printf("%d ",p->next->data);
+         p=p->next;
+     }
+int main()
+{
+    LinkList L;
+    InitList(&L);
+    CreateFormHead(L);
+      FindMax(L);
+        Print(L);
+}
+ }
