@@ -1,0 +1,56 @@
+#include<stdio.h>
+#include<stdlib.h>
+int put(int a[],int size)
+{
+    int b;
+    for(b=0;b<size;b++)
+    {
+        scanf("%d",&a[b]);
+    }
+}
+int Remove(int a[],int b[],int size)
+{
+    int c,d;
+    d=0;
+    for(c=0;c<size;c++)
+    {
+        if(a[c]%2==1)
+        {
+            b[d]=a[c];
+            a[c]=-999;
+            d++;
+        }
+    }
+    return d;
+}
+int Sorting(int a[],int b[],int size,int d)
+{
+    int q;
+    for(q=0;q<size;q++)
+    {
+        if(a[q]!=-999)
+        {
+            b[d]=a[q];
+            d++;
+        }
+    }
+}
+int putout(int a[],int size)
+{
+    int b;
+    for(b=0;b<size;b++)
+        printf("%d ",a[b]);
+}
+int main()
+{
+    int *a=NULL,*b=NULL,size,size2;
+    printf("Please enter your size\n");
+    scanf("%d",&size);
+    a=(int *)malloc(size*sizeof(int));
+    b=(int *)malloc(size*sizeof(int));
+    put(a,size);
+    size2=Remove(a,b,size);
+    Sorting(a,b,size,size2);
+    putout(b,size);
+    return 0;
+}
