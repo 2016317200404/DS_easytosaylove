@@ -1,0 +1,42 @@
+typedef struct Node {
+	char data;
+	List *next;
+}Node, *List;
+
+//检查字符类型，数字类型返回1，字母类型返回2，其它类型返回3
+int checkType(char x) {
+	if (x >= '0'&&x <= '9') {
+		return 1;
+	}
+	else if (x >= 'A'&& x <= 'Z' || x >= 'a'&& x <= 'z') {
+		return 2;
+	}
+	else {
+		return 3;
+	}
+}
+
+//L为原链表，La为数字链表，Lb为字母链表，Lc为其他链表
+void create(List L, List La, List Lb, List Lc) {
+	Node *p = L->next;
+	Node *p1 = La,
+		*p2 = Lb,
+		*p3 = Lc;
+
+	while (p != NULL) {
+		switch (checkType(p->data)) {
+		case 1:
+			p1->next = p;
+			p1 = p1->next;
+			break;
+		case 2:
+			p2->next = p;
+			p2 = p2->next;
+		case 3:
+			p3->next = p;
+			p3 = p3->next;
+		}
+		p = p->next;
+	}
+}
+
