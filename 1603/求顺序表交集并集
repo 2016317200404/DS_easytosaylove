@@ -1,0 +1,100 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define M 20
+#define OK 1
+#define ERROR 0
+typedef int Elem;
+typedef struct
+{
+    Elem elem[M];
+    int last;
+}S;
+int A(S *L)
+{
+    L->last=0;
+    return(OK);
+}
+void bingji(S *LA,S *LB,S *LC) //求两个顺序表的并集//
+{
+    int i,j,k;
+    i=0;j=0;k=0;
+    while(i<=LA->last&&j<=LB->last)
+    if(LA->elem[i]<=LB->elem[j])
+    {
+        LC->elem[k]=LA->elem[i];
+        i++;k++;
+    }
+    else
+    {
+        LC->elem[k]=LB->elem[j];
+        j++;k++;
+    }
+    while(i<=LA->last)
+    {
+        LC->elem[k]=LA->elem[i];
+        i++;k++;
+    }
+    while(j<=LB->last)
+    {
+        LC->elem[k]=LB->elem[j];
+        j++;k++;
+    }
+    LC->last=LA->last+LB->last;
+}
+void jiaoji(S *LA,S *LB,S *LC)  //求两个顺序表的交集//
+{
+    int i,j,k=0;
+    for(i=0;i<LA->last;i++)
+    {
+        for(j=0;j<LB->last;j++)
+        {
+            if(LA->elem[i]==LB->elem[j])
+            {
+                LC->elem[k++]=LA->elem[i];
+            }
+        }
+    }
+    LC->last=k;
+}
+int C(S *L)  //显示顺序表//
+{
+    int i;
+    for(i=0;i<L->last;i++) printf("%d ",L->elem[i]);
+    return(OK);
+}
+main()
+{
+    S LA,LB,LC,LD;
+    int i,j,a[M];
+    A(&LA);
+    A(&LB);
+    A(&LC);
+    A(&LD);
+    printf("输入顺序表A的值：");
+    for(i=0;i<10;i++)
+    {
+        scanf("%d",&a[i]);
+        LA.elem[i]=a[i];
+        LA.last++;
+    }
+    printf("输入顺序表B的值：");
+    for(i=0;i<10;i++)
+    {
+        scanf("%d",&a[i]);
+        LB.elem[i]=a[i];
+        LB.last++;
+    }
+    printf("输出顺序表A：");
+    C(&LA);
+    printf("\n");
+    printf("输出顺序表B：");
+    C(&LB);
+    printf("\n");
+    jiaoji(&LA,&LB,&LD);
+    bingji(&LA,&LB,&LC);
+    printf("输出顺序表A和顺序表B的并集：");
+    C(&LC);
+    printf("\n");
+    printf("输出顺序表A和顺序表B的交集：");
+    C(&LD);
+}
