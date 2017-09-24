@@ -1,0 +1,119 @@
+#include<stdio.h>
+#include<stdlib.h>
+Ch* create_Ch(Ch* n);
+void classify_Ch(Ch* n1);
+void Print_Ch(Ch *n);
+typedef ch
+{
+	char c;
+	NUM *next;
+}Ch;
+
+int main()
+{
+	Ch *n1=NULL;
+	int x,n3;
+	printf("请输入表的元素：");
+	n1=classify_Ch(n1,x);
+	n3=(n1);
+	printf("max=%d",n3);
+	return 0;
+}
+Ch* create_Ch(Ch* n)//尾插法
+{
+	char c;
+	Ch *p,*t=n;
+	printf("请输入元素：");
+	while((c=getchar())!='\n')
+	{
+		p=(Ch *)malloc(sizeof(Ch));
+		if(p==NULL)
+		{
+			printf("申请内存失败！");
+			exit(0);}
+			p->c=c;
+		p->next=NULL;
+	    if(n==NULL)
+	    {
+		n=p;
+	     }else
+	    while(t->next!=NULL)
+	       {
+		t=t->next;
+		
+	        }
+	   t->next=p;
+	}
+	 return n;
+}
+void  classify_Ch(Ch* n1)
+{
+	Ch *p=n1,*q=NULL,*r=NULL,*s=NULL,*u=NULL;
+	while(p!=NULL)
+	{
+		if(p->c>47&&p->c<58)
+		{
+			if(q==NULL)
+			{
+				q=p;
+				q->next=q;
+				p=p->next;
+			}
+			else
+			{
+				u=p->next;//保存下一节点
+				p->next=q;
+				q=p;
+				p=u;
+			}
+			
+		}
+		else if(p->c>64&&p->c<91||p->c>96&&p->c<123)
+		{
+			if(r==NULL)
+			{
+				r=p;
+				r->next=r;
+				p=p->next;
+			}
+			else
+			{
+				u=p->next;//保存下一节点
+				p->next=r;
+				r=p;
+				p=u;
+			}
+			
+		}
+		else
+		{
+			if(s==NULL)
+			{
+				s=p;
+				s->next=s;
+				p=p->next;
+			}
+			else
+			{
+				u=p->next;//保存下一节点
+				p->next=s;
+				s=p;
+				p=u;
+			}
+			
+		}
+		
+	}
+	Print_Ch(q);
+	Print_Ch(r);
+	Print_Ch(s);
+}
+void Print_Ch(Ch * n)
+{
+   Ch *p=n;
+	while(p->next!=n)
+	{
+		printf("%c ",p->c);
+	}
+	putchar('\n');
+}
