@@ -1,0 +1,59 @@
+#include<stdio.h>
+#include<malloc.h>
+#define MAXSIZE 100
+typedef struct NODE
+{
+    int data;
+    struct NODE *next;
+}LinkList;
+void Del(LinkList *s)
+{
+    LinkList *p,*q;
+    p=s;
+    while(p->next->next!=s)
+    {
+        p=p->next;
+    }
+    q=p->next;
+    p->next=s;
+    free(q);
+}
+void Print(LinkList *head)
+{
+    int i,j=0;
+    LinkList *p;
+    p=head->next;
+    while(j!=5)
+    {
+        for(i=0;i<10;i++)
+        {
+            printf("%d",p->data);
+            p=p->next;
+        }
+        j++;
+    }
+    printf("......");
+}
+void main()
+{
+   int i;
+   LinkList *p,*q,*head,*s;
+   head=q=(LinkList*)malloc(sizeof(LinkList));
+   for(i=0;i<8;i++)
+   {
+       p=(LinkList*)malloc(sizeof(LinkList));
+       p->data=i;
+       q->next=p;
+       if(i==4)
+       {
+           s=p;
+       }
+       q=p;
+   }
+   q->next=head->next;
+   printf("未删除s前驱结点的循环列表\n");
+   Print(head->next);
+   Del(s);
+   printf("\n删除s前驱结点后的循环列表\n");
+   Print(head->next);
+}
