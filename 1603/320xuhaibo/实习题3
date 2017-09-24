@@ -1,0 +1,64 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct Node
+{
+    int x;
+    struct Node *next;
+}Node;
+Node* SetLinkList(int n);
+void Change(Node *p);
+int main()
+{
+    int n;
+    Node *p;
+    scanf("%d",&n);
+    p = SetLinkList(n);
+    Change(p);
+    return 0;
+}
+Node* SetLinkList(int n)
+{
+    Node *h , *p1 , *p2;
+    int n1;
+    h = (Node*)malloc(sizeof(Node));
+    h -> x = 0;
+    h -> next = NULL;
+    p1 = h;
+    for(n1 = 1 ; n1 < n ; n1 ++)
+    {
+        p2 = (Node*)malloc(sizeof(Node));
+        (*p2).x = n1;
+        p2 -> next = NULL;
+        p1 -> next = p2;
+        p1 = p1 -> next;
+    }
+    return h;
+}
+void Change(Node *p)
+{
+    Node *p3 , *p4;
+    p4 = p;
+    while(p4 != NULL)
+    {
+        printf("%d ",p4 -> x);
+        p4 = p4 -> next;
+    }
+    printf("\n");
+    p4 = p;
+    p3 = p;
+    while(p3 != NULL)
+    {
+        p3 = p3 -> next;
+        p -> next = p3 -> next;
+        p3 -> next = p4;
+        p = p -> next;
+        p4 = p3;
+        p3 = p;
+    }
+    while(p4 != NULL)
+    {
+        printf("%d ",p4 -> x);
+        p4 = p4 -> next;
+    }
+    printf("\n");
+}
