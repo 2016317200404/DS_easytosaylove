@@ -1,0 +1,21 @@
+typedef struct Node {
+	int data;
+	struct Node *next;
+}Node, *List;
+
+//删除链表中的最大数并返回其值
+int deleteMax(List L) {
+	Node *p = L->next;
+	Node *temp = p,*rear = L;
+	int max = p->data;
+	while (p != NULL) {
+		if (p->next->data > max) {
+			max = p->next->data;
+			rear = p;
+			temp = p->next;
+		}
+	}
+	rear->next = temp->next;
+	free(temp);
+	return max;
+}

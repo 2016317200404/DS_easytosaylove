@@ -1,0 +1,77 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct Polynode {
+	int coef;
+	int exp;
+	struct Polynode *next;
+}Polynode, *Polylist;
+
+//奇数返回1，偶数返回0
+int odd(int x) {
+	if (x % 2 == 0) {
+		return 0;
+	}
+	else {
+		return 1;
+	}
+}
+
+Polylist PolyCreate() {
+	Polynode *head, *rear, *s;
+	int c, e;
+	head = (Polynode *)malloc(sizeof(Polynode));
+	rear = head;
+	scanf_s("%d,%d", &c, &e);
+	while (c != 0) {
+		s = (Polynode *)malloc(sizeof(Polynode));
+		s->coef = c;
+		s->exp = e;
+		rear->next = s;
+		rear = s;
+		scanf_s("%d,%d", &c, &e);
+	}
+	rear->next = NULL;
+	return (head);
+}
+
+//将多项式分解为两部分，polya存储奇次项，polyb存储偶次项，polya为原多项式
+void PolySeparate(Polylist  polya, Polylist polyb) {
+	Polynode *p, *q, *rear;
+	rear = polya;
+	p = polya->next;
+	q = polyb;
+	while (p != NULL) {
+		if (odd(p->exp)) {
+			rear = rear->next;
+			p = p->next;
+		}
+		else {
+			q->next = p;
+			q = q->next;
+			rear->next = p->next;
+			p = p->next;
+			q->next = NULL;
+		}
+	}
+}
+
+void Print(Polylist l) {
+	Polynode *p;
+	p = l->next;
+	while (p != NULL) {
+		printf("%dx^%d ", p->coef, p->exp);
+		p = p->next;
+	}
+	printf("\n");
+}
+
+int main() {
+	Polylist a, b;
+	a = PolyCreate();
+	b = PolyCreate();
+	PolySeparate(a, b);
+	Print(a);
+	Print(b);
+	return 0;
+ }
