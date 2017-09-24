@@ -1,0 +1,46 @@
+yi#include<stdio.h>
+int main()
+{
+    int a[5]={1,2,3,4,5};
+    int b[5]={4,5,6,7,8};
+    int c[10];
+    int i,j;
+    int k=0,p=0;
+    int m;
+    for(i=0;i<5;i++)
+    {
+        m=0;
+        for(j=0;j<5;j++)
+        {
+            if(a[i]==b[j])
+            {
+                m=1;
+            }
+        }
+        if(m==0)
+        {
+        c[k]=a[i];
+        k++;
+        }
+    }
+    for(i=0;i<5;i++)
+    {
+        m=0;
+        for(j=0;j<5;j++)
+        {
+            if(b[i]==a[j])
+            {
+                m=1;
+            }
+        }
+        if(m==0)
+        {
+        c[k]=b[i];
+        k++;
+        }
+    }
+    for(i=0;i<k;i++)
+    {
+        printf("%d ",c[i]);
+    }
+}

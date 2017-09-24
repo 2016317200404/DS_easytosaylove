@@ -1,0 +1,59 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct a
+{
+    int data;
+    struct a*next;
+}node,*list;
+void init(list *l)
+{
+    *l=(list)malloc(sizeof(node));
+    (*l)->next=NULL;
+}
+void create(list l)
+{
+    node*s;
+    int c;
+    scanf("%d",&c);
+    while(c!=-1)
+    {
+        s=(node*)malloc(sizeof(node));
+        s->data=c;
+        s->next=l->next;
+        l->next=s;
+        scanf("%d",&c);
+    }
+}
+void fun(list l)
+{
+    node*p,*q,*pre;
+    pre=l->next;
+    p=pre->next;
+    while(pre->next!=NULL)
+    {
+        q=p->next->next;
+        pre->next=p->next;
+        p->next=l->next;
+        l->next=p;
+        p=q;
+        pre=pre->next;
+    }
+}
+void show(list l)
+{
+    node*p;
+    p=l;
+    while(p->next!=NULL)
+    {
+        p=p->next;
+        printf("%d ",p->data);
+    }
+}
+int main()
+{
+    list l;
+    init(&l);
+    create(l);
+    fun(l);
+    show(l);
+}

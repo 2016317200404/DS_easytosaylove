@@ -1,0 +1,80 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct a
+{
+    int data;
+    int fre;
+    struct a*back;
+    struct a*next;
+}node,*list;
+void init(list*l)
+{
+    *l=(list)malloc(sizeof(node));
+    (*l)->back=NULL;
+    (*l)->next=NULL;
+    (*l)->fre=0;
+}
+void create(list l)
+{
+    int c;
+    node*r,*s;
+    r=l;
+    scanf("%d",&c);
+    while(c!=-1)
+    {
+        s=(node*)malloc(sizeof(node));
+        s->data=c;
+        s->fre=0;
+        r->next=s;
+        s->back=r;
+        r=s;
+        scanf("%d",&c);
+    }
+    r->next=l;
+    l->back=r;
+}
+void locate(list l,int x)
+{
+    node*p,*r;
+    p=l;
+    r=l->back;
+    do
+    {
+        p=p->next;
+    }while(p->next!=l&&p->data!=x);
+    p->fre++;
+    p->back->next=p->next;
+    p->next->back=p->back;
+    do
+    {
+        r=r->back;
+    }while(r!=l&&r->fre<p->fre);
+    r->next->back=p;
+    p->next=r->next;
+    r->next=p;
+    p->back=r;
+}
+void show(list l)
+{
+    node*p;
+    p=l;
+    while(p->next!=l)
+    {
+        p=p->next;
+        printf("%d %d ",p->data,p->fre);
+    }
+}
+int main()
+{
+    list l;
+    int c;
+    init(&l);
+    create(l);
+    scanf("%d",&c);
+    while(c!=-1)
+    {
+        locate(l,c);
+        scanf("%d",&c);
+    }
+    show(l);
+}
