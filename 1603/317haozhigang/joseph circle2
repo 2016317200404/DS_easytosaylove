@@ -1,0 +1,74 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define N 10
+JOSEPH * create_joseph(JOSEPH *j,int i);
+void Print(JOSEPH *j,int n,int m);
+typedef struct joseph
+{
+	int date;
+	JOSEPH *next;
+}JOSEPH;
+int main()
+{
+	int num=N,i,m,n;
+	JOSEPH *j=NULL;
+	for(i=1;i<=N;i++)
+	{
+	   j= create_joseph(j,num);//头插法
+	   num--;
+	}
+	printf("请输入从第几个开始：'\n'");
+	scanf("%d",&n);
+	printf("请输入数到第几：'\n'");
+	scanf(:"%d",&m);
+	Print(j,m,n);
+	return 0;
+}
+	
+JOSEPH * create_joseph(JOSEPH *j,int i)
+{	
+	JOSEPH *p;
+	p=(JOSEPH　*)malloc(sizeof(JOSEPH));
+	if(p==NULL)
+	{
+		printf("申请内存失败！);
+		exit(0);
+	}
+	if(i==N)
+	p->next=j;//尾结点指向头结点
+	p->date=i;
+	if(j==NULL)
+	{
+		j=p;
+	}
+	else
+	p->next=j->next;
+	j=p;
+	return j;
+}
+void Print(JOSEPH *j,int n,int m)
+{
+  	JOSEPH *p=j,*t,*q;
+	int flag=1;
+	while(p->date!=n)//找到第一次报数的结点
+	{
+		q=p;
+		p=p->next;
+	}
+	if(p==j)//第一次报数为头结点
+	while((q=p)-next!=j)
+	q=q->next;
+	for(flag=1;falg<=(N-1)*m;)//每移动m次，少一个结点，移动(N-1)*m次后最后一个结点不用处理
+	{
+              if(flag%m==0)
+		{
+			printf("%d ",p->date);
+			q->next=p->next;
+			free(p);
+		}
+		p=p->next;
+		flag++;//移动一次加一
+	}
+	printf("%d ",p->date);//输出最后的结点
+	free(p);	
+}
