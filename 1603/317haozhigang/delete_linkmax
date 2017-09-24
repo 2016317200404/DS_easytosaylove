@@ -1,0 +1,77 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define N 10
+NUM* create_NUM(NUM* n,int x);
+int delete_max(NUM* n1);
+typedef num
+{
+	int max;//保存链表中的最大值
+	int date;
+	NUM *next;
+}NUM;
+
+int main()
+{
+	NUM *n1=NULL;
+	int x,n3;
+	printf("请输入表的元素个数：");
+	scanf("%d",&x);
+	n1=create_NUM(n1,x);
+	n3=delete_max(n1);
+	printf("max=%d",n3);
+	return 0;
+}
+NUM* create_NUM(NUM* n,int x)//尾插法
+{
+	int i;
+	NUM *p,*t=n;
+	printf("请输入元素：");
+	for(i=0;i<x;i++)
+	{
+		p=(NUM *)malloc(sizeof(NUM));
+		if(p==NULL)
+		{
+			printf("申请内存失败！");
+			exit(0);}
+			scanf("%d",&(p->date));
+		p->next=NULL;
+	if(n==NULL)
+	{
+		n=p;
+		n->max=n->date;
+	}else
+	while(t->next!=NULL)
+	{
+		if((t->max)>(t->next->date))
+		{
+			t->next->date=t->max;//保存最大值
+		}
+		else
+			t->max=t->next->date;
+		t=t->next;
+		
+	}
+	t->next=p;
+	return n;
+}
+int delete_max(NUM* n1)
+{
+	NUM *p=n1,*t;
+	while(p->date!=p->max)
+	{
+		t=p;
+		p=p->next;
+		
+			}
+	if(p==n1)
+	{
+		n1=n1->next;
+		free(p);
+	}
+	else
+	{
+		t->next=p->next;
+		free(p);
+		return t->date;
+	}
+}
