@@ -1,0 +1,48 @@
+#include<stdio.h>
+#include<stdlib.h>
+int put(int a[],int size)
+{
+    int b;
+    for(b=0;b<size;b++)
+    {
+        scanf("%d",&a[b]);
+    }
+}
+int Subtraction(int a[],int b[],int c[],int size)
+{
+    int n,m,y,q;
+    q=0;
+    for(n=0;n<size;n++)
+    {
+        y=0;
+        for(m=0;m<size;m++)
+        {
+            if(a[n]==b[m])
+                break;
+            else
+                y++;
+        }
+        if(y==size)
+        {
+            c[q]=a[n];
+            q++;
+        }
+    }
+    for(n=0;n<q;n++)
+    {
+        printf("%d ",c[n]);
+    }
+}
+int main()
+{
+    int size,*a=NULL,*b=NULL,*c=NULL;
+    printf("Please enter your size\n");
+    scanf("%d",&size);
+    a=(int *)malloc(size*sizeof(int));
+    b=(int *)malloc(size*sizeof(int));
+    c=(int *)malloc(size*sizeof(int));
+    put(a,size);
+    put(b,size);
+    Subtraction(a,b,c,size);
+    return 0;
+}
