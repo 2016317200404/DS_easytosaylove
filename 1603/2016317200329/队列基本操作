@@ -1,0 +1,57 @@
+#include<stdio.h>
+
+typedef struct Queue
+{
+    int top;
+    int rear;
+    int elem[100];
+}Queue,*QUEUE;
+
+int static count=0;
+void InitQueue(Queue q)
+{
+    q.top=q.rear=0;
+}
+
+int IsEmpty(Queue q,int count)
+{
+    if(q.top==q.rear&&count==0)
+    return (true);
+    else return(false);
+}
+
+int IsFull(int count)
+{
+    if(count==100)
+    return(true);
+    else return(false);
+}
+
+void EnterQueue(Queue q,int count,int a)
+{
+    q.elem[q.rear]=a;
+    q.rear++;
+    count++;
+}
+
+int DeleteQueue(Queue q,int count)
+{
+    int a;
+    a=q.elem[q.top];
+    count--;
+    q.top--;
+    return a;
+}
+
+void ClearQueue(Queue q,int count)
+{
+    count==0;
+    q.top=q.rear=0;
+}
+
+
+int main()
+{
+    Queue q;
+     return 0;
+}
