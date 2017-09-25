@@ -1,0 +1,59 @@
+#include<cstdio>
+#include<iostream>
+using namespace std;
+struct Node
+{
+    int data;
+    int cnt;
+    Node *next;
+};
+int main()
+{
+    Node *CL=new Node;
+    CL->next=CL;
+    Node *rear,*s;
+    int m,n,a;
+    rear=CL;
+    cin>>m>>n;
+    int cnt=1;
+    int t=n;
+    while(n--)
+    {
+        scanf("%d",&a);
+        s=new Node;
+        s->data=a;
+        s->cnt=cnt++;
+        rear->next=s;
+        rear=s;
+    }
+    rear->next=CL->next;
+    /*Node *p2=CL->next;
+    while(1)
+    {
+        cout<<p2->cnt<<endl;
+        cout<<p2->data<<endl;
+        p2=p2->next;
+        if(p2->data==CL->data)
+            break;
+    }*/
+    Node *p=rear;
+    Node *p1;
+    int num=0;
+    m--;
+    while(t--)
+    {
+        cout<<++num<<":";
+        while(m--)
+            p=p->next;
+        p1=p->next;
+        p->next=p1->next;
+        printf("%d\n",p1->cnt);
+        p=p->next;
+        m=p->data-1;
+    }
+    return 0;
+}
+/*
+20 7 3 1 7 2 4 8 4
+6 1 4 7 2 3 5
+*/
