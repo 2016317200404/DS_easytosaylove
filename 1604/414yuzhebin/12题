@@ -1,0 +1,10 @@
+void Delete(list s)
+{
+    Node *p;
+    p=s;
+    while(p->next->next!=s)
+    {
+        p=p->next;
+    }
+    p->next=s;
+}
