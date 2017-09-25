@@ -1,0 +1,77 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+void slove(int x,int *a,int y);
+int main()
+{
+    int m , code[10] = {0} , i;
+    printf("请输入初始密码：");
+    scanf("%d",&m);
+    srand(time(NULL));
+    for(i = 0 ; i < 10 ; i ++)
+    {
+        code[i] = rand() % 100 + 1;
+        printf("%d ",code[i]);
+    }
+    printf("\n");
+    slove(m,code,10);
+    return 0;
+}
+void slove(int x,int *a,int y)
+{
+    int m , n , p , *q;
+    q = a;
+    //n = y;
+    for(m = 0 ; m < y ; m ++)
+    {
+        for(p = 1; p < x;p ++)
+        {
+            if(*q != 0 && q != a + y - 1)
+                q ++;
+            while(*q == 0 && q != a + y - 1)
+            {
+                q ++;
+            }
+            if(q == a + y - 1)
+            {
+                if(*q == 0)
+                {
+                    q = a;
+                    if(*q != 0)
+                        p ++;
+                    else
+                    {
+                        while(*q == 0 )
+                        {
+                            q ++;
+                        }
+                    }
+                }
+                else
+                {
+                    q = a;
+                    if(*q != 0)
+                        p = p + 1;
+                    else
+                    {
+                        while(*q == 0 )
+                        {
+                            q ++;
+                        }
+                    }
+                }
+            }
+        }
+        x = *q;
+        //printf("密码%d\n",x);
+        *q = 0;
+        //for(n = 0;n < 10;n ++)
+        //{
+            //printf("%d ",*(a + n));
+        //}
+        //printf("\n");
+        printf("%d ",q - a + 1);
+        //printf("\n");
+        continue;
+    }
+}
