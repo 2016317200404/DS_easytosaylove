@@ -1,0 +1,58 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#define SIZE 100
+typedef struct{
+    int elem[SIZE];
+    int l;
+}SeqList;
+int judge(int x)
+{
+    if(x%2!=0)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+void exchange(SeqList *L)
+{
+    int x,y,temp;
+    x=0;
+    y=L->l-1;
+    while(x<y)
+    {
+        while(judge(L->elem[x]))
+        {
+            x++;
+        }
+        while(!judge(L->elem[y]))
+        {
+            y--;
+        }
+        if(x<y){
+            temp=L->elem[x];
+            L->elem[x]=L->elem[y];
+            L->elem[y]=temp;
+        }
+    }
+}
+int main()
+{
+    SeqList *L;
+    int i;
+    L=(SeqList*)malloc(sizeof(SeqList));
+    L->elem[0]=1;
+    L->elem[1]=4;
+    L->elem[2]=3;
+    L->elem[3]=4;
+    L->l=4;
+    exchange(L);
+    for(i=0;i<4;i++)
+    {
+        printf("%d",L->elem[i]);
+    }
+    return 0;
+}
