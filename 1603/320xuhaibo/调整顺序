@@ -1,0 +1,38 @@
+#include<stdio.h>
+void sort(int *p , int *q );
+int main()
+{
+    int array[10] , *a , *b , i;
+    for(i = 0 ; i < 10 ; i ++)
+        scanf("%d",&array[i]);
+    a = array;
+    b = &array[9];
+    sort(a,b);
+    for(i = 0 ; i < 10 ; i ++)
+        printf("%d ",array[i]);
+    return 0;
+}
+void sort(int *p , int *q )
+{
+    int swap , i;
+    while(p < q)
+    {
+        if(*p % 2 == 1)
+            p++;
+        else
+        {
+            if(*q % 2 == 1)
+            {
+                swap = *q;
+                *q = *p;
+                *p = swap;
+                q --;
+            }
+            else
+            {
+                while(*q % 2 == 0)
+                    q --;
+            }
+        }
+    }
+}
