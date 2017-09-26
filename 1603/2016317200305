@@ -1,0 +1,219 @@
+nt Locate(Sqqlist L,int e)
+{
+int i=0;
+    while(i<=L->last&&(L.elem[i]!=e))
+        i++;
+    if(i<L->last)
+        return (i+1);
+    else
+        return -1;
+
+}
+void insert(int e,List L,int i)
+{
+
+   int k;
+   if(i<L->last||i>L->last+2)
+    printf("ERROR!")
+    if(L->last=MAXSIZE-1)
+        printf("EOORE");
+    for(k=L-last;k>=i-1;k--)
+    {
+        L->elem[k]=L->elem[k-1];
+    }
+    L->elem[i-1]=e;
+    L->last++;
+    reutrn ok;
+
+}
+void resert(int e;int i;int L)
+{
+    if(i<0||i>L->last+2)
+        printf("ERROR!");
+        if(L->last=MAXSIZE-1)
+            printf("ERROR");
+        for(int k=L->last;k>=i-1;k--)
+            L->elem[k]=L->elem[k-1];
+        L->elem[i-1]=e;
+        L->last++;
+        return 0;
+}
+void Delete(int i,int L)
+{
+    int k;
+    if(i<0||i>L->last+1)
+    {
+        printf("ERROR");
+    }
+    *e=L->elem[i-1];
+    for(k=i;k<L-last;k++)
+    {
+        L->elem[k]=L->elem[k+1];
+
+    }
+    L->last--;
+    return ok;
+    }
+    void ADD(List *LA,List *LB,List *LC)
+    {
+        int i=0;j=0,k=0;
+        while(i<LA->Last&&j<LB->last)
+        {
+            if(LA->elem[i]>LB->elem[j])
+            {
+                LC->elem[k]=LB->elem[j];
+                j++;k++;
+            }
+            else
+            {
+                LC->elem[k]=LA->elem[i];
+                i++;k++;
+            }
+
+
+        }
+        while(i<LA->last)
+        {
+            LC->elem[k]=LA->elem[i];
+            k++;i++;
+        }
+        while(j<LB->last)
+        {
+            LC->elem[k]=LB->elem[j];
+            j++;
+            k++;
+        }
+        LC->last=LA->last+LB->last+1;
+
+
+    }
+    typedef struct NOde
+    {
+        Elem data;
+        struct Node*next;
+
+    }Node,*LinkList;
+    init(LinkList *L)
+    {
+        *L=(LinKLIst)malloc(sizeof(Node));
+        L->next=NULL;
+
+    }
+    /头插法/
+    void Creat(LinkList L)
+    {
+        Node *s;
+        char c;
+        int flag=1;
+        while(flag)
+        {
+            c=getchchar();
+
+    if(c!='$')
+    {
+        s=(Node*)malloc(sizeof(Node));
+        s->data=c;
+
+        s->next=L->next;
+        L->next=s;
+    }
+    else flag=0;
+    }
+    void creaTail(LinkList L)
+    {
+        Node *s,*r;
+        int falg=1;
+        while(flag)
+        {
+            c=getchar();
+            if(c!='$')
+            {
+                s=(Node*)malloc(sizeof(Node));
+                s->data=c;
+                r->next=s;
+                r=s;
+
+            }
+            else
+            {
+                flag=0;
+                r-next=NULL;
+            }
+        }
+    }
+    Node *get(LInKlIst L,int i)
+    {
+        int j;
+        Node *p;
+        if(i<=0)return NULL;
+        p=L;
+        j=0;
+        while(p->next!=NULL&&j<i)
+        {
+            p=p-next;
+            j++;
+        }
+        if(i==j)reutrn p;
+        else return NULL;
+
+    }
+    Node *Locate(LinkList L,int key)
+    {
+        Node *p;
+        p=L->next;
+        while(p!=NULL)
+
+            if(p->data!=key)
+                p=p->next;
+            else break;
+            reutrn p;
+    }
+    Node *Locata(LinkList L,int key)
+    {
+        Node *p=(Node*)malloc(sizeof(Node));
+        while(p!=NULL)
+        {
+            if(p->data!=key)
+            {
+                p=p->next;
+            }
+            else
+                break;
+        }
+        return p;
+    }
+    int ListLength(LinkLsit *L)
+    {
+        int k;
+        Node *p;
+        p=L->next;
+        while(p!=NULL)
+
+{
+    k++;
+    p=p->next;
+}
+        return k;
+}
+void Inslist(LinkList L,int i,nit e)
+{
+    Nonde *pre,*s;
+    int k;
+    if(i=0)return ERROE;
+    pre=L;k=0;
+    while(pre!=NULL&&k<i-1)
+    {
+        pre=pre-next;
+        k=k+1;
+    }
+    if(pre==NULL)
+    {
+        printf)
+    }
+    s=(Node*)malloc(sizeof(Node));
+    s->data=e;
+    s->next=pre->next;
+    pre->next=s;
+    return oK;
+
+}
