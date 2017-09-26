@@ -1,0 +1,68 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct Node
+{
+    int data;
+    struct Node* next;
+}Node,*Linklist;
+void Create(Linklist a);//生成循环链表
+Node* Get(Linklist a,int i);/*找到s所指的前驱节点*/
+void Print(Linklist a);
+int main()
+{
+    int n,i;
+    Node *a,*q,*r;
+    a=(Linklist)malloc(sizeof(Node));
+    a->next=a;
+    printf("输入数据，当输入-1时停止输入");
+    Create(a);/*创建循环单链表a*/
+    printf("输入想找到的节点：");
+    scanf("%d",&n);
+    q=Get(a,n-1);/*找到s所指的前驱节点q*/
+    r=Get(a,n-2);/*找到q所指的前驱节点r*/
+    r->next=q->next;
+    free(q);
+    Print(a);
+    return 0;
+}
+void Create(Linklist a)
+{
+    Node *rear,*s;
+    int c;
+    rear=a;
+    s=a;
+    scanf("%d",&c);
+    while(c!=-1)/*当c=-1时停止输入数据*/
+    {
+        s->data=c;
+        s=(Node *)malloc(sizeof(Node));
+       rear->next=s;
+        rear=s;
+        scanf("%d",&c);
+    }
+    rear->next=a;
+}
+Node* Get(Linklist a,int i)
+{
+    int j;
+    Node *p;
+    if(i<=0) return NULL;
+    p=a;j=0;
+    while((p->next!=a)&&(j<i))
+    {
+        p=p->next;
+        j++;
+    }
+    if(i==j) return p;
+    else return NULL;
+}
+void Print(Linklist a)
+{
+    Linklist h;
+    h=a;
+    while(h->next!=a)
+    {
+        printf("%d ",h->data);
+        h=h->next;
+    }
+}
