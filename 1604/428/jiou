@@ -1,0 +1,44 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct
+{
+    int elem[20];
+    int last;
+}seqlist;
+void Find(seqlist *la);
+int main()
+{
+    int i,n;
+    seqlist *la=NULL;
+    la=(seqlist*)malloc(sizeof(seqlist));
+    printf("输入的数组长度为：");
+    scanf("%d",&n);
+    la->last=n-1;
+    for(i=0;i<=la->last;i++)
+    {
+        scanf("%d",&la->elem[i]);
+    }
+    Find(la);
+    for(i=0;i<=la->last;i++)
+        printf("%d",la->elem[i]);
+    return 0;
+}
+void Find(seqlist *la)
+{
+    int i=0,j=la->last,temp;
+    while(i<j)
+    {
+        if(((la->elem[i])%2==0)&&((la->elem[j])%2==1))
+        {
+             temp=la->elem[i];
+             la->elem[i]=la->elem[j];
+             la->elem[j]=temp;
+             i++;
+             j--;
+        }
+        if((la->elem[i])%2==1)
+            i++;
+        if((la->elem[j])%2==0)
+            j--;
+    }
+}
