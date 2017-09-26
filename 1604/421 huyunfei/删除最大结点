@@ -1,0 +1,21 @@
+Delmax(linklist a)
+{
+    int max;
+    Node* p;
+    Node* q;
+    p=a;   //指针，用于遍历链表，取数与当前最大结点值比较
+    q=a;  //指针，用于记录最大元素所在位置
+    max=p->data;   //变量，用于记录当前最大结点值
+    while(a->next!=NULL)
+    {
+        p=p->next;
+        if(p->data>max)
+        {
+            q=p;
+            max=p->data;
+        }
+    }
+    max=q->next->data; //一次遍历后q指针所指结点就是最大元素
+    q->data=max;
+    q->next=q->next->next;//删除
+}
