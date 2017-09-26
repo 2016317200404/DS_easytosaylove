@@ -1,0 +1,29 @@
+typedef struct Node
+{
+    char data;
+    List *next;
+}Node,*List;
+
+void threetype(List l,List la,List lb,List lc)
+{
+    Node *p=l->next;
+    Node *p1=la,*p2=lb,*p3=lc;
+    while(p!=NULL)
+    {
+        if(p->data>='0'&&p->data<=9)
+        {
+            p1->next=p;
+            p1=p1->next;
+        }
+        else if(p->data>= 'A'&& p->data<= 'Z' || p->data>= 'a'&& p->data <= 'z')
+        {
+            p2->next=p;
+            p2=p2->next;
+        }
+        else{
+            p3->next=p;
+            p3=p3->next;
+        }
+        p=p->next;
+    }
+}
