@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct _DLNode
+{
+     struct _DLNode *next;
+     int value;
+}DLNode;
+DLNode* getPriorNode(DLNode *node)
+{
+    DLNode *next;
+    if(!node)
+    {
+        return NULL;
+    }
+    next = node->next;
+    while (node != next->next)
+    {
+        next = next->next;
+    }
+    return next;
+}
+void delPriorNode(DLNode *node)
+{
+    DLNode *prior = getPriorNode(node);
+    if(prior)
+    {
+        getPriorNode(prior)->next = prior->next;
+    }
+}
+void printList(DLNode *node)
+{
+    DLNode *next;
+    if(!node)
+    {
+        return;
+    }
+    printf("%d", node->value);
+    next = node->next;
+    while (node != next)
+    {
+        printf("-->%d", next->value);
+        next = next->next;
+    }
+    printf("\n");
+}
+void main()
+{
+    DLNode n1, n2, n3, n4, n5, n6;
+    n1.value = 1;
+    n2.value = 2;
+    n3.value = 3;
+    n4.value = 4;
+    n5.value = 5;
+    n6.value = 6;
+    n1.next = &n2;
+    n2.next = &n3;
+    n3.next = &n4;
+    n4.next = &n5;
+    n5.next = &n6;
+    n6.next = &n1;
+    printf("Original list: ");
+    printList(&n1);
+    delPriorNode(&n3);
+    printf("Deleted node 3's prior node(node 2): ");
+    printList(&n1);
+}
+//ÕÕ×ÅÄ£°åÐ´µÄ£¬ÒÑÕÆÎÕ
