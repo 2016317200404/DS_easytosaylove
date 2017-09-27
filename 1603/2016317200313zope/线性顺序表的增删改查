@@ -1,0 +1,121 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<malloc.h>
+#define MAXSIZE 20
+#define OK 1
+#define ERROR 0
+typedef int ElemType;
+typedef struct
+{
+    ElemType elem[MAXSIZE];
+    int length;
+}SeqList;
+int Init_SeqList(SeqList *L)
+{
+    L->length=0;
+    return(OK);
+}
+int Locate_SeqList(SeqList *L,ElemType x)
+{
+    int i=0;
+    while((i<=L->length)&&(L->elem[i]!=x))
+    i++;
+    if(i<=L->length) return(i+1);
+    else  return(-1);
+}
+int Insert_SeqList(SeqList *L,int i,ElemType x)
+{
+    int j;
+    if(L->length>=MAXSIZE-1)
+    {
+        printf("顺序表已满，无法进行插入操作！");
+        return(ERROR);
+    }
+    if((i<=0)||(i>L->length+2))
+    {
+        printf("插入位置不正确！");
+        return(ERROR);
+    }
+    for(j=L->length;j>=i-1;j--)
+    {
+        L->elem[j+1]=L->elem[j];
+    }
+    L->elem[i-1]=x;
+    L->length++;
+    return(OK);
+}
+int Delete_SeqList(SeqList *L,int i)
+{
+    int j;
+    if((i<1)||(i>L->length+1))
+    {
+        printf("删除位置不正确！");
+        return(ERROR);
+    }
+    for(j=i;j<L->length;j++) L->elem[j-1]=L->elem[j];
+    L->length--;
+    return(OK);
+}
+int Display_SeqList(SeqList *L)
+{
+    int i;
+    for(i=0;i<L->length;i++) printf("%d ",L->elem[i]);
+    return 1;
+}
+void main()
+{
+    SeqList L;
+    ElemType x;
+    int i,k,j;
+    Init_SeqList(&L);
+    printf("初始化\n建立顺序表如下：\n");
+    Insert_SeqList(&L,1,1);
+    Insert_SeqList(&L,2,2);
+    Insert_SeqList(&L,3,3);
+    Insert_SeqList(&L,4,4);
+    Display_SeqList(&L);
+    printf("\n");
+    printf("\n  主菜单 \n");
+    printf("    1   查找指定元素  \n");
+    printf("    2   插入元素到指定位置   \n");
+    printf("    3   删除某一指定位置元素  \n");
+    printf("    0   结束程序    \n");
+    printf("-------------------------------------\n");
+    printf("请输入您选择的菜单号<1, 2, 3, 0>: ");
+    scanf("%d",&i);
+        switch(i)
+        {
+            case 1:
+            printf("请输入查找元素："); scanf("%d",&x);
+            j=Locate_SeqList(&L,x);
+            if(j!=0) printf("指定元素位置=%d\n",j);
+            break;
+            case 2:
+            printf("请输入插入元素位置：");scanf("%d",&k);
+            printf("请输入插入元素值："); scanf("%d",&x);
+            j=Insert_SeqList(&L,k,x);
+            if(j!=0)
+            {
+                printf("插入后顺序表如下所示\n");
+                Display_SeqList(&L);
+                printf("\n");
+            }
+            break;
+            case 3:
+            printf("请输入删除元素位置：");
+            scanf("%d",&k);
+            j=Delete_SeqList(&L,k);
+            if(j!=0)
+            {
+                printf("删除后顺序表如下所示\n");
+                Display_SeqList(&L);
+                printf("\n");
+            }
+            break;
+            case 0:
+            exit(0);
+            break;
+            default:
+            printf("输入有误！");
+        }
+}
