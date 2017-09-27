@@ -1,0 +1,11 @@
+void del_s(node *s)
+{
+    node *p=s;
+    while(p->next->next!=s)
+    {
+        p=p->next;
+    }
+    node *q=p->next;
+    p->next=s;
+    delete q;
+}
