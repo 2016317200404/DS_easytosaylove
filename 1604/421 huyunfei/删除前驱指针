@@ -1,0 +1,43 @@
+#include<stdio.h>
+typedef struct Node
+{
+    int date;
+    struct Node *next;
+}Node,*linklist
+int main()
+{
+    Node *s,*m,*n,*head;
+    int i=0,d;
+    scanf("%d",&d);
+    head=(linklist)malloc(sizeof(Node));
+    head->data=d;
+    head->next=NULL;//建立头指针；
+    m=head;
+    for(i;i<5;i++)
+    {
+        scanf("%d",&d);
+        n=(linklist)malloc(sizeof(Node));
+        n->data=d;
+        m->next=n;
+        m=n;
+    }//建立五个结点；
+    scanf("%d",&d);
+    n=(linklist)malloc(sizeof(Node));
+    m->next=n;
+    s=n;//确定题目所要求的s指针位置‘
+    n->data=d;
+    n->next=head;//建立循环链表；
+    Node *p;
+    p=s;
+    while(s->next!=p)
+    {
+        s=s->next;
+    }//找到s前驱结点
+    while(p->next!=s)
+    {
+        p=p->next;
+    }//找到前驱结点的前驱结点
+    p->next=s->next;//删除结点s；
+    free(s);//释放空间；
+    return 0；
+}
