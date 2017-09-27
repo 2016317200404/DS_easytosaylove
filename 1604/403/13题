@@ -1,0 +1,37 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+    char data;
+    struct node* next;
+}node;
+void list(node *s)
+{
+    node *p=s->next;
+    node *a,*b,*c;
+    node *A,*B,*C;
+    a=A=(node *)malloc(sizeof(node));
+    b=B=(node *)malloc(sizeof(node));
+    c=C=(node *)malloc(sizeof(node));
+    while(p!=NULL)
+    {
+        if('0'<=p->data<='9')
+        {
+            B->next=p;
+            B=p;
+        }
+        else if('a'<=p->data<='z'||'A'<=p->data<='Z')
+        {
+            A->next=p;
+            A=p;
+        }
+        else
+        {
+            C->next=p;
+            C=p;
+        }
+        p=p->next;
+    }
+    A->next=C->next=B->next=NULL;
+    return;
+}
