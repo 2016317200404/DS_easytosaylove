@@ -1,0 +1,16 @@
+#include<stdio.h>
+typedef struct node
+{
+    char data;
+    struct node* next;
+}node;
+void Remove(node *s,int x)
+{
+    node *p=s,*q;
+    while(p->next==NULL&&p->next->data!=x)
+    {
+        q=p->next;
+        p->next=q->next;
+        delete q;
+    }
+}
