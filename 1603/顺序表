@@ -1,0 +1,102 @@
+#include<stdio.h>
+#define Max 50
+typedef struct
+{
+    int elem[Max];
+    int last;
+}Seqlist;
+int Locate(Seqlist L,int e)
+{
+    int i=0;
+    while(i<L.last&&L.elem[i]!=e)
+    {
+
+            i++;
+
+    }
+    if(i<=L.last)
+        return (i+1);
+    else
+        return (-1);
+
+}
+void insert(Seqlist *L,int i,int e)
+{
+    int j;
+    if(i>L->last||i<0)
+        printf("ERROE");
+    if(L->last==Max-1)
+        printf("FULL");
+    for(j=L->last;j>=i;j--)
+        L->elem[j]=L->elem[j-1];
+    L->elem[i-1]=e;
+    L->last++;
+    return 0;
+}
+int delete(Seqlist *L,int i,int *e)
+{
+    int j;
+    int temp;
+    if(i>L->last||i<0)
+        printf("ERORR");
+    *e=L->elem[i-1];
+
+    for(j=i;j<L->last;j++)
+    {
+        L->elem[j-1]=L->elem[j];
+    }
+    L->last--;
+    return 0;
+}
+void Merge(Seqlist *LA,Seqlist *LB,Seqlist *LC)
+{
+    int i=0,j=0,z=0;
+    while(i<=LA->last&&j<=LB->last)
+    {
+        if(LA->elem[i]>=LB->elem[j])
+           {
+
+           LC->elem[z]=LB->elem[j];
+            j++,z++;
+           }
+        else
+        {
+            LC->elem[z]=LA->elem[i];
+            i++,z++;
+        }
+    }
+    while(i<=LA->last)
+        {
+            LC->elem[z]=LA->elem[i];
+            i++;
+            z++;
+        }
+    while(j<=LB->last)
+    {
+        LC->elem[z]=LB->elem[j];
+        j++;
+        z++;
+    }
+    LC->last=LA->last+LB->last+1;
+}
+int main()
+{
+    int i,e;
+    Seqlist  LA,LB,LC,*L;
+    L=&LA;
+    LA.last=-1;
+    LB.last=-1;
+    for(i=0;i<3;i++)
+    {
+        scanf("%d %d",&LA.elem[i],&LB.elem[i]);
+        LA.last++;
+        LB.last++;
+    }
+   Merge(&LA,&LB,&LC);
+
+    for(i=0;i<=LC.last;i++)
+    {
+        printf("%d ",LC.elem[i]);
+    }
+
+}
