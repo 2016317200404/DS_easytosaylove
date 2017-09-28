@@ -1,0 +1,99 @@
+#include<stdio.h>
+#define MaxSize 50
+typedef int ElemType;
+typedef struct Seqlist
+{
+    ElemType elem[MaxSize];
+    int length;
+}Seqlist;
+void Initlist(Seqlist *L)
+{
+    L->length=0;
+}
+void Assignment(Seqlist *L,int len,ElemType Array[])
+{
+   int i;
+   for(i=0;i<len;i++)
+        L->elem[i]=Array[i];
+   L->length=len;
+}
+void Intersection(Seqlist *L1,Seqlist *L2,Seqlist *L3)
+{
+    int i,j,k=0;
+    for(i=0;i<L1->length;i++)
+    {
+        for(j=0;j<L2->length;j++)
+        {
+            if(L1->elem[i]==L2->elem[j])
+                L3->elem[k++]=L1->elem[i];
+        }
+    }
+    L3->length=k;
+}
+void Union(Seqlist *L1,Seqlist *L2,Seqlist *L3)
+{
+    int i,j,m,k=0;
+    for(i=0;i<L1->length;i++)
+        L3->elem[k++]=L1->elem[i];
+    for(i=0;i<L2->length;i++)
+        L3->elem[k++]=L2->elem[i];
+    L3->length=k;
+    Sort(L3);
+    for(i=0;i<k-1;i++)
+    {
+        for(j=i+1;j<k;j++)
+        {
+            if(L3->elem[i]==L3->elem[j])
+            {
+                for(m=j;m<k-1;m++)
+                    L3->elem[m]=L3->elem[m+1];
+                k--;
+                L3->length--;
+            }
+        }
+    }
+
+}
+void Clear(Seqlist *L)
+{
+    L->length=0;
+}
+void Sort(Seqlist *L)
+{
+    int i,j;
+    ElemType t;
+    for(i=1;i<L->length;i++)
+    {
+        t=L->elem[i];
+        j=i-1;
+        while(j>=0&&t<L->elem[j])
+        {
+            L->elem[j+1]=L->elem[j];
+            j--;
+        }
+        L->elem[j+1]=t;
+    }
+}
+void Display(Seqlist *L)
+{
+    int i;
+    for(i=0;i<L->length;i++)
+        printf("%d ",L->elem[i]);
+    printf("\n");
+}
+
+int main()
+{
+    int a[10]={1,3,5,7,9,11,13,15,17,19},b[10]={2,4,6,8,10,12,14,1,3,5};
+    Seqlist L1,L2,L3;
+    Initlist(&L1),Initlist(&L2),Initlist(&L3);
+    Assignment(&L1,10,a),Assignment(&L2,10,b);
+    Intersection(&L1,&L2,&L3);
+    Display(&L3);
+
+    Clear(&L3);
+    Union(&L1,&L2,&L3);
+    Display(&L3);
+
+    return 0;
+}
