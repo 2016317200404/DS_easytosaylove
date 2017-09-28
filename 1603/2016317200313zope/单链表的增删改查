@@ -1,0 +1,191 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<malloc.h>
+#define ERROR 0
+#define OK 1
+typedef int ElemType;
+typedef struct Node
+{
+    ElemType data;
+    struct Node *next;
+}Node,*LinkList;
+void InitList(LinkList *L)
+{
+    *L=(LinkList)malloc(sizeof(Node)); //建立头结点//
+    (*L)->next=NULL; //建立空的单链表L//
+}
+void CreateFromHead(LinkList L) //用头插法建立单链表//
+{
+    Node *s;
+    int c;
+    int flag=1;
+    while(flag)
+    {
+        scanf("%d",&c);
+        if(c!=0)
+        {
+            s=(Node *)malloc(sizeof(Node)); //建立新的结点//
+            s->data=c;
+            s->next=L->next; //将s结点插入表头//
+            L->next=s;
+        }
+        else
+        {
+            flag=0;
+        }
+    }
+}
+void CreateFromTail(LinkList  L) //用尾插法建立单链表//
+{
+    Node *r,*s;
+    int c;
+    int flag=1; //设置一个标志， 初值为1，当输入0时，flag为0，建表结束//
+    r=L; //r指针动态指向链表的当前表尾，以便于做尾插入，其初值指向头结点//
+    while(flag) //循环输入表中元素值，将建立新结点s插入表尾//
+    {
+        scanf("%d",&c);
+        if(c!=0)
+        {
+            s=(Node *)malloc(sizeof(Node));
+            s->data=c;
+            r->next=s;
+            r=s;
+        }
+        else
+        {
+            flag=0;
+            r->next=NULL;//将最后一个结点的next链域置为空，表示链表的结束//
+        }
+    }
+}
+Node *Get(LinkList L,int i) //在带头结点的单链表L中查找第i个结点，若找到，则返回该结点的存储位置；否则返回NULL//
+{
+    int j;
+    Node *p;
+    if(i<=0) return NULL;
+    p=L;j=0;
+    while((p->next!=NULL)&&(j<i))
+    {
+        p=p->next;
+        j++;
+    }
+    if(i==j) return p->data;
+    else return NULL;
+}
+Node *Locate(LinkList L,ElemType key) //在带头结点的单链表L中查找其结点值等于key的第一个结点，若找到则返回该结点的位置p,否则返回NULL//
+{
+    Node *p;
+    int i=0;
+    p=L->next; //从表中第一个结点开始//
+    while(p!=NULL) //当前表未查完//
+     if(p->data!=key)
+     {
+         p=p->next;
+         i++;
+     }
+    else break; //找到结点值=key时退出循环//
+    return i+1;
+}
+void InsList(LinkList L,int i,ElemType e) //在带头结点的单链表L中第i个位置插入值为e的新结点//
+{
+    Node *pre,*s;
+    int k;
+    if(i<=0) return ERROR;
+    pre=L;k=0; //从"头"开始，查找第i-1个结点//
+    while(pre!=NULL&&k<i-1) //表未查完且未查到第i-1个时重复，找到pre指向第i-1个//
+    {
+        pre=pre->next;
+        k=k+1;
+    } //查找第i-1个结点//
+    if(pre==NULL) //如当前位置pre为空表示已找完，但还未数到第i个，说明插入位置不合理//
+    {
+        printf("插入位置不合理！");
+        return ERROR;
+    }
+    s=(Node *)malloc(sizeof(Node));
+    s->data=e;
+    s->next=pre->next;
+    pre->next=s;
+    return OK;
+}
+int DelList(LinkList L,int i) //在带头结点的单链表L中删除第i个元素，并将删除的元素保存到变量* e中//
+{
+    Node *pre,*r;
+    int k;
+    pre=L;k=0;
+    while(pre->next!=NULL&&k<i-1) //寻找被删除结点i的前驱结点i-1使p指向它//
+    {
+        pre=pre->next;
+        k=k+1;
+    } //查找第i-1个结点//
+    if(pre->next==NULL) //while循环是因为p->next=NULL或i<1而跳出来的，因为pre->next为空，没有找到合法的前驱位置，说明删除位置i不合法//
+    {
+        printf("删除结点的位置i不合理！");
+        return ERROR;
+    }
+    r=pre->next;
+    pre->next=r->next; //修改指针，删除结点r//
+    return OK;
+}
+void DisLinkList(LinkList L) //单链表的显示//
+{
+    LinkList p;p=L;
+    while(p->next)
+    {
+        printf("%d ",p->next->data);p=p->next;
+    }
+}
+void main()
+{
+    printf("初始化\n建立单链表如下：\n");
+    LinkList L;
+    int x,y,cord,i;
+    InitList(&L);
+    CreateFromTail(&L);
+    printf("建立的单链表如下：\n");
+    DisLinkList(&L);
+        printf("\n       主菜单     \n");
+        printf("    1   查找指定位置的元素   \n");
+        printf("    2   查找指定值的元素    \n");
+        printf("    3   删除指定元素  \n");
+        printf("    4   在指定位置插入新元素e \n");
+        printf("    0   结束程序    \n");
+        printf("---------------------------------------\n");
+        printf("请输入您选择的菜单号<1,2,3,4,0>：");
+        scanf("%d",&cord);
+        switch(cord)
+        {
+            case 1:
+            printf("请输入查找元素的位置i ：");
+            scanf("%d",&i);
+            x=Get(&L,i);
+            printf("输出查找位置的元素：");
+            printf("%d",x);
+            break;
+            case 2:
+            printf("请输入查找元素的值key:");
+            scanf("%d",&x);
+            y=Locate(&L,x);
+            printf("输出查找值的位置：");
+            printf("%d",y);
+            break;
+            case 3:
+            printf("请输入删除元素的位置i：");
+            scanf("%d",&i);
+            DelList(&L,i);
+            printf("单链表输出如下：\n");
+            DisLinkList(&L);
+            break;
+            case 4:
+            printf("请输入插入元素位置的序号 i:");scanf("%d",&x);
+            printf("请输入插入的数据 y：");scanf("%d",&y);
+            InsList(&L,x,y);
+            printf("单链表输出如下：\n");DisLinkList(&L);
+            break;
+            case 0:
+            exit(0);
+            break;
+            default:
+            printf("输入有误！");
+        }
+}
