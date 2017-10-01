@@ -1,0 +1,90 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef int ElemType;
+typedef struct Node
+{
+    ElemType data;
+    struct Node* next;
+}Node,*Linklist;
+void Initlist(Linklist *L)
+{
+    *L=(Linklist)malloc(sizeof(Node));
+    (*L)->next=NULL;
+}
+void Display(Linklist *L)
+{
+    Node *p;
+    p=(*L);
+    while(p->next!=NULL)
+    {
+        p=p->next;
+        printf("%d",p->data);
+        if(p->next!=NULL)
+            printf(" ");
+    }
+    printf("\n");
+}
+void CreatFromHead(Linklist *L)
+{
+    int c;
+    Node *s;
+    printf("Please input some numbers and over with -1:");
+    scanf("%d",&c);
+    while(c!=-1)
+    {
+        s=(Node*)malloc(sizeof(Node));
+        s->data=c;
+        s->next=(*L)->next;
+        (*L)->next=s;
+        scanf("%d",&c);
+    }
+}
+void CreatFromTail(Linklist *L)
+{
+    int c;
+    Node *p,*s;
+    p=(*L);
+    printf("Please input some numbers and over with -1:");
+    scanf("%d",&c);
+    while(c!=-1)
+    {
+        s=(Node*)malloc(sizeof(Node));
+        s->data=c;
+        p->next=s;
+        p=s;
+        scanf("%d",&c);
+    }
+    p->next=NULL;
+}
+
+void Merge(Linklist *L1,Linklist *L2,Linklist *L3)
+{
+    Node *p,*s,*r;
+    p=(*L1)->next,s=(*L2)->next,r=(*L3);
+    while(p!=NULL&&s!=NULL)
+    {
+        if(p->data>=s->data)
+            r->next=s,r=s,s=s->next;
+        else
+            r->next=p,r=p,p=p->next;
+    }
+    if(p)
+        r->next=p;
+    else
+        r->next=s;
+    free(*L1);
+    free(*L2);
+}
+int main()
+{
+    Linklist L1,L2,L3;
+    Initlist(&L1),Initlist(&L2),Initlist(&L3);
+
+    CreatFromHead(&L1);
+    CreatFromTail(&L2);
+
+    Display(&L1),Display(&L2);
+    Merge(&L1,&L2,&L3);
+    Display(&L3);
+    return 0;
+}
