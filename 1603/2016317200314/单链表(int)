@@ -1,0 +1,179 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef int ElemType;
+typedef struct Node
+{
+    ElemType data;
+    struct Node* next;
+}Node,*Linklist;
+void Initlist(Linklist *L)
+{
+    *L=(Linklist)malloc(sizeof(Node));
+    (*L)->next=NULL;
+}
+void CreatFromHead(Linklist *L,int len,ElemType Array[])
+{
+    int i;
+    Node *p,*s;
+    p=(*L);
+    for(i=0;i<len;i++)
+    {
+        s=(Node*)malloc(sizeof(Node));
+        s->data=Array[i];
+        s->next=p->next;
+        p->next=s;
+    }
+}
+void CreatFromTail(Linklist *L,int len,ElemType Array[])
+{
+    int i;
+    Node *p,*s;
+    p=(*L);
+    for(i=0;i<len;i++)
+    {
+        s=(Node*)malloc(sizeof(Node));
+        s->data=Array[i];
+        p->next=s;
+        p=s;
+    }
+    p->next=NULL;
+}
+Node* Locate(Linklist *L,int num)
+{
+    int i=0;
+    Node *p;
+    p=(*L);
+    if(p->next==NULL)
+    {
+        printf("������Ϊ��!\n");
+        exit(1);
+    }
+    else
+    {
+        while(p->next!=NULL&&i<num-1)
+        {
+            p=p->next;
+            i++;
+        }
+        if(p->next==NULL)
+        {
+            printf("��������!\n");
+            exit(1);
+        }
+        else
+        {
+            p=p->next;
+            return p;
+        }
+    }
+}
+void Display(Linklist *L)
+{
+    Node *p;
+    p=*L;
+    if(p->next==NULL)
+    {
+        printf("������Ϊ��!\n");
+        exit(1);
+    }
+    else
+    {
+        while(p->next!=NULL)
+        {
+            p=p->next;
+            printf("%d ",p->data);
+        }
+        printf("\n");
+    }
+}
+void Insert(Linklist *L,int num,ElemType e)
+{
+    int i=0;
+    Node *p,*s;
+    p=(*L);
+    if(p->next==NULL)
+    {
+        printf("������Ϊ��!\n");
+        exit(1);
+    }
+    else
+    {
+        while(p->next!=NULL&&i<num-1)
+        {
+            p=p->next;
+            i++;
+        }
+        if(p->next==NULL)
+        {
+            printf("��������!\n");
+            exit(1);
+        }
+        else
+        {
+            s=(Node*)malloc(sizeof(Node));
+            s->data=e;
+            s->next=p->next;
+            p->next=s;
+        }
+    }
+}
+Node* Delete(Linklist *L,int num,ElemType *e)
+{
+    int i=0;
+    Node *p,*s;
+    p=(*L);
+    if(p->next==NULL)
+    {
+        printf("������Ϊ��!\n");
+        exit(1);
+    }
+    else
+    {
+        while(p->next!=NULL&&i<num-1)
+        {
+            p=p->next;
+            i++;
+        }
+        if(p->next==NULL)
+        {
+            printf("��������!\n");
+            exit(1);
+        }
+        else
+        {
+            s=p;
+            p=p->next;
+            *e=p->data;
+            s->next=p->next;
+            free(p);
+        }
+    }
+}
+int main()
+{
+    Node *p;
+    ElemType e;
+    int a[10]={1,3,5,7,9,2,4,6,8,10};
+    Linklist L1,L2;
+    Initlist(&L1),Initlist(&L2);
+    CreatFromHead(&L1,10,a),CreatFromTail(&L2,10,a);
+    Display(&L1);
+    p=Locate(&L1,3);
+    printf("%d\n",p->data);
+    Insert(&L1,4,20);
+    Display(&L1);
+    Delete(&L1,4,&e);
+    printf("%d\n",e);
+    Display(&L1);
+
+    Display(&L2);
+    p=Locate(&L2,3);
+    printf("%d\n",p->data);
+    Insert(&L2,4,20);
+    Display(&L2);
+    Delete(&L2,4,&e);
+    printf("%d\n",e);
+    Display(&L2);
+
+    return 0;
+}
