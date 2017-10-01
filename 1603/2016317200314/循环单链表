@@ -1,0 +1,66 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef int ElemType;
+typedef struct Node
+{
+    ElemType data;
+    struct Node* next;
+}Node,*Linklist;
+void Initlist(Linklist *L)
+{
+    *L=(Linklist)malloc(sizeof(Node));
+    (*L)->next=NULL;
+}
+void CreatFromHead(Linklist L,int len,ElemType Array[])
+{
+    int i;
+    Node *s,*p;
+    for(i=0;i<len;i++)
+    {
+        s=(Node*)malloc(sizeof(Node));
+        s->data=Array[i];
+        s->next=L->next;
+        if(i==0) p=s;
+        L->next=s;
+    }
+    p->next=L;
+}
+void CreatFromTail(Linklist *L,int len,ElemType Array[])
+{
+    int i;
+    Node *s,*p;
+    p=*L;
+    for(i=0;i<len;i++)
+    {
+        s=(Node*)malloc(sizeof(Node));
+        s->data=Array[i];
+        p->next=s;
+        p=s;
+    }
+    p->next=*L;
+}
+void Display(Linklist *L)
+{
+    Node *p;
+    p=*L;
+    while(p->next!=(*L))
+    {
+        p=p->next;
+        printf("%d ",p->data);
+    }
+    printf("\n");
+}
+
+int main()
+{
+    int a[10]={1,2,3,4,5,6,7,8,9,10};
+    Linklist L1,L2,L3;
+    Initlist(&L1),Initlist(&L2),Initlist(&L3);
+
+    CreatFromHead(L1,10,a);
+    Display(&L1);
+    CreatFromTail(&L2,10,a);
+    Display(&L2);
+
+    return 0;
+}
