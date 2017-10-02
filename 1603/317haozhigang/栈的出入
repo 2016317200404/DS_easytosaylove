@@ -1,0 +1,67 @@
+#include<stdio.h>
+typedef struct
+{
+    int a[10];
+    int top;
+} stack;
+void create(stack *s,int i);
+int isempty(stack *s);
+int isfull(stack *s);
+int pop(stack *s);
+void push(stack *s,int n);
+void Init(stack *s);
+int main()
+{
+    stack s;
+    int i;
+    printf("请输入入栈元素个数(<10)：\n");
+    scanf("%d",&i);
+    Init(&s);
+    create(&s,i);
+    while(!isempty(&s))
+    {
+        printf("%d ",pop(&s));
+    }
+}
+int isempty(stack *s)
+{
+    if(s->top==-1)
+    {
+        return 1;
+    }
+    else
+    return 0;
+}
+int isfull(stack *s)
+{
+    if(s->top==9)
+    return 1;
+    else
+    return 0;
+}
+void Init(stack *s)
+{
+    s->top=-1;
+}
+void create(stack *s,int i)
+{
+    int j,n;
+    printf("请输入%d个元素：\n",i);
+    for(j=0;j<i;j++)
+    {
+
+       if(!isfull(s))
+       {
+         scanf("%d",&n);
+         push(s,n);
+       }
+    }
+}
+void push(stack *s,int n)
+{
+    s->a[++(s->top)]=n;
+}
+int pop(stack *s)
+{
+    return s->a[(s->top)--];
+}
