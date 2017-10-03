@@ -1,0 +1,31 @@
+void mixLinklist(Linklist L,Linklist Lch,Linklist Lnum,Linklist Loth)
+{
+    Node *p=L->next;
+    while(p!=NULL)
+    {
+        if((p->data>='a' && p->data<='z') ||(p->data>='A'&&p->data<='Z'))//如果是字母
+        {
+            Node* temp;
+            temp=p->next;
+            p->next=Lch->next;
+            Lch->next=p; 
+            p= temp;
+        }
+        else if(p->data>='0'&&p->data<='9')//如果是数字
+        {
+            Node* temp;
+            temp=p->next;
+            p->next=Lnum->next;
+            Lnum->next=p; 
+            p= temp;
+        }
+        else//其他
+        {
+            Node* temp;
+            temp=p->next;
+            p->next=Loth->next;
+            Loth->next=p; 
+            p= temp;
+        }
+    }
+}
