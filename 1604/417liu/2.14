@@ -1,0 +1,26 @@
+void DelList (List L)
+{
+    Node *p,*q;
+    int max,a,b=0,c=0;
+    p=L;
+    max=p->data;
+    while(p->next!=NULL)
+    {
+        if(p->data>max)
+           {
+                max=p->data;
+                a=b;
+           }
+           p=p->next;
+           b++;
+    }
+    p=L;
+    while(p->next!=NULL&&c<a-1)
+        {
+            p=p->next;
+            c=c+1;
+        }
+        q=p->next;
+        p->next=q->next;
+    return max;
+}
