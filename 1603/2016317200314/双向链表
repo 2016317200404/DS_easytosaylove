@@ -1,0 +1,138 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef int ElemType;
+typedef struct Node
+{
+    ElemType data;
+    struct Node *next,*prior;
+}Node,*Doublelist;
+void Initlist(Doublelist *L)
+{
+    *L=(Doublelist)malloc(sizeof(Node));
+    (*L)->next=NULL;
+    (*L)->prior=NULL;
+}
+void CreatFromHead(Doublelist *L)
+{
+    int c;
+    Node *s,*p;
+    p=(*L);
+    printf("Input some numbers and over with -1:");
+    scanf("%d",&c);
+    while(c!=-1)
+    {
+        s=(Node*)malloc(sizeof(Node));
+        s->data=c;
+        s->next=p->next;
+        s->prior=p;
+        p->next=s;
+        scanf("%d",&c);
+    }
+}
+void CreatFromTail(Doublelist *L)
+{
+    int c;
+    Node *s,*p;
+    p=(*L);
+    printf("Input some numbers and over with -1:");
+    scanf("%d",&c);
+    while(c!=-1)
+    {
+        s=(Node*)malloc(sizeof(Node));
+        s->data=c;
+        s->prior=p;
+        p->next=s;
+        p=s;
+        scanf("%d",&c);
+    }
+    p->next=NULL;
+}
+void Display(Doublelist *L)
+{
+    Node *p;
+    p=(*L);
+    while(p->next!=NULL)
+    {
+        p=p->next;
+        printf("%d",p->data);
+        if(p->next!=NULL)
+            printf(" ");
+    }
+    printf("\n");
+}
+void Insert(Doublelist *L,int num,ElemType e)
+{
+    int i=0;
+    Node *p,*s;
+    p=(*L);
+    if(num<1)
+    {
+        printf("Error!\n");
+        exit(1);
+    }
+    else
+    {
+        while(p->next!=NULL&&i<num-1)
+        {
+            p=p->next;
+            i++;
+        }
+        if(p->next==NULL)
+        {
+            printf("Error!\n");
+            exit(1);
+        }
+        s=(Node*)malloc(sizeof(Node));
+        s->data=e;
+        s->prior=p;
+        s->next=p->next;
+        p->next->prior=s;
+        p->next=s;
+    }
+}
+void Delete(Doublelist *L,int num,ElemType *e)
+{
+    int i=0;
+    Node *p,*s;
+    p=(*L);
+    if(num<1)
+    {
+        printf("Error!\n");
+        exit(1);
+    }
+    else
+    {
+        while(p->next!=NULL&&i<num-1)
+        {
+            p=p->next;
+            i++;
+        }
+        if(p->next==NULL)
+        {
+            printf("Error!\n");
+            exit(1);
+        }
+        s=p->next;
+        *e=s->data;
+        p->next=s->next;
+        s->next->prior=p;
+        free(s);
+    }
+}
+int main()
+{
+    ElemType e;
+    Doublelist L1,L2;
+    Initlist(&L1),Initlist(&L2);
+    CreatFromHead(&L1),CreatFromTail(&L2);
+    Display(&L1);
+    Display(&L2);
+
+    Insert(&L1,4,30);
+    Display(&L1);
+    Delete(&L1,4,&e);
+    printf("%d\n",e);
+    Display(&L1);
+
+    return 0;
+}
