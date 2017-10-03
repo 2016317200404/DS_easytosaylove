@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct node
+{
+int num,code;
+struct node *next;
+}lnode;
+void main()
+{
+int i,j,key,n; 
+lnode *p,*s,*head;
+head=(lnode *)malloc(sizeof(lnode)); 
+p=head;
+printf("Please enter the num of the person:");
+scanf("%d",&n);
+for(i=1;i<=n;i++)
+{
+printf("Person %d",i);
+printf(" code: ");
+scanf("%d",&key); 
+s=p;
+p=(lnode *)malloc(sizeof(lnode)); 
+s->next=p;
+p->num=i;
+p->code=key;
+}
+p->next=head->next;
+p=head;
+head=head->next;
+free(p);
+p=head;
+do
+{
+printf("\nPerson%d Code:%d",p->num,p->code); 
+p=p->next;
+}while(p!=head);
+printf("\nPlease enter your first key:");
+scanf("%d",&key);
+do
+{
+j=1; 
+p=head;
+while(j<key)
+{
+s=p;
+p=p->next;
+j++;
+}
+i=p->num;
+key=p->code;
+printf("\nThe out of the num:");
+printf("Person%d",i);
+s->next=p->next;
+head=p->next; 
+free(p);
+n--; 
+}while(n>0);
+getch();
+}
