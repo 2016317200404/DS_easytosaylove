@@ -1,0 +1,158 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef int ElemType;
+typedef struct Node
+{
+    ElemType data;
+    struct Node *next,*prior;
+}Node,*CDoublelist;
+void Initlist(CDoublelist *L)
+{
+    *L=(CDoublelist)malloc(sizeof(Node));
+    (*L)->next=NULL;
+    (*L)->prior=NULL;
+}
+void CreatFromHead(CDoublelist *L)
+{
+    int len,i,c;
+    Node *s,*p;
+    p=(*L);
+    printf("Input the length of numbers:");
+    scanf("%d",&len);
+    printf("Input numbers:");
+    for(i=0;i<len;i++)
+    {
+        scanf("%d",&c);
+        s=(Node*)malloc(sizeof(Node));
+        s->data=c;
+        if(i==0)
+            s->next=*L;
+        else
+            s->next=p->next;
+        s->prior=p;
+        p->next=s;
+    }
+}
+void CreatFromTail(CDoublelist *L)
+{
+    int len,i,c;
+    Node *s,*p;
+    p=(*L);
+    printf("Input the length of numbers:");
+    scanf("%d",&len);
+    printf("Input numbers:");
+    for(i=0;i<len;i++)
+    {
+        scanf("%d",&c);
+        s=(Node*)malloc(sizeof(Node));
+        s->data=c;
+        p->next=s;
+        s->prior=p;
+        p=s;
+    }
+    p->next=*L;
+}
+void Display(CDoublelist *L)
+{
+    Node *p;
+    p=(*L);
+    while(p->next!=*L)
+    {
+        p=p->next;
+        printf("%d",p->data);
+        if(p->next!=*L)
+            printf(" ");
+    }
+    printf("\n");
+}
+void Insert(CDoublelist *L,int num,ElemType e)
+{
+    Node *p,*s;
+    int i=0;
+    p=(*L);
+    if(num<1)
+    {
+        printf("Error!\n");
+        exit(1);
+    }
+    else
+    {
+        while(p->next!=NULL&&i<num-1)
+        {
+            p=p->next;
+            i++;
+        }
+        if(p->next==NULL&&i<num-1)
+        {
+            printf("Error!\n");
+            exit(1);
+        }
+        s=(Node*)malloc(sizeof(Node));
+        s->data=e;
+        s->next=p->next;
+        s->prior=p;
+        if(p->next==NULL&&i==num-1)
+            p->next=s;
+        else
+        {
+            p->next->prior=s;
+            p->next=s;
+        }
+    }
+}
+void Delete(CDoublelist *L,int num,ElemType *e)
+{
+    Node *p,*q;
+    int i=0;
+    p=(*L);
+    if(num<1)
+    {
+        printf("Error!\n");
+        exit(1);
+    }
+    else
+    {
+        while(p->next!=NULL&&i<num-1)
+        {
+            p=p->next;
+            i++;
+        }
+        if(p->next==NULL&&i<num-1)
+        {
+            printf("Error!\n");
+            exit(1);
+        }
+        q=p->next;
+        *e=q->data;
+       if(q->next==NULL&&i==num-1)
+            p->next=q->next;
+       else
+       {
+           p->next=q->next;
+           q->next->prior=q->prior;
+       }
+       free(q);
+    }
+}
+int main()
+{
+    ElemType e;
+    CDoublelist L1,L2,L3;
+    Initlist(&L1),Initlist(&L2),Initlist(&L3);
+    CreatFromHead(&L1),CreatFromTail(&L2);
+    Display(&L1),Display(&L2);
+
+    Insert(&L1,4,20);
+    Display(&L1);
+    Delete(&L1,4,&e);
+    printf("%d\n",e);
+    Display(&L1);
+
+    Insert(&L2,11,20);
+    Display(&L2);
+    Delete(&L2,11,&e);
+    printf("%d\n",e);
+    Display(&L2);
+
+    return 0;
+}
