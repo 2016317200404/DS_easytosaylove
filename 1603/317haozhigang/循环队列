@@ -1,0 +1,68 @@
+#include<stdio.h>
+typedef struct
+{
+    int a[10];
+    int front;
+    int rear;
+}queue;
+void Init(queue *s);
+int isempty(queue *s);
+int isfull(queue * s);
+void enter(queue *s );
+int deletequeue(queue *s);
+int main()
+{
+    int i;
+    queue s;
+    Init(&s);
+    enter(&s);
+    while(!isempty(&s))
+    {
+        printf("%d ",deletequeue(&s));
+    }
+}
+int isfull(queue *s)
+{
+
+    if(s->front==(s->rear+1)%10)
+    {
+        return 1;
+    }
+    else
+    return 0;
+}
+int isempty(queue *s)
+{
+    if(s->rear==s->front)
+    {
+        return 1;
+    }
+    else
+    return 0;
+}
+void Init(queue *s)
+{
+    s->front=-1;
+    s->rear=0;
+}
+void enter(queue *s)
+{
+    int i,j;
+    printf("ÇëÊäÈëÔªËØ£º\n");
+    while(!isfull(s))
+    {
+        scanf("%d",&j);
+
+
+            if(s->front=-1)
+            s->front=0;
+             s->rear%=10;
+            s->a[(s->rear)++]=j;
+
+    }
+}
+int deletequeue(queue *s)
+{
+    s->front%=10;
+     return s->a[(s->front)++];
+}
