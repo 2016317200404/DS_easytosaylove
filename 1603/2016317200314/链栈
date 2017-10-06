@@ -1,0 +1,66 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef int ElemType;
+typedef struct Node
+{
+    ElemType data;
+    struct Node *next;
+}Node,*Linkstack;
+void InitStack(Linkstack *top)
+{
+    *top=(Linkstack)malloc(sizeof(Node));
+    (*top)->next=NULL;
+}
+void Push(Linkstack *top,ElemType *e)
+{
+    Node *temp;
+    temp=(Node*)malloc(sizeof(Node));
+    if(temp==NULL)
+        printf("false!\n");
+    else
+    {
+        temp->data=*e;
+        temp->next=(*top)->next;
+        (*top)->next=temp;
+    }
+}
+void Pop(Linkstack *top,ElemType *e)
+{
+    Node *temp;
+    if((*top)->next==NULL)
+        printf("false!\n");
+    else
+    {
+        temp=(*top)->next;
+        *e=temp->data;
+        (*top)->next=temp->next;
+        free(temp);
+    }
+}
+int main()
+{
+    int i,len,c;
+    ElemType e;
+    Linkstack top;
+    InitStack(&top);
+    printf("Please input the length of stack:");
+    scanf("%d",&len);
+    printf("Please input data:");
+    for(i=0;i<len;i++)
+    {
+        scanf("%d",&c);
+        Push(&top,&c);
+    }
+    Pop(&top,&e);
+    printf("%d\n",e);
+
+    for(i=0;i<len-1;i++)
+    {
+        Pop(&top,&e);
+        printf("%d",e);
+        if(i!=len-2)
+            printf(" ");
+    }
+    printf("\n");
+    return 0;
+}
