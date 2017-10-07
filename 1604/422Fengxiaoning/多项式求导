@@ -1,0 +1,54 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct Node{
+        int coef,exp;
+        struct Node *next;
+}Node,*LinkList;
+
+InitCLinkList(LinkList *CL){
+    *CL=(LinkList)malloc(sizeof(Node));
+    (*CL)->exp=-1;
+    (*CL)->next=*CL;
+}
+void CreateCLinkList(LinkList CL){
+    Node *rear,*s;
+    int a,b,flag=1;
+    rear=CL;
+    while(flag){
+        s=(Node*)malloc(sizeof(Node));
+        scanf("%d%d",&a,&b);
+        s->coef=a;s->exp=b;
+        rear->next=s;
+        rear=s;
+        if(b==0)
+            flag=0;
+    }
+    rear->next=CL;
+}
+
+void derivative(LinkList ha){
+    LinkList pa,q;
+    q=ha;pa=ha->next;
+    while(pa->exp!=-1){
+        if(pa->exp==0){
+            q->next=pa->next;
+            free(pa);
+            pa=q->next;
+        }
+        else{
+            pa->coef=(pa->coef)*(pa->exp);
+            pa->exp--;
+            q=q->next;
+            pa=pa->next;
+        }
+    }
+}
+int main(){
+    int i;
+    LinkList ha,pa;
+    InitCLinkList(&ha);
+    CreateCLinkList(ha);
+    derivative(ha);
+    return 0;
+}
