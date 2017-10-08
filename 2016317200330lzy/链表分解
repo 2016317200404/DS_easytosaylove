@@ -1,0 +1,18 @@
+int (SeqList *la,SeqList *lb,int i)
+{
+    int k;
+    int t=1;r=i;
+    for(k=1;la->k<last+2;k++)
+    {
+        if(la->elem[k]==0)
+        {
+            lb->elem[t]=la->elem[k];
+            t++;
+        }
+        else
+        {
+            la->elem[r]=la->elem[k];
+            r--;
+        }
+    }
+}
