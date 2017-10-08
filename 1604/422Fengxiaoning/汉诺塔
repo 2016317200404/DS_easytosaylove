@@ -1,0 +1,27 @@
+#include<stdio.h>
+mov(char x,int n,char z)
+{
+    printf("%d:%c->%c\n",n,x,z);//将n号圆盘从x移动到z
+}
+void hanoi(int n,char x,char y,char z)//将x塔坐从上到下n个圆盘转移到z，y为辅助塔
+{
+    if(n==1)
+    {
+        mov(x,1,z);
+    }
+    else
+    {
+        hanoi(n-1,x,z,y);
+        mov(x,n,z);
+        hanoi(n-1,y,x,z);
+    }
+
+}
+int main()
+{
+    int n;
+    scanf("%d",&n);
+    hanoi(n,'A','B','C');
+    return 0;
+
+}

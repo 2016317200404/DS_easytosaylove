@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include<malloc.h>//malloc()
+#define MaxSize 40
+typedef struct
+{
+    int data[MaxSize];
+    int last;
+} seqlist;
+int listEmpty(seqlist*L)
+{
+    return (L->last==0);
+}
+int ListLength(seqlist *L)
+{
+    return (L->last);
+}
+
+void Displist(seqlist*L)
+{
+    int i;
+    if(listEmpty(L))
+        return;
+            else
+                for(i=0; i<L->last; i++)
+            {
+                printf("%d",L->data[i]);
+                printf("\t");
+
+            }
+    printf("\n");
+
+}
+void parity(seqlist *a,seqlist *b)
+{
+    int i,j,k=0;
+    k=0;
+    j=b->last-1;
+    for(i=0; i<a->last; i++)5
+    {
+
+        if(a->data[i]%2==0)
+        {
+            b->data[j]=a->data[i];
+            j--;
+
+        }
+        else
+        {
+            b->data[k]=a->data[i];
+            k++;
+        }
+    }
+}
+int main()
+{
+    int m;
+    printf("please putin how many number in this list\n");
+    scanf("%d",&m);
+    seqlist *a=(seqlist *)malloc(sizeof(seqlist));
+    a->last=m;
+      int i;
+    for(i=0;i<m;i++)
+    {
+        scanf("%d",&a->data[i]);
+    }
+    seqlist *b=(seqlist *)malloc(sizeof(seqlist));
+    b->last=m;
+    parity(a,b);
+    Displist(a);
+    Displist(b);
+
+}

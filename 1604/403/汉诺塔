@@ -1,0 +1,23 @@
+#include<stdio.h>
+int i=0;
+void move(char a,int n,char b)
+{
+    i++;
+    printf("%d:%d %c->%c\n",i,n,a,b);
+}
+void hanoi(int n,char a,char b,char c)
+{
+    if(n==1)
+        move(a,1,c);
+    else
+    {
+        hanoi(n-1,a,c,b);
+        move(a,n,c);
+        hanoi(n-1,b,a,c);
+    }
+}
+int main()
+{
+    hanoi(2,'A','B','C');
+    return 0;
+}

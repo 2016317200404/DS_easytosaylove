@@ -1,0 +1,19 @@
+int DelMax(List L)
+{
+    node *p,*q,*temp;
+    p=L;
+    int max=p->data;
+    while(p!=NULL)
+    {
+        if(p->next->data>max)
+        {
+            q=p;
+            max=p->next->data;
+            temp=p->next;
+        }
+        p=p->next;
+    }
+    q->next=q->next->next;
+    free(temp);
+    return max;
+}

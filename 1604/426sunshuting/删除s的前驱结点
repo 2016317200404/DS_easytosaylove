@@ -1,0 +1,17 @@
+int DelList(LinkList L,node *s)
+{
+    node *pre,*r;
+    pre=L;
+    while(pre->next!=NULL&&pre->next->next!=s)
+    {
+        pre=pre->next;
+    }
+    if(pre->next==NULL)
+    {
+        return ERROR;
+    }
+    r=pre->next;
+    pre->next=r->next;
+    free(r);
+    return OK;
+}

@@ -1,0 +1,86 @@
+
+#include<stdio.h>
+
+typedef struct
+
+{
+
+    int data[max];
+
+    int last;
+
+}SqList;
+
+void ch(SqList *A,SqList *B)
+
+{
+
+    int i,n,j=0,k=0;
+
+    n=A->last;
+
+    for(i=0;i<n;i++)
+
+    {
+
+        if(A->data[i]%2!=0)
+
+        {
+
+            B->data[j]=A->data[i];
+
+            j++;
+
+        }
+
+        else
+
+        {
+
+            B->data[n-k-1]=A->data[i];
+
+            k++;
+
+        }
+
+
+
+    }
+
+    for(i=0;i<n;i++)
+
+    {
+
+        printf("%d",B->data[i]);
+
+    }
+
+}
+
+
+
+int main()
+
+{
+
+    int l,i;
+
+    scanf("%d",&l);
+
+    SqList *A = (SqList*)malloc(sizeof(SqList));
+
+    A->last=l;
+
+    for(i=0;i<l;i++)
+
+    {
+
+        scanf("%d",&A->data[i]);
+
+    }
+
+    SqList *B = (SqList*)malloc(sizeof(SqList));
+
+    ch(A,B);
+
+}

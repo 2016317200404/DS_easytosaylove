@@ -1,0 +1,20 @@
+void TeList(LinkList A,LinkList B,LinkList C)
+{
+    LinkList *pa=A->next,*pb=B->next,*pc=C->next;
+    while(pa!=A)
+    {
+        if(pa->exp%2==0)//偶数项
+        {
+            pb->next=pa;
+            pa=pa->next;
+            pb=pb->next;
+        }
+        else{//奇数项
+            pc->next=pa;
+            pa=pa->next;
+            pc=pc->next;
+        }
+    }
+    pb->next=B;
+    pc->next=C;
+}

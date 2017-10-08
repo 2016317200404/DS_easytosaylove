@@ -1,0 +1,49 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define maxsize 8
+
+typedef struct
+{
+    int elem[maxsize];
+    int last;
+}Seqlist;
+
+//左奇数右偶数
+void left1right0(Seqlist la)
+{
+    int i,j,k,temp;
+    i=0;
+    j=maxsize;
+    while(i<j)
+    {
+        if(la.elem[i]%2==0&&la.elem[j]%2!=0)
+        {
+            temp=la.elem[i];
+            la.elem[i]=la.elem[j];
+            la.elem[j]=temp;
+        }
+        if(la.elem[i]%2!=0)
+        {
+            i++;
+        }
+        if(la.elem[j]%2==0)
+        {
+            j--;
+        }
+    }
+    for(k=0; k<maxsize; k++)
+    {
+        printf("%d ",la.elem[k]);
+    }
+}
+int main()
+{
+    Seqlist la ;
+    int i;
+    for(i=0;i<maxsize;i++)
+    {
+        scanf("%d",&la.elem[i]);
+    }
+    left1right0(la);
+}
+

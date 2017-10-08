@@ -1,0 +1,50 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define maxsize 5
+typedef struct
+{
+    int elem[maxsize];
+    int last;
+}Seqlist;
+
+//左奇右偶
+void left_and_right(Seqlist L1)
+{
+
+    int i,j,k;
+    int temp;
+    i=0;
+    j=maxsize;
+    while(i<j)
+    {
+        if(L1.elem[i]%2==0 && L1.elem[j]%2!=0)
+        {
+            temp=L1.elem[i];
+            L1.elem[i]=L1.elem[j];
+            L1.elem[j]=temp;
+        }
+        if(L1.elem[i]%2!=0)
+        {
+            i++;
+        }
+        if(L1.elem[j]%2==0)
+        {
+            j--;
+        }
+    }
+    for(k=0;k<maxsize;k++)
+    {
+        printf("%d ",L1.elem[k]);
+    }
+
+}
+int main()
+{
+    Seqlist L1;
+    int i;
+    for(i=0;i<maxsize;i++)
+    {
+        scanf("%d",&L1.elem[i]);
+    }
+    left_and_right(L1);
+}

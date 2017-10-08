@@ -1,0 +1,54 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+    int e;
+    struct node*back;
+    struct node*next;
+}node,*list;
+node*createlist(node*head,int n)
+{
+    node*rear,*p;
+    head=malloc(sizeof(node));
+    head->next=NULL;
+    head->back=NULL;
+    rear=head;
+    while(n--)
+    {
+        p=malloc(sizeof(node));
+        p->next=NULL;
+        p->back=NULL;
+        scanf("%d",&(p->e));
+        rear->next=p;
+        rear=p;
+    }
+    rear->next=head;
+    return head;
+}
+void stodouble(list*l)
+{
+    while((*l)->next->back==NULL)
+    {
+        (*l)->next->back=(*l);
+        (*l)=(*l)->next;
+    }
+}
+void show(node*head)
+{
+    node*p;
+    p=head->next;
+    while(p!=head)
+    {
+        printf("%d ",p->e);
+        p=p->next;
+    }
+    printf("\n");
+}
+int main()
+{
+    node*head;
+    head=createlist(head,5);
+    stodouble(&head);
+    show(head);
+    return 0;
+}

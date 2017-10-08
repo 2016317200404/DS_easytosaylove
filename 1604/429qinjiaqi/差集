@@ -1,0 +1,84 @@
+#include<stdio.h>
+int main()
+{
+    int la[20],lb[20],lc[20];
+    int counta,countb,countc=0,i=0,j=0,m,min,flag=0;
+    do{
+        scanf("%d",&la[i++]);
+    }while(getchar()!='\n');
+    counta=i;
+    do{
+        scanf("%d",&lb[j++]);
+    }while(getchar()!='\n');
+    countb=j;//录入数据
+    for(i=0;i<counta-1;i++)//排序
+    {
+        min=i;
+        for(j=i+1;j<counta;j++)
+        {
+            if(la[j]<la[min])
+            {
+                min=j;
+            }
+        }
+        int temp;
+        temp=la[i];
+        la[i]=la[min];
+        la[min]=temp;
+    }
+    for(i=0;i<countb-1;i++)//排序
+    {
+        min=i;
+        for(j=i+1;j<countb;j++)
+        {
+            if(lb[j]<lb[min])
+            {
+                min=j;
+            }
+        }
+        int temp;
+        temp=lb[i];
+        lb[i]=lb[min];
+        lb[min]=temp;
+    }
+    i=0;j=0;
+   while(i<counta&&j<countb)
+   {
+       if(la[i]==lb[j])
+       {
+           i++;j++;
+       }
+       else if(la[i]<lb[j])
+       {
+           lc[countc]=la[i];
+           countc++;
+           i++;
+       }
+       else{
+        lc[countc]=lb[j];
+        countc++;
+        j++;
+       }
+   }
+   if(counta-i)
+   {
+       for(m=i;m<counta;m++)
+       {
+           lc[countc]=la[m];
+           countc++;
+       }
+   }
+   if(countb-j)
+   {
+       for(m=j;m<countb;m++)
+       {
+           lc[countc]=lb[m];
+           countc++;
+       }
+   }
+    for(i=0;i<countc;i++)
+    {
+        printf("%d ",lc[i]);
+    }
+    return 0;
+}

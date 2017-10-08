@@ -1,0 +1,21 @@
+void mixList(LinkList A,Linklist B,Linklist C)
+{
+    Linklist *pa=A->next,*pb=B,*pc=C;
+    while(pa)
+    {
+        if(pa->exp%2==0)
+        {
+            pc->next=pa->next;
+            pc=pc->next;
+            pa=pa->next;
+        }
+        else
+        {
+            pb->next=pa->next;
+            pb=pb->next;
+            pa->pa->next;
+        }
+    }
+    pb->next=NULL;
+    pc->next=NULL;
+}

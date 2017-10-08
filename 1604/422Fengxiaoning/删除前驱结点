@@ -1,0 +1,10 @@
+void DelPrenode(Node *s)
+{
+    Node *p=s;
+    while(p->next->next!=s)
+    {
+        p=p->next;
+    }
+    free(p->next);
+    p->next=s;
+}

@@ -1,0 +1,20 @@
+void Delmaxnode(Linklist L)
+{
+    Node *p,*max;
+    int temp;
+    p=L;
+    max=L;
+    temp=p->next->data;
+    while(p->naxt!=NULL)   //找到最大值所在结点
+    {
+        p=p->next;
+        if(p->data>temp)
+        {
+            max=p;
+            temp=p->data;
+        }
+    }
+    temp=max->next->data;
+    max->data=temp;
+    max->next=max->next->next;  //删除最大值结点
+}

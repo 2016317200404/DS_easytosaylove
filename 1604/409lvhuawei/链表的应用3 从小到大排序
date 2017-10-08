@@ -1,0 +1,21 @@
+void sort(node l)//从小到大排序
+{
+    node *p,*q,*r;
+    p=l->next;
+    q=p->next;
+    r=q->next;
+    while(q!=l)
+    {
+        while(p!=l)&&(p->data>q->data)
+            p=p->back;
+        q->back->next=r;
+        r->back=q->back;
+        q->next=p->next;
+        q->back=p;
+        p=q->next;
+        q=p->next;
+        q=r;
+        p=q->back;
+        r=r->next;
+    }
+}

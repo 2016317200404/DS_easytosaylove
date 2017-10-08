@@ -1,0 +1,82 @@
+typedef struct Node
+
+{
+
+    int date;
+
+    struct Node *next;
+
+}Node,*linklist
+
+int main()
+
+{
+
+    Node *s,*m,*n,*head;
+
+    int i=0,d;
+
+    scanf("%d",&d);
+
+    head=(linklist)malloc(sizeof(Node));
+
+    head->data=d;
+
+    head->next=NULL;
+
+    m=head;
+
+    for(i;i<5;i++)
+
+    {
+
+        scanf("%d",&d);
+
+        n=(linklist)malloc(sizeof(Node));
+
+        n->data=d;
+
+        m->next=n;
+
+        m=n;
+
+    }
+
+    scanf("%d",&d);
+
+    n=(linklist)malloc(sizeof(Node));
+
+    m->next=n;
+
+    s=n;
+
+    n->data=d;
+
+    n->next=head;
+
+    Node *p;
+
+    p=s;
+
+    while(s->next!=p)
+
+    {
+
+        s=s->next;
+
+    }
+    while(p->next!=s)
+
+    {
+
+        p=p->next;
+
+    }
+
+    p->next=s->next;
+
+    free(s);
+
+    return 0；
+
+}

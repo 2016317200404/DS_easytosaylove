@@ -1,0 +1,58 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define Stack_size 50
+//创建链栈
+typedef struct node
+{
+    StackElementType data;
+    struct * next;
+    int top;
+}LinkStackNode;
+typedef LinkStackNode *LinkStack;
+//初始化栈
+void InitLinkStack(LinkStackNode *s)
+{
+    s->top=-1;
+}
+//链栈进栈操作
+int Push(LinkStack top,StackElementType x)
+{
+    if(top==Stack_size-1)             //若栈已满则返回错误
+        return False;
+    LinkStackNode * temp;
+    temp=(LinkStackNode *)malloc(sizeof(LinkStackNode));
+    if(temp==NULL)
+        return False;
+    temp->data=x;
+    temp->next=top->next;
+    top->next=temp;
+    return True;
+}
+//链栈出栈操作
+int Pop(LinkStack top,StackElementType * x)
+{
+    if(top==-1)             //若栈为空则返回错误
+        return False;
+    LinkStackNode * temp;
+    temp=top->next;
+    if(temp==NULL)
+        return False;
+    top->next=temp->next;
+    *x=temp->data;
+    free(temp);
+    return True;
+}
+//读取栈顶元素
+int GetTop(LinkStackNode top,StackElementType * x)
+{
+    LinkStackNode * temp;
+    if(top==-1)             //若栈为空则返回错误
+        return False;
+    else
+    {
+        temp=top->next;
+        top->next=temp->next;
+        x=temp->data;
+        return x;
+    }
+}

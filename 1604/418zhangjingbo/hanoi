@@ -1,0 +1,25 @@
+#include<stdio.h>
+
+//将编号为n的盘子从x移动到z
+void move(char x, int n, char z) {
+	printf("%d号圆盘从%c移动到%c\n", n, x, z);
+}
+
+//将塔座从上到下编号1至n，且按直径由小到大的n个圆盘
+void hanoi(int n, char x, char y, char z) {
+	if (n == 1) {
+		move(x, 1, z);
+	}
+	else {
+		hanoi(n - 1, x, z, y);
+		move(x, n, z);
+		hanoi(n - 1, y, x, z);
+	}
+}
+
+int main() {
+	int n;
+	scanf("%d", &n);
+	hanoi(n, 'A', 'B', 'C');
+	return 0;
+}

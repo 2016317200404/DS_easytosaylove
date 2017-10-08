@@ -1,0 +1,59 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#define SIZE 100
+typedef struct
+{
+    int elem[SIZE];
+    int l;
+}SqList;
+void Set(SqList *L)
+{
+    int i;
+    for(i=0;i<L->l;i++)
+    {
+        printf("%d ",L->elem[i]);
+    }
+    printf("\n");
+}
+void Different(SqList *x, SqList *y,SqList *z)
+{
+    int i=0,j=0,k=0;
+    for (i=0;i<x->l;i++)
+    {
+        j=0;
+        while(j<y->l&&y->elem[j]!=x->elem[i])
+        {
+            j++;
+        }
+        if(j==y->l)
+        {
+            z->elem[k]=x->elem[i];
+            k++;
+        }
+    }
+    z->l=k;
+}
+void copy(int *a,int *b,int c)
+{
+    while(c--)
+    {
+        *a++=*b++;
+    }
+}
+int main()
+{
+    SqList *la=(SqList*)malloc(sizeof(SqList));
+    int case1[8]={25,34,57,50,16,48,9,63};
+    int case2[8]={12,50,23,79,4,34,25,13};
+    copy(la->elem,case1,8);
+    la->l=8;
+    SqList *lb=(SqList*)malloc(sizeof(SqList));
+    copy(lb->elem,case2,2);
+    lb->l=8;
+    SqList *lc=(SqList*)malloc(sizeof(SqList));
+    lc->l=0;
+    Different(la,lb,lc);
+    Set(lc);
+    return 0;
+}

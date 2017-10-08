@@ -1,0 +1,40 @@
+    /* head 为单链表的头指针，d,c,r分别是数字字符、字母字符和其他字符的循环链表的头指针, 
+        注意此处传递的是指针的引用，防止在传递指针是进行拷贝*/  
+    void separate(node* head,node* &d,node* &c,node* r)  
+    {  
+        //首先创建单向循环链表；  
+        d=(node*)malloc(sizeof(node));  
+        d->next=d;  
+          
+        c=(node*)malloc(sizeof(node));  
+        c->next=c;  
+          
+        node* q=head;  
+        node* p=q->next;   
+      
+        while(p!=NULL)  
+        {  
+            if(p->data>='0'&&p->data<='9')           //处理数字字符的单链表；  
+            {  
+                q->next=p->next;        
+                p->next=d->next;            
+                d->next=p;  
+                p=q->next;  
+                  
+            }  
+            else if(p->data>='a'&&p->data<='z'||p->data>='A'&&p->data<='Z') //处理字母字符的单链表；  
+            {  
+                q->next=p->next;        
+                p->next=d->next;            
+                d->next=p;  
+                p=q->next;  
+            }  
+            else                                    //处理其他字符的单链表;  
+            {  
+                q=p;  
+                p=q->next;     
+            }         
+        }  
+        q->next=head;  
+        r=q;  
+    }  

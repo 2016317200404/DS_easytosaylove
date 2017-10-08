@@ -1,0 +1,8 @@
+void dlinklist(linklist l)
+{
+    while(l->next->back==NULL)
+    {
+        l->next->back=l;
+        l=l->next;
+    }
+}

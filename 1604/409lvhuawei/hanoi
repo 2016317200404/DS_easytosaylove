@@ -1,0 +1,27 @@
+#include<stdio.h>
+void move(char m,int p,char q)
+{
+    printf("将编号为%d的圆盘从%c移到%c\n",p,m,q);
+}
+
+void hanoi(int n,char x,char y,char z)
+{
+    if(n==1)
+        move(x,1,z);
+    else{
+        hanoi(n-1,x,z,y);
+        move(x,n,z);
+        hanoi(n-1,y,x,z);
+    }
+}
+int main()
+{
+    int n;
+    char x,y,z;
+    x='x';
+    y='y';
+    z='z';
+    scanf("%d",&n);
+    hanoi(n,x,y,z);
+    return 0;
+}

@@ -1,0 +1,139 @@
+#include<stdio.h>
+#include<malloc.h>
+typedef struct node
+{
+    int index;
+    int key;
+    struct node *next;
+}jnode;
+jnode *cnode(int n)
+{
+    int i,k;
+    jnode *l,*r,*s;
+    l=(jnode *)malloc(sizeof(jnode));
+    l->next=NULL;
+    r=l;
+    printf("请输入每个人的密码：");
+    for(i=1;i<=n;i++)
+    {
+        scanf("%d",&k);
+        s=(jnode *)malloc(sizeof(jnode));
+        s->index=i;
+        s->key=k;
+        r->next=s;
+        r=s;
+    }
+    r->next=l->next;
+    return l;
+}
+j(int m,int n,jnode *l)
+{
+    int i,j;
+    jnode *p,*q;
+    p=l;
+    i=1;
+    while(i<=n)
+    {
+        for(j=1;j<m;j++) p=p->next;
+        q=p->next;
+        p->next=q->next;
+        printf("%d ",q->index);
+        i++;
+        m=q->key;
+        free(q);
+    }
+    return ;
+}
+void main()
+{
+    int n,key;
+    jnode *l;
+    printf("输入约瑟夫环问题的人数和起始密码：");
+    scanf("%d %d",&n,&key);
+    l=cnode(n);
+    j(key,n,l);
+}
+//typedef struct Node
+//{
+//    int n;
+//    int key;
+//    struct Node *next;
+//}JoseNode,*PNode,*HNode;
+//int init(HNode *h)
+//{
+//    if(!h){
+//        printf("Error!\n");
+//        return 0;
+//    }
+//    (*h)->next = (*h);
+//    return 1;
+//}
+//int insert(JoseNode *h,int pos,int x)
+//{
+//    PNode p=h,q;
+//    int key;
+//    int i=1;
+//    if(pos==1)
+//    {
+//        p->n=x;
+//        p->next=p;
+//        return 1;
+//    }
+//    while(i<pos-1)
+//    {
+//        p=p->next;
+//        i++;
+//        scanf("%d",&key);
+//        p->key=key;
+//    }
+//    q=(PNode)malloc(sizeof(JoseNode));
+//    q->n=x;
+//    q->next=p->next;
+//    p->next=q;
+//    return 1;
+//}
+//int de(HNode h,int m,int k)
+//{
+//    int i;
+//    PNode p=h,q;
+//    printf("the column order:");
+//    while(m>0)
+//    {
+//        for(i=1;i<k-1;i++)
+//        {
+//            p=p->next;
+//        }
+//        q=p->next;
+//        k=p->key;
+//        p->next=q->next;
+//        printf("%d\t",p->n);
+//        free(q);
+//
+//        p=p->next;
+//        m--;
+//    }
+//    return 1;
+//}
+//int main()
+//{
+//    int i,num,m;
+//    int a[20];
+//    printf("please scan the number of participants:");
+//    scanf("%d",&num);
+//    printf("please scan the first key:");
+//    scanf("%d",&m);
+//    printf("everyone'key:");
+//    a[0]=m;
+//    for(i=1;i<20;i++)
+//    {
+//        scanf("%d",&a[i]);
+//    }
+//    HNode h =((HNode)malloc(sizeof(JoseNode)));
+//    init(&h);
+//    for(i=1;i<=num;i++)
+//    {
+//        insert(h,i,a[i]);
+//    }
+//    de(h,num,m);
+//    return 0;
+//}

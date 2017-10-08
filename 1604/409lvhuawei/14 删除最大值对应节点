@@ -1,0 +1,52 @@
+#include<stdio.h>
+#include<malloc.h>
+int max=0;
+typedef struct linklist
+{
+    double data;
+    struct linklist *next;
+}*linklist;
+void creatlinklist(linklist l)
+{
+    linklist p;
+    p=(linklist)malloc(sizeof(linklist));
+    if(!p) printf("error");
+    l=p;
+    l->next=NULL;
+}
+void insertlinklist(linklist l)
+{
+    linklist p;
+    int n,i;
+    scanf("%d",&n);
+    getchar();
+    for(i=0;i<n;i++)
+    {
+        p=(linklist )malloc(sizeof(linklist));
+        scanf("%d",&p->data);
+        p->next=l->next;
+        l->next=p;
+    }
+}
+void delnode(linklist l)
+{
+    linklist p,q;
+    p=l;
+    while(p->next!=NULL&&p->data>max)
+    {
+        max=p->data;
+        p=p->next;
+    }
+    while(p->next!=NULL&&p->data==max)
+    {
+        q=p;
+        q->next=p->next;
+        free(p);
+        p=q->next;
+    }
+}
+int main()
+{
+
+
+}

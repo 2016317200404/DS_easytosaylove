@@ -1,0 +1,26 @@
+#include<stdio.h>
+typedef struct NODE
+{
+    int data;
+    struct NODE *next;
+}List;
+Delmax(List *a)
+{
+    int tmp;
+    List *p;
+    List *max;
+    p=a;
+    max=a;
+    tmp=p->data;
+    while(a->next!=NULL)
+    {
+        p=p->next;
+        if(p->data>tmp){
+            max=p;
+            tmp=p->data;
+        }
+    }
+    tmp=max->next->data;
+    max->data=tmp;
+    max->next=max->next->next;
+}

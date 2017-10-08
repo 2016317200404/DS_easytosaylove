@@ -1,0 +1,31 @@
+typedef char datatype;
+typedef struct node 
+{
+    datatype data;
+    struct node *next;
+}linklist;
+void div(linklist* head,linklist* &a,linklist* &b,linklist* &c)
+{
+    linklist* p;
+    a=0,b=0,c=0;
+    for(p=head;p!=0;p=head)
+    {
+        head=p->next;
+        p->next=0;
+        if((p->data>='A'&&p->data<='Z')||(p->data>='a'&&p->data<='z'))
+        {
+            p->next=a;
+            a=p;
+        }
+        else if(p->data>='0'&&p->data<='9')
+        {
+            p->next=b;
+            b=p;
+        }
+        else
+        {
+            p->next=c;
+            c=p;
+        }
+    }
+}

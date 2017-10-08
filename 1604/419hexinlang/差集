@@ -1,0 +1,56 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+typedef struct
+{
+    int date[100];
+    int length;
+}SeqList;
+void PrintList(SeqList *L)
+{
+    int i=0;
+    for(;i<L->length;i++)
+    {
+        printf("%d ",L->date[i]);
+    }
+    printf("\n");
+}
+void delate(SeqList *a,SeqList *b,SeqList *c)
+{
+    int i,j,k=0,flag;
+    for(i=0;i<a->length;i++)
+    {
+        flag=0;
+        for(j=0;j<b->length;j++)
+        {
+            if(b->date[j]==a->date[i])
+            flag=1;
+        }
+        if(flag==0)
+        {
+            c->date[k]=a->date[i];
+            k++;
+        }
+    }
+    c->length=k;
+}
+void copy(int *a,int *b,int c)
+{
+    while(c--){
+        *a++=*b++;
+    }
+}
+int main()
+{
+    SeqList *A=(SeqList *)malloc(sizeof(SeqList));
+    SeqList *B=(SeqList *)malloc(sizeof(SeqList));
+    SeqList *C=(SeqList *)malloc(sizeof(SeqList));
+    int ListA[8]={25,35,57,50,16,48,9,63};
+    int ListB[8]={12,50,23,79,4,34,25,13};
+    copy(A->date,ListA,8);A->length=8;
+    copy(B->date,ListB,8);B->length=8;
+    C->length=0;
+    delate(A,B,C);
+    PrintList(C);
+    return 0;
+}

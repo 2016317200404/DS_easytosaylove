@@ -1,0 +1,40 @@
+#include<stdio.h>
+int main()
+{
+    int la[50],i=0,j,temp,counta;
+    do{
+        scanf("%d",&la[i++]);
+    }while(getchar()!='\n');
+    counta=i;
+    i=0;
+    j=counta-1;
+    while(i<j)
+    {
+        if(la[i]%2==0&&la[j]%2!=0)
+        {
+            temp=la[i];
+            la[i]=la[j];
+            la[j]=temp;
+            i++;j--;
+        }
+        if(la[i]%2==0&&la[j]%2==0)
+        {
+            j--;
+            continue;
+        }
+        if(la[i]%2!=0&&la[j]%2==0)
+        {
+          i++;j--;
+        }
+        if(la[i]%2!=0&&la[j]%2!=0)
+        {
+            i++;
+            continue;
+        }
+    }
+    for(i=0;i<counta;i++)
+    {
+        printf("%d ",la[i]);
+    }
+    return 0;
+}

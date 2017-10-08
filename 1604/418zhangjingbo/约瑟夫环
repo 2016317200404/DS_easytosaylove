@@ -1,0 +1,45 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct Node{
+    int data;
+    int password;
+    struct Node *next;
+}Node,*p,*q,*head;
+int main()
+{
+    Node *p,*q,*head;
+    int i,j,n,m;
+    printf("请输入人数：");
+    scanf("%d",&n);
+    for(i=1;i<=n;i++)
+    {
+        if(i==1){
+            head=(struct Node*)malloc(sizeof(Node));
+            p=head;
+        }
+        else{
+            q=(struct Node*)malloc(sizeof(Node));
+            p->next=q;
+            p=q;
+        }
+        scanf("%d",&(p->password));
+        p->data=i;
+    }
+    p->next=head;
+    p=head;
+    printf("请输入初始密码：");
+    scanf("%d",&m);
+    for(j=1;j<=n;j++){
+        for(i=1;i<m;i++,p=p->next)
+        {
+            m=p->password;
+            printf("%d ",p->data);
+            p->data=p->next->data;
+            p->password=p->next->password;
+            q=p->next;
+            p->next=p->next->next;
+            free(q);
+        }
+        n--;
+    }
+}

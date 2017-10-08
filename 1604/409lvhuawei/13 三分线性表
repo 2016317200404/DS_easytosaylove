@@ -1,0 +1,31 @@
+void divlist(linklist L,linklist A,linklist B,linklist C)
+{
+    listnode *P=L->next,*q;
+    listnode *a=A;
+    listnode *b=B;
+    listnode *c=C;
+    while(p)
+    {
+        if(p->data>='a'&&p->data<='z'||p->data>='A'&&p->data<='Z')
+        {
+            q=p;
+            p=p->next;
+            a->next=A;
+            a=a->next;
+        }
+        else if(p->data>='0'&&p->data<='9')
+        {
+            q=p;
+            p=p->next;
+            b->next=B;
+            b=b->next;
+        }
+        else
+        {
+            q=p;
+            p=p->next;
+            c->next=C;
+            c=c->next;
+        }
+    }
+}

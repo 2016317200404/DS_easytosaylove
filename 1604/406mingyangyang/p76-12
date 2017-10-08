@@ -1,0 +1,39 @@
+#include<stdio.h>
+typedef struct node
+{
+    int e;
+    struct node *next;
+}node;
+node* creatlist(node*head,int n)
+{
+    int i;
+    node*p,*rear;
+    p=malloc(sizeof(node));
+    p->e=1;
+    p->next=NULL;
+    head=rear=p;
+    for(i=2;i<=n;i++)
+    {
+        p=malloc(sizeof(node));
+        p->e=i;
+        p->next=NULL;
+        rear->next=p;
+        rear=p;
+    }
+    rear->next=head;
+    return rear;
+}
+void del(node*s)
+{
+    node*p;
+    p=s;
+    while(p->next!=s)
+    {
+        p=p->next;
+    }
+    free(p);
+}
+int main()
+{
+    return 0;
+}

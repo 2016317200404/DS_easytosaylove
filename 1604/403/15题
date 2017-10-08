@@ -1,0 +1,38 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+	int coef;
+	int exp;
+	struct node *next;
+}node,*list;
+int odd(int x)
+{
+	if (x%2==0)
+		return 0;
+	else
+		return 1;
+}
+void Separate(list a,list b)
+{
+	node *p,*q,*rear;
+	rear=a;
+	p=a->next;
+	q=b;
+	while (p!=NULL)
+    {
+		if (odd(p->exp))
+        {
+			rear=rear->next;
+			p=p->next;
+		}
+		else
+        {
+			q->next=p;
+			q=q->next;
+			rear->next=p->next;
+			p=p->next;
+			q->next=NULL;
+		}
+	}
+}

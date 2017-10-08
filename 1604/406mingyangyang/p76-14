@@ -1,0 +1,62 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+    int e;
+    struct node *next;
+}node;
+node* createlist(node *l)
+{
+    int c;
+    node*p,*rear;
+    p=malloc(sizeof(node));
+    scanf("%d",&p->e);
+    p->next=NULL;
+    l=rear=p;
+    while(c!=0)
+    {
+        p=malloc(sizeof(node));
+        scanf("%d",&p->e);
+        c=p->e;
+        p->next=NULL;
+        rear->next=p;
+        rear=p;
+    }
+    return l;
+}
+void del(node*l)
+{
+    node*pmax,*p;
+    pmax=l;
+    p=l->next;
+    while(p!=NULL)
+    {
+        if(pmax->e<p->e)
+        {
+            pmax=p;
+            p=p->next;
+        }
+        else
+            p=p->next;
+    }
+    p=l;
+    while(p->next!=pmax)
+    {
+        p=p->next;
+    }
+    p->next=pmax->next;
+    free(pmax);
+}
+int main()
+{
+   node*head,*p;
+   head=createlist(head);
+   del(head);
+   p=head;
+   while(p!=NULL)
+   {
+       printf("%d ",p->e);
+       p=p->next;
+   }
+   return 0;
+}

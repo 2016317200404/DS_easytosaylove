@@ -1,0 +1,20 @@
+int DeleteMax(LinkList L)
+{
+    int max;
+    Node* p;
+    Node* q;
+    p=L;
+    q=L;
+    max=p->next->data;
+    while(q!=NULL)
+    {
+        if(max<q->data)
+        {
+            max=q->data;
+            p->next=q;
+        }
+        q=q->next;
+    }
+    p->next=p->next->next;
+   return max;
+}

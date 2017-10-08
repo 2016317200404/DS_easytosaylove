@@ -1,0 +1,19 @@
+void dellist(Linklist L,Node *s)
+{
+    Node *rear;
+    rear = L;
+    int flag = 1;
+    while(flag){
+        if(rear->next->next == s)
+        {
+            Node *m;
+            m = rear->next;
+            rear->next = s;
+            free(m);
+            flag = 0;
+        }
+        else{
+            rear = rear->next;
+        }
+    }
+}

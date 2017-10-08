@@ -1,0 +1,63 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct Node{
+    int number;
+    int password;
+    struct Node *next;
+}Node,*List;
+
+void InitList(List *L){  //初始化
+    *L = (List)malloc(sizeof(Node));
+    (*L)->next = NULL;
+}
+
+void CreateList(List L){  //创建链表
+    Node *rear,*s;
+    int t,n,i;
+    rear = L;
+    printf("Input numbers");
+    scanf("%d",&t);
+    printf("Input personal numbers");
+    scanf("%d",&n);
+    L->number = 1;
+    L->password = n;
+    for(i=2;i<=t;i++){
+        scanf("%d",&n);
+        s = (Node*)malloc(sizeof(Node));
+        s->number = i;
+        s->password = n;
+        rear->next = s;
+        rear = s;
+    }
+    rear->next = L;
+}
+
+void delete(List L){
+    int i,j,n;
+    Node *rear,*target,*p=L;
+    rear = L;
+    printf("Input the first personal numbers");
+    scanf("%d",&n);
+    while(p->next != p){
+        for(i=1;i<n;i++){
+            rear = p;
+            p = p->next;
+        }
+        printf("%d",p->number);
+        n = p->password;
+        rear->next = p->next; //删除p节点
+        free(p);
+        p = rear->next;  //后移一位
+    }
+    printf("%d",p->number);
+    free(p);
+}
+
+int main(){
+    Node *head;
+    InitList(&head);
+    CreateList(head);
+    delete(head);
+    return 0;
+}
