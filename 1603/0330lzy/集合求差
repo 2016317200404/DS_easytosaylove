@@ -1,0 +1,17 @@
+int chslist(SeqList *la,SeqList *lb,SeqList *lc)
+{
+    int i,k,t=1;
+    i=1;
+    for(i=1;i<la->last+2;i++)
+    {
+        k=0;
+        for(k=0;k<lb->last+2;k++)
+        {
+            if(la->elem[i]=lb->[k])
+            {lc->elem[t]=la->elem[i];
+            t++;
+            break;}
+        }
+    }
+    lc->last++;
+}
