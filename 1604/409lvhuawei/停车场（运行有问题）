@@ -1,0 +1,199 @@
+#include<stdio.h>
+#include<malloc.h>
+#include<stdlib.h>
+#define MAX 2//停车场容量
+#define price 1//单价
+#define FALSE 0
+#define TRUE 1
+#define ERROR -1
+#define OVER -2
+#define OK 1
+typedef int Status;
+
+typedef struct CarNode{
+    char event;
+    int num;
+    int time;
+}CarNode;//车辆信息
+
+typedef struct SqStack{
+    CarNode *base;
+    CarNode *top;
+    int Stacksize;
+}SqStack;//停车场栈
+
+typedef struct QNode{
+    CarNode data;
+    struct QNode *next;
+}QueueNode;//便道节点
+
+typedef struct LinkQueue{
+    QueueNode *front;
+    QueueNode *rear;
+    int queuesize;
+}LinkQueue;//便道队列
+
+Status InitStack(SqStack S)//构造一个空栈
+{
+    S.Stacksize=0;
+    S.base=(CarNode *)malloc((MAX)*sizeof(CarNode));//分配储存空间
+    if(!S.base)
+    {
+        exit(OVER);
+        printf("储存空间分配失败");
+    }
+    S.top=S.base;
+    return OK;
+}
+
+Status InitQueue(LinkQueue Q)
+{
+    Q.front=Q.rear=(QueueNode*)malloc(sizeof(QueueNode));
+    if(!Q.front)
+    {
+        exit(OVER);
+        print("储存空间分配失败");
+    }
+    Q.front->next=NULL;
+    Q.queuesize=0;
+    return OK;
+}
+
+Status GetTop(SqStack S,CarNode e)//返回栈顶元素
+{
+    if(S.top==S.base) return ERROR;
+    e=*(S.top-1);
+    return TRUE;
+}
+
+Status Pop(SqStack S,CarNode e)//删除栈顶元素
+{
+    if(S.top=S.base) return ERROR;
+    e=*--S.top;
+    return OK;
+}
+
+Status Push(SqStack S,CarNode e)//在栈不满的情况下插入元素为新的栈顶元素
+{
+    if(S.top-S.base>=MAX)
+        return FALSE;
+    *S.top++=e;
+    return OK;
+}
+
+Status DeQueue(LinkQueue Q,CarNode e)//删除头元素
+{
+    if(Q.rear==Q.front) return ERROR;
+    QueueNode *p=Q.front->next;
+    e=p->data;
+    Q.front->next=p->next;
+    if(p==Q.rear) Q.rear=Q.front;
+    free(p);
+    Q.queuesize--;
+    return OK;
+}
+
+Status EnQueue(LinkQueue Q,CarNode e)//插入新的队尾元素
+{
+    QueueNode *p=(QueueNode*)malloc(sizeof(QueueNode));
+    if(!p) exit(OVER);
+    p->data=e;
+    p->next=NULL;
+    Q.rear->next=p;
+    Q.rear=p;
+    Q.queuesize++;
+    return OK;
+}
+
+Status Arrive(SqStack S,LinkQueue Q,CarNode e)//车辆到达
+{
+    if((S.top-1)->time<=e.time){
+        if(S.top-S.base<MAX)
+        {
+            Push(S,e);
+            printf("成功进入停车场，在%d号车库！\n",S.top-S.base);
+            return OK;
+        }
+        else{
+            EnQueue(Q,e);
+            printf("停车场已满，车辆进入便道，在%d号车位！\n",Q.queuesize);
+        }
+    }
+}
+
+Status Leave(SqStack S,SqStack T,LinkQueue Q,CarNode e)
+{
+    CarNode a;
+    int leatime,leanum;
+    int entertime;
+    int cost;
+    if(e.num==(S.top-1)->num)
+    {
+        Pop(S,a);
+        leatime=e.time;
+        leanum=e.num;
+        entertime=a.time;
+        printf("车辆入库时间%d\t离开时间%d\t停留时间%d\t\n",entertime,leatime,leatime-entertime);
+    }
+    else
+    {
+        do{
+            Pop(S,a);
+            Push(T,a);
+        }while((S.top-1)->num=e.num);//直到top指针下一个位置的车牌号num=车牌号
+        Pop(S,a);
+        leatime=e.time;
+        leanum=e.num;
+        entertime=a.time;
+        printf("车辆入库时间%d\t离开时间%d\t停留时间%d\t\n",entertime,leatime,leatime-entertime);
+        do{
+            Pop(T,a);
+            Push(S,a);
+        }while(T.top!=T.base);
+    }
+    cost=(leatime-entertime)*price;
+    if(cost>=0) printf("您的车牌号%d的车应缴纳的费用是%d\n",leanum,cost);
+    if(Q.front!=Q.rear)
+    {
+        DeQueue(Q,a);
+        if(a.time<leatime) entertime=leatime;
+        a.time=leatime;
+        Push(S,a);
+        printf("车牌号为%d的车辆从便道上进入%d号车库 从现在开始计时，现在时间为：%d\n",a.num,S.top-S.base,a.time);
+    }
+    else
+    {
+        do{
+            DeQueue(Q,a);
+            EnQueue(Q,a);
+        }while(Q.front->next->data.num!=e.num);
+        DeQueue(Q,e);
+        printf("您的车牌号为%d的车辆未进入车库便直接从便道离开，费用为0！\n",e.num);
+    }
+    return TRUE;
+}
+
+int main()
+{
+    CarNode car;
+    SqStack Park,TPark;
+    LinkQueue Q;
+    InitStack(Park);
+    InitStack(TPark);
+    InitQueue(Q);
+    while((scanf("%c%d%d",&car.event,&car.num,&car.time))&&(car.event!='e'&&car.event!='E'))
+    {
+        getchar();
+        switch(car.event)
+        {
+        case 'A':
+        case 'a':Arrive(Park,Q,car);break;
+        case 'D':
+        case 'd':Leave(Park,TPark,Q,car);break;
+        default:
+            printf("您的第一个数据输入有误，进入为a/A,离开为d/D！\n");break;
+
+        }
+    }
+    return 0;
+}
