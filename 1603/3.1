@@ -1,0 +1,17 @@
+int i=0;
+    while (S[i]!='\0'&&S[i]!='&')
+    {
+        push_stack(S[i]);
+        i++;
+    }
+    if(S[i]=='0') return false;
+    i++;
+    while(S[i]!='0'&&! is_stack_empty())
+    {
+        char c=pop_stack();
+        if(c==S[i]) i++;
+        else return false;
+        
+    }
+    if(S[i]=='\0'&&is_stack_empty()) return true;
+    else return false;
