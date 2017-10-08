@@ -1,0 +1,87 @@
+#include<stdio.h>
+#include<malloc.h>
+
+typedef struct node{
+    int num;
+    struct node  *next;
+}jnode,*pnode,*hnode;
+
+int josein(hnode *h)
+{
+    if(!h)
+    {
+        printf("链表初始化错误！");
+        return 0;
+    }
+    (*h)->next = (*h);
+    return 1;
+}
+
+
+int jnodein(int n,int i,jnode *h)//插入
+{
+    pnode p = h,q;
+    int r=1;
+    if(i==1)
+    {
+        p->num = n;
+        p->next = p;
+        return 1;
+    }
+    while(r<i-1)
+    {
+        p = p->next;
+        r++;
+    }
+    q = ((pnode)malloc(sizeof(jnode)));
+    q->num = n;
+    q->next = p->next;
+    p->next = q;
+    return 1;
+}
+
+
+int jnodedelete(hnode *h,int i,int j)
+{
+    int r;
+    pnode p = h,q;
+    while(i>1)
+    {
+        for(r=1;r<j-1;r++)
+        {
+            p = p->next;
+        }
+        q = p->next;
+        p->next = q->next;
+        printf("%d  ",q->num);
+        free(q);
+        p = p->next;
+        i--;
+    }
+    printf("%d\n",p->num);
+    return 1;
+}
+
+
+main()
+{
+    int i,j,m,n;
+    printf("请输入总人数：");
+    scanf("%d",&i);
+    printf("请输入报数上限：");
+    scanf("%d",&j);
+
+    hnode h = ((hnode)malloc(sizeof(jnode)));
+    josein(&h);
+
+
+    printf("请输入每个人的数字：\n");
+    for(m=1;m<=i;m++)
+    {
+        scanf("%d",&n);
+        jnodein(n,m,h);
+    }
+
+    jnodedelete(h,i,j);
+
+}
