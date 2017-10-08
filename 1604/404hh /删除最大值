@@ -1,0 +1,33 @@
+#include<stdio.h>
+#include<stdlib.h>
+int seek(LinkList CL)
+{
+    int max;
+    max=-999;
+    while(1)
+    {
+        if(CL->data>max)
+            max=CL->data;
+        if(CL->next==NULL)
+            break;
+        CL=CL->next;
+    }
+    return max;
+}
+void shanchu(LinkList L,int max)
+{
+    link *rear;
+    while(1)
+    {
+        if(L->next->data==max)
+        {
+            rear=L->next;
+            L->next=rear->next;
+        }
+        L=L->next;
+    }
+}
+main()
+{
+    return 0;
+}
