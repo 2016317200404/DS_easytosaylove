@@ -1,0 +1,26 @@
+void chailist(LinkList *la,LinkList *lb)
+{
+    *lb=(LinkList)malloc(sizeof(Node));
+    (*lb)->next=*lb;
+    Node *p,*q;
+    int e;
+    p=la;
+    q=lb;
+    while(p->next!=la)
+    {
+        p=p->next;
+        if(p->data/2!=0)
+        {
+            e=p->data;
+            p->prior->next=p->next;
+            p->next->prior=p->prior;
+            p=p->next;
+            s=(Node*)malloc(sizeof(Node));
+            s->data=e;
+            q->next=s;
+            s->prior=q;
+            q=s;
+        }
+    }
+
+}
