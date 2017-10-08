@@ -1,0 +1,65 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct DNode{
+    int data,freq;
+    struct DNode *back,*next;
+}DNode,*DoubleList;
+
+InitDoubleList(DoubleList *D){
+    *D=(DoubleList)malloc(sizeof(DNode));
+    (*D)->back=*D;
+    (*D)->next=*D;
+}
+
+void CreateDoubleList(DoubleList DL){
+    DNode *rear,*s;
+    int e;
+    rear=DL;
+    do{
+        s=(DoubleList)malloc(sizeof(DNode));
+        scanf("%d",&e);
+        s->data=e;
+        s->freq=0;
+        s->back=rear;
+        s->next=NULL;
+        rear->next=s;
+        rear=s;
+    }while(getchar()!='\n');
+}
+void print(DoubleList L){
+    DoubleList p=L->next;
+    while(p->next){
+        printf("%d(%d)\n",p->data,p->freq);
+        p=p->next;
+    }
+    printf("%d(%d)\n",p->data,p->freq);
+}
+DoubleList Locate(DoubleList L,int x){
+    DoubleList p=L->next,q;
+    while(p->next){
+        if(p->data==x){
+            (p->freq)++;
+            q=p->back;
+            q->next=p->next;p->next->back=p->back;
+            while(q!=L&&p->freq>=q->freq){
+                q=q->back;
+            }
+            p->back=q;p->next=q->next;
+            q->next=p;p->next->back=p;
+            return p;
+        }
+        p=p->next;
+    }
+    return NULL;
+}
+int main(){
+    int i,n,m;
+    DoubleList L,p;
+    InitDoubleList(&L);
+    CreateDoubleList(L);
+    scanf("%d%d",&n,&m);
+    for(i=0;i<n;i++)Locate(L,m);
+    print(L);
+    return 0;
+}
