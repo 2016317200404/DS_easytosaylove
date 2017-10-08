@@ -1,0 +1,126 @@
+#include<stdio.h>
+#include<malloc.h>
+typedef struct List
+{
+    int num;
+    int x;
+    struct List *next;
+}List,*L;
+void init(L *l)
+{
+    (*l)=(L)malloc(sizeof(List));
+    (*l)->next=(*l);
+}
+int CreateFromTail(L l)
+{
+    L p=l;
+    L s;
+    int flag=1;
+    int c;
+    int length=0;
+    scanf("%d",&c);
+    while(flag)
+    {
+        if(c!=-1)
+        {
+            s=(L)malloc(sizeof(List));
+            s->x=c;
+            scanf("%d",&s->num);
+            p->next=s;
+            p=s;
+            scanf("%d",&c);
+            length++;
+        }
+        else{
+            flag=0;
+            p->next=l;
+        }
+    }
+    return length;
+}
+int func(L l1,L l2,int l)
+{
+    int lengthl2=0,i;
+    L p=l1;
+    L pr=l1->next;
+    L q=l2;
+    for(i=0;i<l;i++)
+    {
+        printf("%d\n",pr->x);
+        if((pr->x)%2==0)
+        {
+            p->next=pr->next;
+            q->next=pr;
+            pr->next=q;
+            lengthl2++;
+            pr=p->next;
+            q=q->next;
+        }
+        else
+        {
+            p=p->next;
+            pr=pr->next;
+        }
+    }
+    return lengthl2;
+}
+int main()
+{
+    List *l1;
+    List *l2;
+    L p;
+    L q;
+    int lengthl1;
+    int lengthl2;
+    int i;
+    init(&l1);
+    init(&l2);
+    lengthl1=CreateFromTail(l1);
+    printf("%d\n",lengthl1);
+    p=l1->next;
+    for(i=0;i<lengthl1;i++)
+    {
+        if(i<lengthl1-1){
+        printf("%d",p->num);
+        printf("X");
+        printf("^%d+",p->x);}
+        else{
+            printf("%d",p->num);
+        printf("X");
+        printf("^%d\n",p->x);
+        }
+        p=p->next;
+    }
+    lengthl2=func(l1,l2,lengthl1);
+    lengthl1=lengthl1-lengthl2;
+    p=l1->next;
+    q=l2->next;
+    printf("%d\n",lengthl1);
+    printf("%d\n",lengthl2);
+    for(i=0;i<lengthl1;i++)
+    {
+        if(i<lengthl1-1){
+        printf("%d",p->num);
+        printf("X");
+        printf("^%d+",p->x);}
+        else{
+            printf("%d",p->num);
+        printf("X");
+        printf("^%d\n",p->x);
+        }
+        p=p->next;
+    }
+    for(i=0;i<lengthl2;i++)
+    {
+        if(i<lengthl2-1){
+        printf("%d",q->num);
+        printf("X");
+        printf("^%d+",q->x);}
+        else{
+            printf("%d",q->num);
+        printf("X");
+        printf("^%d\n",q->x);
+        }
+        q=q->next;
+    }
+}
