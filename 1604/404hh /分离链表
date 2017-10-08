@@ -1,0 +1,51 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct link
+{
+    char data;
+    struct link *next,*back;
+}link,*LinkList;
+InitCLinkList(LinkList *CL)
+{
+    *CL=(LinkList)malloc(sizeof(link));
+    (*CL)->next=*CL;
+}
+void sorting(LinkList L,LinkList M,LinkList N,LinkList H)//H main
+{
+    link *a,*b,*c;
+    a=L;
+    b=M;
+    b=N;
+    while(1)
+    {
+        if(H->data>47&&H->data<58)
+        {
+            M->next=H;
+            M=M->next;
+        }
+        else if(H->data>64&&H->data<91||H->data>96&&H->data<123)
+        {
+            L->next=H;
+            L=L->next;
+        }
+        else
+        {
+            N->next=H;
+            N=N->next;
+        }
+        if(H->next==NULL)
+            break;
+        H=H->next;
+    }
+    L->next=a;
+    M->next=b;
+    N->next=c;
+}
+main()
+{
+    LinkList L,M,N;
+    InitCLinkList(&L);
+    InitCLinkList(&M);
+    InitCLinkList(&N);
+    return 0;
+}
