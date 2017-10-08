@@ -1,0 +1,184 @@
+#define OVERFLOW -2
+#define OK 1
+#define ERROR 0
+#define STACK_INIT_SIZE 1
+typedef int status ;
+#include<stdio.h>
+#include<malloc.h>
+#include<stdlib.h>
+#include<conio.h>
+typedef struct
+{
+    int car_num;
+    int time;
+}car_info;
+typedef struct
+{
+    car_info *base;
+    car_info *top;
+    status stacksize;
+}sqstack;
+void Initstack(sqstack *s)
+{
+    s->base=(car_info *)malloc(STACK_INIT_SIZE*sizeof(car_info));
+    if(!s->base) exit(OVERFLOW);
+    s->top=s->base;
+    s->stacksize=0;
+}
+void push(sqstack *s,car_info e)
+{
+    *s->top++=e;
+    s->stacksize++;
+}
+car_info pop(sqstack *s)
+{
+    car_info e;
+if(s->top==s->base)
+{
+    printf("停车场内没有该车辆!\n");
+    exit(0) ;
+}
+    e=*--s->top;
+    s->stacksize--;
+    return e;
+}
+typedef struct Qnode
+{
+    int car_num;
+    int time;
+    struct Qnode *next;
+}QNode,*QueuePtr;
+typedef struct
+{
+    QueuePtr front;
+    QueuePtr rear;
+    int lenth;
+}LinkQueue;
+status InitQueue(LinkQueue *Q)
+{
+    Q->front=Q->rear=(QueuePtr)malloc(sizeof(QNode));
+    if(!Q->front)exit(OVERFLOW);
+    Q->front->next=NULL;
+    Q->lenth=0;
+    return OK;
+}
+
+void EnQueue(LinkQueue *Q,car_info *a )
+{
+    QueuePtr p;
+    p=(QueuePtr)malloc(sizeof(QNode));
+    if(!p)exit(OVERFLOW);
+    p->car_num=a->car_num;
+          p->time=a->time;
+    p->next=NULL;
+    Q->rear->next=p;
+    Q->rear=p;
+    Q->lenth++;
+
+}
+QueuePtr DeQueue(LinkQueue *Q)
+{
+    QueuePtr p,e,s={0};
+    if(Q->front==Q->rear)
+    {printf("便道上没有车辆!\n"); return s;}
+p=Q->front->next;
+e=p;
+Q->front->next=p->next;
+Q->lenth--;
+if(Q->rear==p)Q->front=Q->rear;
+
+       return e;
+
+}
+void arrive(sqstack *s,LinkQueue *p,car_info a,int n)
+{
+
+
+if(s->stacksize<n)
+{
+
+push(s,a);
+printf("\n车牌号为%d的车辆进入停车场%d号车道\n",a.car_num,s->stacksize);
+}
+else
+{
+    EnQueue(p,&a);
+    printf("\n停车场已满,车牌号为%d的车辆停在便道的%d号位置\n",a.car_num,p->lenth);
+}
+}
+void leave(sqstack *tcc,sqstack *dcc,LinkQueue *p,car_info a,float pay,int n)
+{
+car_info x,ss;
+QueuePtr b;
+int find=1,arrivetime=0;
+float cost=0.0;
+while(find)
+{
+
+ss=pop(tcc);
+push(dcc,ss);
+if(ss.car_num==a.car_num)
+{
+find=0;
+cost=(a.time-ss.time)*pay;
+arrivetime=ss.time;
+}
+}
+pop(dcc); //把临时堆栈的第一辆车（要离开的）去掉；
+while(dcc->stacksize)
+{
+x=pop(dcc);
+push(tcc,x);
+}
+if(tcc->stacksize<n&&p->lenth!=0)
+{
+b=DeQueue(p);
+x.car_num=b->car_num;
+x.time=a.time;
+push(tcc,x);
+printf("车牌号为%d的车辆由便道进入停车场%d号车道\n",x.car_num,tcc->stacksize);
+}
+printf("\n**********************************************\n");
+printf("|车牌号码|进站时刻|出站时刻|停留时间|停车费用|\n");
+printf("|%-6d    |%-6d    |%-6d    |%-6d    |%-6.2f    |\n",a.car_num,arrivetime,a.time,a.time-arrivetime,cost);
+printf("**********************************************\n");
+}
+
+void main()
+{sqstack tcc,dcc;
+LinkQueue p;
+car_info a;
+int sum=1000,n;
+float pay;
+char sign;
+printf("\n|************************停车场管理**************************|\n");
+printf("|******A/a:车辆到达*******D/d:车辆离开******E/e:推出系统*****|\n\n");
+
+Initstack(&tcc);
+Initstack(&dcc);
+InitQueue(&p);
+printf("请先输入停车场的车位总数,收费标准(元/小时):");
+scanf("%d%f",&n,&pay);
+getchar();
+printf("\n请输入A/D/E，车牌号，时刻:");
+scanf("%c%d%d",&sign,&a.car_num,&a.time);
+getchar();
+while(sum)
+{
+switch(sign)
+{
+case 'a':
+case 'A':arrive(&tcc,&p,a,n);break;
+case 'D':
+case 'd':leave(&tcc,&dcc,&p,a,pay,n);break;
+case 'e':
+case 'E':exit(OVERFLOW);break;
+}
+printf("\n请输入A/D/E，车牌号，时刻:");
+scanf("%c%d%d",&sign,&a.car_num,&a.time);
+getchar();
+sum--;
+}
+getch();
+}
+//This question should be review
