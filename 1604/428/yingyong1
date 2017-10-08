@@ -1,0 +1,57 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct Node
+{
+    int data;
+    struct Node* next;
+    struct Node* back;
+}Node,*Linklist;
+void Create(Linklist la)
+{
+    Node *s,*rear;
+    int c;
+    rear=la;
+    scanf("%d",&c);
+    while(c)
+    {
+        s=(Node*)malloc(sizeof(Node));
+        s->data=c;
+        rear->next=s;
+        rear=s;
+        scanf("%d",&c);
+    }
+    rear->next=la;
+}
+void Get(Linklist la)
+{
+    Linklist p,q;
+    p=la;
+    q=la->next;
+    while(q->next!=la)
+    {
+        q->back=p;
+        p=q;
+        q=p->next;
+    }
+}
+void Print(Linklist la)
+{
+    Linklist s;
+    s=la->next;
+    while(s->next!=la)
+    {
+        printf("%d",s->data);
+        s=s->next;
+    }
+}
+int main()
+{
+    Linklist la;
+    la=(Node*)malloc(sizeof(Node));
+    la->back=NULL;
+    la->next=NULL;
+    Create(la);
+    Get(la);
+    Print(la);
+    return 0;
+}

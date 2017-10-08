@@ -1,0 +1,71 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct Node
+{
+    int coef;
+    int exp;
+    struct Node* next;
+}Node,*Linklist;
+void create(Linklist la);
+void print(Linklist A);
+int main()
+{
+    Linklist la,lb,lc,p,q,r,s;
+    la=(Node*)malloc(sizeof(Node));
+    lb=(Node*)malloc(sizeof(Node));
+    lc=(Node*)malloc(sizeof(Node));
+    la->next=NULL;
+    lb->next=NULL;
+    lc->next=NULL;
+    p=la;
+    q=la->next;
+    r=lb;
+    s=lc;
+    create(la);
+    while(p->next!=NULL)
+   {
+      if((q->exp)%2==1)
+     {
+        p->next=q->next;
+        q->next=NULL;
+        r->next=q;
+        q=p->next;
+     }
+     else
+     {
+        p->next=q->next;
+        q->next=NULL;
+        s->next=q;
+        q=p->next;
+     }
+   }
+   print(lb);
+   printf("\n");
+   print(lc);
+   printf("\n");
+   return 0;
+}
+void create(Linklist la)
+{
+    int a,b;
+    Node *s;
+    while(a!=0)
+    {
+        s=(Node*)malloc(sizeof(Node));
+        scanf("%d %d",&a,&b);
+        s->coef=a;
+        s->exp=b;
+        s->next=la->next;
+        la->next=s;
+    }
+}
+void print(Linklist A)
+{
+    Linklist s;
+    s=A->next;
+    while(s->next!=NULL)
+    {
+        printf("%d %d",s->coef,s->exp);
+        s=s->next;
+    }
+}
