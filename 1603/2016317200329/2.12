@@ -1,0 +1,28 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct Node
+    {
+        int n;
+        struct Node *next;
+    }Node,*Linklist;
+
+void Delete(Node *p,Node *s,Node *ptr)  //删除p
+{
+    ptr->next=s;
+    free(p);
+}
+
+int main()
+{
+    Node* ptr=s;
+    Node* p=s;
+                //s为已知结点
+    while(p->next!=s)
+    {
+        ptr=p;
+        p=p->next;
+    }
+    Delete(p,s,ptr);
+    return 0;
+}
