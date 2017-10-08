@@ -1,0 +1,60 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<malloc.h>
+typedef struct List
+{
+    int data;
+    struct List *next;
+}List,*L;
+void init(L *l);
+void Delete(List *l,List *s);
+void CreateFromHead(L l);
+int main()
+{
+    L l;int i;
+    init(&l);
+    L p=l;
+    L s=l;
+    CreateFromHead(l);
+    for(i=0;i<5;i++)
+        p=p->next;
+    Delete(l,p);
+    for(i=0;i<10;i++)
+    {
+        printf("%d ",s->next->data);
+        s=s->next;
+    }
+}
+void init(L *l)
+{
+    (*l)=(L)malloc(sizeof(List));
+    (*l)->data=0;
+    (*l)->next=*l;
+}
+void CreateFromHead(L l)
+{
+    L p=l;
+    L n;
+    int c=0;
+    scanf("%d",&c);
+    while(c!=-1)
+    {
+        n=(L)malloc(sizeof(List));
+        n->data=c;
+        p->next=n;
+        p=p->next;
+        scanf("%d",&c);
+    }
+    p->next=l;
+}
+void Delete(List *l,List *s)
+{
+    L p=l;
+    L pr=l->next;
+    while(pr->next->data!=s->data)
+    {
+        pr=pr->next;
+        p=p->next;
+    }
+    p->next=pr->next;
+}

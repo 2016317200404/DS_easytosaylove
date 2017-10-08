@@ -1,0 +1,64 @@
+#include<stdio.h>
+#include<malloc.h>
+typedef struct List
+{
+    int data;
+    struct List *next;
+}List,*L;
+void init(L *l)
+{
+    (*l)=(L)malloc(sizeof(List));
+    (*l)->next=NULL;
+}
+void CreateFromTail(L l)
+{
+    L p=l;
+    L s;
+    int flag=1;
+    int c;
+    scanf("%d",&c);
+    while(flag)
+    {
+        if(c!=-1)
+        {
+            s=(L)malloc(sizeof(List));
+            s->data=c;
+            p->next=s;
+            p=s;
+            scanf("%d",&c);
+
+        }
+        else{
+            flag=0;
+            p->next=NULL;
+        }
+    }
+}
+int Delete(L l)
+{
+    L p=l->next;
+    L pr=l->next;
+    int max=l->next->data;
+    while(p->next!=NULL)
+    {
+        if(p->data>max)
+            max=p->data;
+        p=p->next;
+    }
+    p=l;
+    while(pr->data!=max)
+        pr=pr->next;
+    p->next=pr->next;
+    return max;
+}
+int main()
+{
+    L l;
+    int max;
+    init(&l);
+    CreateFromTail(l);
+    max=Delete(l);
+    printf("%d\n",max);
+    L p;
+
+}
