@@ -1,0 +1,144 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+typedef struct p
+{
+    int sec[5];
+    int top;
+    int chepai[5];
+}seqstack;
+void push(seqstack*l,int a,int b)
+{
+    l->top++;
+    l->chepai[l->top]=a;
+    l->sec[l->top]=b;
+}
+typedef struct node
+{
+    int chepai;
+    int sec;
+    struct node*next;
+}linkqueuenode;
+typedef struct q
+{
+    linkqueuenode*front;
+    linkqueuenode*rear;
+}linkqueue;
+void push2(linkqueue*l,int a,int b)
+{
+    linkqueuenode*s;
+    s=(linkqueuenode*)malloc(sizeof(linkqueuenode));
+    s->chepai=a;
+    s->sec=b;
+    s->next=NULL;
+    l->rear->next=s;
+    l->rear=s;
+}
+void pop2(linkqueue*l,int*a,int*b)
+{
+    linkqueuenode*q;
+        q=l->front->next;
+        *a=q->chepai;
+        *b=q->sec;
+        l->front->next=q->next;
+        if(l->rear==q)
+        {
+            l->rear=l->front;
+        }
+        free(q);
+}
+void init(seqstack*l)
+{
+    l->top=-1;
+}
+void init2(linkqueue*l)
+{
+    l->front=(linkqueuenode*)malloc(sizeof(linkqueuenode));
+    l->rear=l->front;
+    l->front->next=NULL;
+}
+int main()
+{
+    int a,b,c,g,i,z;
+    int x;
+    int y;
+    seqstack d;
+    linkqueue e;
+    init(&d);
+    init2(&e);
+    time_t t;
+    struct tm*lt;
+    time(&t);
+    lt=localtime(&t);
+    c=lt->tm_sec;
+    scanf("%d %d",&a,&b);
+    while(a!=-1)
+    {
+        switch(a)
+        {
+    case 1:
+        if(d.top<4)
+        {
+            push(&d,b,c);
+            printf("%d ",d.top);
+        }
+        else
+        {
+            push2(&e,b,c);
+        }
+        break;
+    case 2:
+        if(e.front->next==NULL)
+        {
+            time_t t;
+            struct tm*lt;
+            time(&t);
+            lt=localtime(&t);
+            z=lt->tm_sec;
+            g=d.top;
+            while(d.chepai[g]!=b&&g>-1)
+            {
+                g--;
+            }
+            printf("%d %d",z-d.sec[g],z-d.sec[g]);
+            printf("\n");
+            for(i=g;i<d.top;i++)
+            {
+                d.chepai[i]=d.chepai[i+1];
+                d.sec[i]=d.sec[i+1];
+            }
+            d.top--;
+        }
+        else
+        {
+            time_t t;
+            struct tm*lt;
+            time(&t);
+            lt=localtime(&t);
+            z=lt->tm_sec;
+            g=d.top;
+            while(d.chepai[g]!=b&&g>-1)
+            {
+                g--;
+            }
+            printf("%d %d",z-d.sec[g],z-d.sec[g]);
+            printf("\n");
+            for(i=g;i<d.top;i++)
+            {
+                d.chepai[i]=d.chepai[i+1];
+                d.chepai[i]=d.chepai[i+1];
+            }
+            pop2(&e,&x,&y);
+            c=lt->tm_sec;
+            push(&d,x,c);
+        }
+        break;
+    }
+        scanf("%d %d",&a,&b);
+        time_t t;
+        struct tm*lt;
+        time(&t);
+        lt=localtime(&t);
+        c=lt->tm_sec;
+    }
+}

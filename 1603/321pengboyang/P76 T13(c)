@@ -1,0 +1,120 @@
+#include<stdio.h>
+typedef struct A
+{
+    struct A* next;
+    char data;
+}A,*Al;
+typedef struct B
+{
+    struct B* next;
+    char data;
+}B,*Bl;
+typedef struct C
+{
+    struct C* next;
+    char data;
+}C,*Cl;
+int main()
+{
+    int i;
+    char d;
+    char s;
+    Al x;
+    Bl y;
+    Cl z;
+    Al headA;
+    Bl headB;
+    Cl headC;
+    Al al;
+    Bl bl;
+    Cl cl;
+
+    scanf("%c",&d);
+    getchar();
+    headA=(Al)malloc(sizeof(A));
+    headA->data=d;
+    headA->next=NULL;
+    al=headA;
+    for(i=0;i<5;i++)
+    {
+        scanf("%c",&d);
+        getchar();
+        x=(Al)malloc(sizeof(A));
+        x->data=d;
+        al->next=x;
+        al=x;
+    }
+    scanf("%c",&d);
+    getchar();
+    x=(Al)malloc(sizeof(A));
+    x->data=d;
+    al->next=x;
+    x->next=headA;
+
+    scanf("%c",&d);
+    getchar();
+    headB=(Bl)malloc(sizeof(B));
+    headB->data=d;
+    headB->next=NULL;
+    bl=headB;
+    for(i=0;i<5;i++)
+    {
+        scanf("%c",&d);
+        getchar();
+        y=(Bl)malloc(sizeof(B));
+        y->data=d;
+        bl->next=y;
+        bl=y;
+    }
+    scanf("%c",&d);
+    getchar();
+    y=(Bl)malloc(sizeof(B));
+    y->data=d;
+    bl->next=y;
+    y->next=headB;
+
+    scanf("%c",&d);
+    getchar();
+    headC=(Cl)malloc(sizeof(C));
+    headC->data=d;
+    headC->next=NULL;
+    cl=headC;
+    for(i=0;i<5;i++)
+    {
+        scanf("%c",&d);
+        getchar();
+        z=(Cl)malloc(sizeof(C));
+        z->data=d;
+        cl->next=z;
+        cl=z;
+    }
+    scanf("%c",&d);
+    getchar();
+    z=(Cl)malloc(sizeof(C));
+    z->data=d;
+    cl->next=z;
+    z->next=headC;
+
+    al=headA;
+    for(i=0;i<8;i++)
+    {
+        printf("%c ",al->data);
+        al=al->next;
+    }
+    printf("\n");
+
+    bl=headB;
+    for(i=0;i<8;i++)
+    {
+        printf("%c ",bl->data);
+        bl=bl->next;
+    }
+    printf("\n");
+
+    cl=headC;
+    for(i=0;i<8;i++)
+    {
+        printf("%c ",cl->data);
+        cl=cl->next;
+    }
+}

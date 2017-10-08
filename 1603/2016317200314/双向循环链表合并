@@ -1,0 +1,121 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef int ElemType;
+typedef struct Node
+{
+    ElemType data;
+    struct Node *next,*prior;
+}Node,*CDoublelist;
+void Initlist(CDoublelist *L)
+{
+    *L=(CDoublelist)malloc(sizeof(Node));
+    (*L)->next=NULL;
+    (*L)->prior=NULL;
+}
+void CreatFromHead(CDoublelist *L)
+{
+    int len,i,c;
+    Node *s,*p;
+    p=(*L);
+    printf("Input the length of numbers:");
+    scanf("%d",&len);
+    printf("Input numbers:");
+    for(i=0;i<len;i++)
+    {
+        scanf("%d",&c);
+        s=(Node*)malloc(sizeof(Node));
+        s->data=c;
+        if(i==0)
+            s->next=*L;
+        else
+            s->next=p->next;
+        s->prior=p;
+        p->next=s;
+    }
+}
+void CreatFromTail(CDoublelist *L)
+{
+    int len,i,c;
+    Node *s,*p;
+    p=(*L);
+    printf("Input the length of numbers:");
+    scanf("%d",&len);
+    printf("Input numbers:");
+    for(i=0;i<len;i++)
+    {
+        scanf("%d",&c);
+        s=(Node*)malloc(sizeof(Node));
+        s->data=c;
+        p->next=s;
+        s->prior=p;
+        p=s;
+    }
+    p->next=*L;
+}
+void Display1(CDoublelist *L)
+{
+    Node *p;
+    p=(*L);
+    while(p->next!=*L)
+    {
+        p=p->next;
+        printf("%d",p->data);
+        if(p->next!=*L)
+            printf(" ");
+    }
+    printf("\n");
+}
+void Merge1(CDoublelist *L1,CDoublelist *L2)
+{
+    Node *p1,*p2;
+    p1=(*L1),p2=(*L2);
+    while(p1->next!=(*L1))
+        p1=p1->next;
+    p1->next=(*L2)->next;
+    while(p2->next!=(*L2))
+        p2=p2->next;
+    p2->next=(*L1);
+    free(*L2);
+}
+void Display2(CDoublelist *L)
+{
+    Node *p;
+    p=(*L)->next;
+    while(p!=*L)
+    {
+        p=p->next;
+        printf("%d",p->data);
+        if(p!=*L)
+            printf(" ");
+    }
+    printf("\n");
+}
+void Merge2(CDoublelist *L1,CDoublelist *L2)
+{
+    Node *p1;
+    p1=(*L1)->next;
+    (*L1)->next=(*L2)->next->next;
+    (*L2)->next->next->prior=(*L1);
+    free((*L2)->next);
+    (*L2)->next=p1;
+}
+int main()
+{
+    ElemType e;
+    Node *p1,*p2;
+    CDoublelist L1,L2,L3,L4;
+    Initlist(&L1),Initlist(&L2),Initlist(&L3),Initlist(&L4);
+    CreatFromHead(&L1),CreatFromTail(&L2),CreatFromTail(&L3),CreatFromTail(&L4);
+    Display1(&L1),Display1(&L2),Display1(&L3),Display1(&L4);
+    Merge1(&L1,&L2);
+    Display1(&L1);
+
+    p1=L3,p2=L4;
+    while(p1->next!=L3)
+        p1=p1->next;
+    while(p2->next!=L4)
+        p2=p2->next;
+    Merge2(&p1,&p2);
+    Display2(&p2);
+    return 0;
+}

@@ -1,0 +1,212 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef char ElemType;
+typedef struct Node
+{
+    ElemType data;
+    struct Node *next;
+}Node,*Linklist;
+void InitLinklist(Linklist *L)
+{
+    *L=(Linklist)malloc(sizeof(Node));
+    (*L)->next=NULL;
+}
+void CreatFromHead(Linklist *L)
+{
+    int flag=1;
+    char c;
+    Node *s;
+    while(flag)
+    {
+        c=getchar();
+        if(c!='h')
+        {
+            s=(Node*)malloc(sizeof(Node));
+            s->data=c;
+            s->next=(*L)->next;
+            (*L)->next=s;
+        }
+        else
+            flag=0;
+    }
+}
+void CreatFromTail(Linklist *L)
+{
+    int flag=1;
+    char c;
+    Node *s,*r;
+    r=*L;
+    while(flag)
+    {
+        c=getchar();
+        if(c!='h')
+        {
+            s=(Node*)malloc(sizeof(Node));
+            s->data=c;
+            r->next=s;
+            r=s;
+        }
+        else
+        {
+            flag=0;
+            r->next=NULL;
+        }
+    }
+}
+void Display(Linklist *L)
+{
+    Node *p;
+    p=(*L);
+    while(p->next!=NULL)
+    {
+        p=p->next;
+        printf("%c ",p->data);
+    }
+}
+void Clear(Linklist *L)
+{
+    (*L)->next=NULL;
+}
+void GetData(Linklist L,int i,ElemType *e)
+{
+    Node *p;
+    p=L;
+    int j=0;
+    if(p->next==NULL)
+        printf("单链表为空!\n");
+    else if(i<1)
+        printf("查找错误!\n");
+    else
+    {
+        while(p->next!=NULL&&j<i)
+        {
+            p=p->next;
+            j++;
+        }
+        if(p->next==NULL)
+            printf("查找错误!\n");
+        else
+            *e=p->data;
+    }
+}
+
+int Locate(Linklist L,ElemType e)
+{
+    Node *p;
+    p=L;
+    int j=0;
+    if(p->next==NULL)
+        printf("单链表为空!\n");
+    else
+    {
+        while(p->next!=NULL)
+        {
+            p=p->next;
+            j++;
+            if(p->data==e)
+            {
+                return j;
+                break;
+            }
+        }
+    }
+}
+int Length(Linklist L)
+{
+    Node *p;
+    p=L;
+    int j=0;
+    while(p->next!=NULL)
+    {
+        p=p->next;
+        j++;
+    }
+    return j;
+}
+void Insert(Linklist L,int i,ElemType e)
+{
+    Node *p;
+    p=L;
+    int j=0;
+    Node *s;
+    if(p->next==NULL)
+        printf("单链表为空!\n");
+    else if(i<1)
+        printf("插入位置错误!\n");
+    else
+    {
+        while(p->next!=NULL&&j<i-1)
+        {
+            p=p->next;
+            j++;
+        }
+        if(p->next==NULL)
+            printf("插入位置错误!\n");
+        else
+        {
+            s=(Node*)malloc(sizeof(Node));
+            s->data=e;
+            s->next=p->next;
+            p->next=s;
+        }
+    }
+}
+void Delete(Linklist L,int i,ElemType *e)
+{
+    int j=0;
+    Node *s,*p;
+    p=L;
+    if(p->next==NULL)
+        printf("单链表为空!\n");
+    else if(i<1)
+        printf("删除位置错误!\n");
+    else
+    {
+        while(p->next!=NULL&&j<i-1)
+        {
+            p=p->next;
+            j++;
+        }
+        if(p->next==NULL)
+            printf("删除位置错误!\n");
+        else
+        {
+            s=p;
+            p=p->next;
+            *e=p->data;
+            s->next=p->next;
+        }
+    }
+}
+int main()
+{
+    int location,len;
+    ElemType e='0',word='1';
+    Linklist L;
+    InitLinklist(&L);
+    CreatFromHead(&L);
+    GetData(L,8,&e);
+    printf("%c\n",e);
+    location=Locate(L,'b');
+    printf("%d\n",location);
+    len=Length(L);
+    printf("%d\n",len);
+    Display(&L);
+    printf("\n");
+
+    Insert(L,3,'m');
+    Display(&L);
+    printf("\n");
+
+    Delete(L,3,&word);
+    printf("%c\n",word);
+    Display(&L);
+    printf("\n");
+
+    getchar();
+    Clear(&L);
+    CreatFromTail(&L);
+    GetData(L,5,&e);
+    printf("%c\n",e);
+    return 0;
+}

@@ -1,0 +1,115 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef int ElemType;
+typedef struct Node
+{
+    ElemType data;
+    struct Node* next;
+}Node,*Linklist;
+void Initlist(Linklist *L)
+{
+    *L=(Linklist)malloc(sizeof(Node));
+    (*L)->next=NULL;
+}
+void CreatFromHead(Linklist L,int len,ElemType Array[])
+{
+    int i;
+    Node *s,*p;
+    for(i=0;i<len;i++)
+    {
+        s=(Node*)malloc(sizeof(Node));
+        s->data=Array[i];
+        s->next=L->next;
+        if(i==0) p=s;
+        L->next=s;
+    }
+    p->next=L;
+}
+void CreatFromTail(Linklist *L,int len,ElemType Array[])
+{
+    int i;
+    Node *s,*p;
+    p=*L;
+    for(i=0;i<len;i++)
+    {
+        s=(Node*)malloc(sizeof(Node));
+        s->data=Array[i];
+        p->next=s;
+        p=s;
+    }
+    p->next=*L;
+}
+void Display1(Linklist *L)
+{
+    Node *p;
+    p=*L;
+    while(p->next!=(*L))
+    {
+        p=p->next;
+        printf("%d",p->data);
+        if(p->next!=(*L))
+            printf(" ");
+    }
+    /*getchar();*/
+    printf("\n");
+}
+void Display2(Linklist *L)
+{
+    Node *p;
+    p=(*L)->next;
+    while(p->next!=(*L)->next)
+    {
+        p=p->next;
+        printf("%d",p->data);
+        if(p->next!=(*L)->next)
+            printf(" ");
+    }
+    printf("\n");
+}
+void Merge1(Linklist *L1,Linklist *L2)
+{
+    Node *p,*s;
+    p=(*L1),s=(*L2);
+    while(p->next!=*L1)
+        p=p->next;
+    p->next=(*L2)->next;
+    while(s->next!=*L2)
+        s=s->next;
+    s->next=(*L1);
+    free(*L2);
+}
+void Merge2(Linklist *L1,Linklist *L2)
+{
+    Node *p;
+    p=(*L1)->next;
+    (*L1)->next=(*L2)->next->next;
+    free((*L2)->next);
+    (*L2)->next=p;
+}
+
+int main()
+{
+    int a[10]={1,2,3,4,5,6,7,8,9,10},b[10]={11,12,13,14,15,16,17,18,19,20};
+    Linklist L1,L2,L3,L4;
+    Node *p1,*p2;
+    Initlist(&L1),Initlist(&L2),Initlist(&L3),Initlist(&L4);
+
+    CreatFromHead(L1,10,a);
+    Display1(&L1);
+    CreatFromTail(&L2,10,a);
+    Display1(&L2);
+
+    Merge1(&L1,&L2);
+    Display1(&L1);
+
+    CreatFromHead(L3,10,b),CreatFromTail(&L4,10,b);
+    Display1(&L3),Display1(&L4);
+    p1=L3,p2=L4;
+    while(p1->next!=L3)
+        p1=p1->next;
+    while(p2->next!=L4)
+        p2=p2->next;
+    Merge2(&p1,&p2);
+    Display2(&p2);
+    return 0;
+}

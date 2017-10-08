@@ -1,0 +1,32 @@
+#include<stdio.h>
+
+int static count=0;
+
+void move(char x,int num,char c)        //编号为num的圆盘移动
+{
+    ++count;
+}
+
+void Hanoi(int n,char a,char b,char c)
+{
+    if(n==1)
+    {
+        move(a,1,c);
+    }
+    else
+    {
+        Hanoi(n-1,a,c,b);   //先将初始塔的前n-1个盘子借助目的塔c移动到借用塔b上
+        move(a,n,c);        //将剩下的一个盘子移动到目的塔上
+        Hanoi(n-1,b,a,c);   //最后将借用塔b上的n-1个盘子移动到目的塔c上
+    }
+}
+int main()
+{
+    char a='x',b='y',c='z';
+    int n;
+    printf("输入n：");
+    scanf("%d",&n);
+    Hanoi(n,a,b,c);
+    printf("共移动%d次",count);
+    return 0;
+}

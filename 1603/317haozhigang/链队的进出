@@ -1,0 +1,77 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct
+{
+    int a;
+    struct link* next;
+}link;
+typedef struct
+{
+    link *front;
+    link *rear;
+}queue;
+void enter(queue *q,int n);
+int deletequeue(queue *q);
+void Init(queue *q);
+int isempty(queue *q);
+int main()
+{
+    link l;
+    queue q;
+    Init(&q);
+    int n;
+    printf("请输入入队元素个数：\n");
+    scanf("%d",&n);
+    enter(&q,n);
+    while(!isempty(&q))
+   {
+       printf("%d ",deletequeue(&q));
+    }
+
+}
+void Init(queue *q)
+{
+    q->front=NULL;
+    q->rear=NULL;
+}
+int isempty(queue *q)
+{
+    if(q->front==NULL)
+    {
+        return 1;
+    }
+    else return 0;
+}
+void enter(queue *q,int n)
+{
+    printf("请输入元素：\n");
+    int i,j;
+    for(i=1;i<=n;i++)
+    {
+        link *l=(link*)malloc(sizeof(link));
+        if(l==NULL)
+        exit(0);
+        scanf("%d",&j);
+        if(i==1)
+        {
+           q->front=l;
+            q->rear=l;
+        }
+
+        l->a=j;
+        l->next=NULL;
+        (q->rear)->next=l;
+        q->rear=l;
+
+
+    }
+}
+int deletequeue(queue *q)
+{
+    int n;
+    link *l=q->front;
+    q->front=l->next;
+    n=l->a;
+    free(l);
+    return n;
+}

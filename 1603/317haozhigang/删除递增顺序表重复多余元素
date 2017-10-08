@@ -1,0 +1,60 @@
+
+//时间O(n),空间O(1)
+
+#include<stdio.h>
+void Delete(int a[]);
+void read(int a[])
+{
+    int i;
+    for(i=0;i<10;i++)
+    {
+        scanf("%d",&a[i]);//由于删除数组元素实际为覆盖前面元素，所以只能到‘最后重复元素为最大元素’这一步.......
+    }
+}
+void Print(int a[])
+{
+    int i;
+    for(i=0;i<10;i++)
+    {
+
+        printf("%d ",a[i]);
+    }
+}
+main()
+{
+    int a[10];
+    read(a);
+    Delete(a);
+    Print(a);
+}
+void Delete(int a[])
+{
+    int i,j,m=-1;
+    for(i=0;i<10-1;i++)
+    {
+        j=i+1;
+        if(j+1==10)
+        break;
+        if(a[i]>a[j])
+        {
+            a[j]=a[i];
+            i--;
+        }
+        else if(a[j]==a[i])
+        {
+            if(a[j]<a[j+1])
+            {
+                if(m!=-1)
+                {
+                    a[m]=a[j+1];
+                    i=m-1;
+                    m=-1;
+                }
+                else
+                 a[j]=a[j+1];
+            }
+            else if(m==-1)
+                 m=j;
+        }
+    }
+}

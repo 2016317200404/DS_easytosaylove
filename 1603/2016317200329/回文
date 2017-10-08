@@ -1,0 +1,43 @@
+#include<stdio.h>
+#include<string.h>
+
+typedef struct Queue
+{
+    char h[100];
+    int rear;
+    int top;
+}Queue;
+
+void InitQueue(Queue *q)
+{
+    q->rear=0;
+    q->top=0;
+}
+
+int HuiWen(Queue q)
+{
+    q.rear=strlen(q.h)-1;a
+    while((q.h[q.top]!='&')&&(q.h[q.rear]!='&'))
+    {
+
+        if(q.h[q.top]!=q.h[q.rear])
+            return 0;
+        q.top++;
+        q.rear--;
+    }
+    return 1;
+}
+
+int main()
+{
+    int i;
+    Queue q;
+    InitQueue(&q);
+    printf("请输入一个长度小于99的字符串，格式：xxx&xxx\n");
+    gets(q.h);
+    i=HuiWen(q);
+    if(i==1)
+         printf("是回文！");
+    else printf("不是回文！");
+    return 0;
+}

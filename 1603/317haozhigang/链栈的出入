@@ -1,0 +1,73 @@
+#include<stdio.h>
+typedef struct
+{
+    int a;
+    struct stack *top;
+} stack;
+void Init(stack *s);
+int isempty(stack *s);
+void push(stack *s,int n);
+int pop(stack *s);
+void create(stack *s,int i);
+int main()
+{
+    int i;
+    stack s;
+    Init(&s);
+    printf("请输入入栈元素个数：\n");
+    scanf("%d",&i);
+    create(&s,i);
+    while(!isempty(&s))
+    {
+        printf("%d,",pop(&s));
+    }
+}
+void Init(stack *s)
+{
+    s->top=NULL;
+}
+int isempty(stack *s)
+{
+    if(s->top==NULL)
+    {
+        return 1;
+    }
+    else
+    return 0;
+}
+void push(stack *s,int n)
+{
+    stack *p;
+    p=(stack *)malloc(sizeof(stack));
+    if(s->top==NULL)
+    {
+        s->top=p;
+        p->a=n;
+        p->top=NULL;
+    }
+    else
+    {
+        p->top=s->top;
+        s->top=p;
+        p->a=n;
+    }
+}
+int pop(stack *s)
+{
+    stack *p;
+    int n;
+    p=s->top;
+    n=p->a;
+    s->top=p->top;
+    return n;
+}
+void create(stack *s,int i)
+{
+    int j,n;
+    printf("请输入%d个元素：\n",i);
+    for(j=1;j<i+1;j++)
+    {
+        scanf("%d",&n);
+        push(s,n);
+    }
+}

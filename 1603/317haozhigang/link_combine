@@ -1,0 +1,92 @@
+#include<stdio.h>
+#define N 10
+NUM* create_NUM(NUM* n,int x);
+NUM *combine_NUM(NUM* n1,NUM * n2);
+typedef num
+{
+	int date;
+	NUM *next;
+}NUM;
+
+int main()
+{
+	NUM *n1=NULL,*n2=NULL,*n3;
+	int x,y;
+	printf("请输入表1，表2的元素个数：");
+	scanf("%d*%c%d",&x,&y);
+	n1=create_NUM(n1,x);
+	n2=create_NUM(n2,y);
+	n3=combine_NUM(n1,n2);
+	Pirnt_NUM(n3);
+	return 0;
+}
+NUM* create_NUM(NUM* n,int x)
+{
+	int i;
+	NUM *p,*t=n;
+	printf("请输入元素：");
+	for(i=0;i<x;i++)
+	{
+		p=(NUM *)malloc(sizeof(NUM));
+			scanf("%d",&(p->date));
+		p->next=NULL;
+	if(n==NULL)
+	{
+		n=p;
+	}else
+	while(t->next!=NULL)
+	{
+		t=t->next;
+	}
+	t->next=p;
+	return n;
+}
+NUM *combine_NUM(NUM* n1,NUM * n2)
+{
+	NUM *p=NULL,*p1=n1,*p2=n2,*t;
+	while(p1!=NULL)
+	while(p2!=NULL)
+	{
+		if(p1->date<p2->date)
+		{
+			if(p==NULL)
+			{p=p1;
+			 p1=p1->next;}
+			else{
+				t=p1->next;
+				p1->next=p;
+				p=p1;
+				p1=t;
+				
+			break;}
+		else if(p1->date>p2->date)
+		{
+			if(p==NULL)
+			{p=p2;
+			 p2=p2->next;}
+			else{
+				t=p2->next;
+				p2->next=p;
+				p=p2;
+				p2=t;
+				
+			continue;}
+		else {
+			t=p1->next;
+			p1->next=p;
+			p=p1;
+			p1=t;
+			t=p2->next;
+			p2->next=p;
+			p=p2;
+			p2=t;
+	                break;}
+	return p;
+}
+void Print_NUM(NUM* n)
+{
+	while(n!=NULL){
+	printf("%d",n->next);
+	n=n->next;
+	}
+}	

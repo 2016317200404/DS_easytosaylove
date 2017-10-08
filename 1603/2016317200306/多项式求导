@@ -1,0 +1,61 @@
+#include<stdio.h>
+
+//定义
+typedef struct PolyNode {
+    struct PolyNode * next;
+    int coef;//系数
+    int exp;//指数
+}PolyNode,*PolyList;
+
+//建立
+PolyList PoleCreate() {
+    PolyNode *head,*rear,*s;
+    int c,e;
+    head = (PolyNode *)malloc(sizeof(PolyNode));
+    rear = head;
+    scanf("%d %d",&c,&e);
+    while(c!=0) {//输入0 0结束
+        s = (PolyNode *)malloc(sizeof(PolyNode));
+        s->coef = c;
+        s->exp = e;
+        rear->next = s;
+        rear = s;
+        scanf("%d %d",&c,&e);
+    }
+    rear->next = NULL;
+    return head;
+}
+
+
+int main() {
+    PolyNode *p,*temp;
+    PolyList a;
+    a = PoleCreate();
+
+    //输出原多项式
+    p = a->next;
+    while(p!=NULL) {
+        printf("%d %d ",p->coef,p->exp);
+        p = p->next;
+    }
+    printf("\n");
+
+    //求导
+    p = a->next;
+    while(p!=NULL) {
+        if(p->exp > 0) {
+            p->coef *= p->exp;
+            p->exp--;
+        }
+            p = p->next;
+    }
+
+    //输出求导后的多项式
+    p = a->next;
+    while(p!=NULL) {
+        printf("%d %d ",p->coef,p->exp);
+        p = p->next;
+    }
+
+    return 0;
+}

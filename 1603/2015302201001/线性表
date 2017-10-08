@@ -1,0 +1,45 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define MAX 100
+typedef struct
+{
+    int elem[MAX];
+    int last;
+}SeqList;
+int main()
+{
+    int i,j,a[10],n=0,m=0,p,q;
+    SeqList LA,*L,LB,*L2;
+    L=&LA;
+    L2=&LB;
+    for(i=0;i<10;i++)
+    {
+        scanf("%d",&a[i]);
+        L->elem[i]=a[i];
+        L2->elem[i]=0;
+        n++;
+        L->last=n;
+        L2->last=n;
+    }
+
+    q=L2->last-1;
+    for(j=0;j<9;j++)
+    {
+
+        if(L->elem[j]%2==0)
+        {
+            L2->elem[q]=L->elem[j];
+           q--;
+        }
+        if(L->elem[j]%2!=0)
+        {
+            L2->elem[m]=L->elem[j];
+            m++;
+        }
+    }
+    for(p=0;p<(L2->last) ;p++)
+    {
+        printf("%d ",L2->elem[p]);
+    }
+    return 0;
+}

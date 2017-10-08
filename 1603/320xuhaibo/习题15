@@ -1,0 +1,100 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+typedef struct Node
+{
+    int exp , coef;
+    struct Node *next;
+}Node;
+Node* SetList(int n);
+void Depart(Node *p);
+int main()
+{
+    int n;
+    Node *p1;
+    scanf("%d",&n);
+    p1 = SetList(n);
+    Depart(p1);
+    return 0;
+}
+Node* SetList(int n)
+{
+    Node *h , *p2 , *p3;
+    int i;
+    h = (Node*)malloc(sizeof(Node));
+    srand(time(NULL));
+    h -> exp = rand() % 10 + 1;
+    h -> coef = rand() % 10 + 1;
+    p3 = h;
+    for(i = 1 ; i < n ; i ++)
+    {
+        p2 = (Node*)malloc(sizeof(Node));
+        p2 -> exp = rand() % 2 + 1;
+        p2 -> coef = rand() % 10 + 1;
+        p3 -> next = p2;
+        p3 = p3 -> next;
+    }
+    return h;
+}
+void Depart(Node *p)
+{
+    Node *p4 , *p5 , *p6 , *h2 , *h3;
+    h2 = NULL;
+    h3 = NULL;
+    p4 = p;
+    while(p4 != NULL)
+    {
+        printf("exp:%d\ncoef:%d\n\n",p4 -> exp , p4 -> coef);
+        p4 = p4 -> next;
+    }
+    p4 = p;
+    while(p4 != NULL);
+    {
+        if(p4 -> exp % 2 == 0)
+        {
+            if(h2 == NULL)
+            {
+                h2 = p4;
+                h2 -> next = NULL;
+                p4 = p4 -> next;
+                p5 = h2;
+            }
+            else
+            {
+                p5 -> next = p4;
+                p5 -> next = NULL;
+                p4 = p4 -> next;
+                p5 = p5 -> next;
+            }
+        }
+        else
+        {
+            if(h3 == NULL)
+            {
+                h3 = p4;
+                h3 -> next = NULL;
+                p4 = p4 -> next;
+                p6 = h2;
+            }
+            else
+            {
+                p6 -> next = p4;
+                p6 -> next = NULL;
+                p4 = p4 -> next;
+                p6 = p6 -> next;
+            }
+        }
+    }
+    p4 = h2;
+    while(p4 != NULL)
+    {
+        printf("exp:%d\ncoef:%d\n\n",p4 -> exp , p4 -> coef);
+        p4 = p4 -> next;
+    }
+    p4 = h3;
+    while(p4 != NULL)
+    {
+        printf("exp:%d\ncoef:%d\n\n",p4 -> exp , p4 -> coef);
+        p4 = p4 -> next;
+    }
+}

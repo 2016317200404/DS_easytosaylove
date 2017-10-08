@@ -1,0 +1,8 @@
+p=s;
+while(p->next->next!=s)//保证找到待删结点的前驱结点
+{
+  p=p->next;
+}
+ free(p->next);
+ p->next=s;
+ //只有伪码.....还没建循环链表

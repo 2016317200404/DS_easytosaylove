@@ -1,0 +1,59 @@
+#include<stdio.h>
+#define N 10
+void read(a[]);
+viod Joseph(int a[],int m,int n);
+void Print(a[]);
+struct joseph
+{
+	int  date;
+	joseph 
+int mian()
+{
+	int a[N];
+	int m,n;
+	read(a);
+	printf("请输入从第几个开始：(1-10)'\n'");
+	scanf("%d",&m);
+	printf("请输入数到第几个数：'\n'");
+	scanf("%d",&n);
+	Joseph(a,m,n);
+	Print(a);
+	return 0;
+}
+viod Joseph(int a[],int m,int n)
+{
+	int i,last=N;
+	int flag;
+	while(last!=1)
+	{
+		flag=n%(last-m+1);
+		if(flag==0) 
+		{
+			flag=last;
+			m=1;
+		} else m=flag;
+		for(i=flag-1;i<last-1;i++)
+		{	
+			int x=a[i];
+			a[i]=a[i+1];
+		}
+		a[i]=x;
+		last--;
+	}
+}
+void Print(a[])
+{	
+	int i;
+	for(i=N-1;i>-1;i--)
+	{
+		printf("%d ",a[i]);			
+	}
+}
+void read(a[])
+{
+	int i;
+	for(i=0;i<N;i++)
+	{
+		a[i]=i+1;
+	}
+}		

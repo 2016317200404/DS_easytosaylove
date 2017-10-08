@@ -1,0 +1,97 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct Stack
+{
+    char str[50];
+    int top;
+}Stack;
+
+void InitStack(Stack *s) //初始化栈
+{
+    s->top=-1;
+}
+
+void Push(Stack *s,char c)    //入栈
+{
+    ++s->top;
+    s->str[s->top]=c;
+}
+
+void Pop(Stack *s)   //出栈
+{
+    if(!IsEmpty(s))
+    {
+        --s->top;
+    }
+}
+
+int IsEmpty(Stack *s)   //判断栈空
+{
+    if(s->top==-1)
+    return 1;
+    else
+    return 0;
+}
+
+int MATCH(char c,Stack *s)
+{
+    if(c!=s->str[s->top])
+    {
+        --s->top;
+        return 1;
+    }
+    else
+    return 0;
+}
+
+void BracketMatch(Stack *s,char *a)
+{
+    int i,n;
+    for(i=0;a[i]!='\0';i++)
+    {
+        switch (a[i])
+        {
+            case '(':
+            case '[':
+            case '{':
+                Push(s,a[i]);
+                break;
+            case ')':
+            case ']':
+            case '}':
+                if(IsEmpty(s))
+                {
+                    printf("\n右括号多余!\n");
+                }
+                else
+                {
+                    if(MATCH(a[i],s))
+                    {
+                        Pop(s);
+                    }
+                    else
+                    printf("括号不对应！式子错误!\n");
+                }
+                break;
+            default:
+            break;
+        }
+    }
+    if(IsEmpty(s))
+    printf("匹配成功！");
+    else
+    printf("左括号多余！");
+}
+
+int main()
+{
+    int i,j,k;
+    char a[50];
+    Stack *s=(Stack *)malloc(sizeof(Stack));
+    InitStack(s);
+    printf("输入一组带括号的多项式：");
+    gets(a);
+    BracketMatch(s,a);
+    return 0;
+}

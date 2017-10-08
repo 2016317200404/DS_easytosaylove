@@ -1,0 +1,107 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef int ElemType;
+typedef struct Node
+{
+    ElemType data;
+    struct Node *next;
+}Node,*Linklist;
+void Initlist(Linklist *L)
+{
+    *L=(Linklist)malloc(sizeof(Node));
+    (*L)->next=NULL;
+}
+void CreatFromHead(Linklist *L)
+{
+    int i,len,c;
+    Node *s;
+    printf("Input the length of list:");
+    scanf("%d",&len);
+    printf("Input numbers:");
+    for(i=0;i<len;i++)
+    {
+        scanf("%d",&c);
+        s=(Node*)malloc(sizeof(Node));
+        s->data=c;
+        s->next=(*L)->next;
+        (*L)->next=s;
+    }
+}
+void CreatFromTail(Linklist *L)
+{
+    int i,len,c;
+    Node *p,*s;
+    p=(*L);
+    printf("Input the length of list:");
+    scanf("%d",&len);
+    printf("Input numbers:");
+    for(i=0;i<len;i++)
+    {
+        scanf("%d",&c);
+        s=(Node*)malloc(sizeof(Node));
+        s->data=c;
+        p->next=s;
+        p=s;
+    }
+    p->next=NULL;
+}
+void Display(Linklist *L)
+{
+    Node *p;
+    p=(*L);
+    while(p->next!=NULL)
+    {
+        p=p->next;
+        printf("%d",p->data);
+        if(p->next!=NULL)
+            printf(" ");
+    }
+    printf("\n");
+}
+int Frequency(Linklist *L)
+{
+    int i=0;
+    Node *p;
+    p=(*L);
+    while(p->next!=NULL)
+    {
+        p=p->next;
+        i++;
+    }
+    return i;
+}
+void Bubble(Linklist *L)
+{
+    Node *p,*q;
+    int num;
+    ElemType temp;
+    num=Frequency(L);
+    p=(*L)->next;
+    while(num>1)
+    {
+        while(p->next!=NULL)/*此处犯了错，next没仔细考虑*/
+        {
+            if(p->data>p->next->data)
+                temp=p->data,p->data=p->next->data,p->next->data=temp;
+            p=p->next;
+        }
+        num--;
+        p=(*L)->next;
+    }
+}
+
+int main()
+{
+    Linklist L1,L2;
+    Initlist(&L1),Initlist(&L2);
+    CreatFromHead(&L1), CreatFromTail(&L2);
+    Display(&L1),Display(&L2);
+
+    Bubble(&L1);
+    Display(&L1);
+
+    Bubble(&L2);
+    Display(&L2);
+
+    return 0;
+}

@@ -1,0 +1,58 @@
+#include<stdio.h>
+typedef struct
+{
+    int array[10];
+    int last;
+}SeqList;
+void Differenceset(SeqList a , SeqList b);
+int main()
+{
+    SeqList s1 , s2;
+    int i;
+    scanf("%d",&s1.last);
+    scanf("%d",&s2.last);
+    for(i = 0 ; i < s1.last ; i ++)
+    {
+        scanf("%d",&s1.array[i]);
+    }
+    for(i = 0 ; i < s2.last ; i ++)
+    {
+        scanf("%d",&s2.array[i]);
+    }
+    Differenceset(s1,s2);
+    return 0;
+}
+void Differenceset(SeqList a , SeqList b)
+{
+    int x , y , z;
+    int *p , *q;
+    p = a.array;
+    printf("%d\n",a.last);
+    for(x = 0 ; x < a.last; x ++)
+    {
+        q = b.array;
+        for( y = 0 ; y < b.last ; y ++)
+        {
+             if(*p != *q)
+             {
+                 q ++;
+             }
+             else
+             {
+                 for(z = 1 ; p + z <= p + a.last - 1; z ++)
+                 {
+                     *(p + z - 1) = *(p + z);
+                 }
+                 q ++;
+                 a.last --;
+                 printf("a.last:%d\n",a.last);
+             }
+        }
+        p ++;
+    }
+    printf("%d\n",a.last);
+    for(x = 0 ; x < a.last ; x ++)
+    {
+        printf("%d ",a.array[x]);
+    }
+}

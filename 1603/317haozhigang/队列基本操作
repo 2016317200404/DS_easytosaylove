@@ -1,0 +1,65 @@
+#include<stdio.h>
+typedef struct
+{
+    int a[20];
+    int front;
+    int rear;
+}queue;
+void Init(queue *s);
+int isempty(queue *s);
+int isfull(queue * s);
+void enter(queue *s ,int n);
+int deletequeue(queue *s);
+int main()
+{
+    int i;
+    printf("请输入入队元素个数（<20):\n");
+    scanf("%d",&i);
+    queue s;
+    Init(&s);
+    enter(&s,i);
+    while(!isempty(&s))
+    {
+        printf("%d ",deletequeue(&s));
+    }
+}
+int isempty(queue *s)
+{
+    if(s->rear==s->front)
+    {
+        return 1;
+    }
+    else
+    return 0;
+}
+int isfull(queue *s)
+{
+    if(s->rear==20)
+    return 1;
+    else
+    return 0;
+}
+void Init(queue *s)
+{
+    s->front=-1;
+    s->rear=0;
+}
+void enter(queue *s ,int n)
+{
+    int i,j;
+    printf("请输入%d个元素：\n",n);
+    for(i=1;i<n+1;i++)
+    {
+        scanf("%d",&j);
+        if(!isfull(s))
+        {
+            if(s->front=-1)
+            s->front=0;
+            s->a[(s->rear)++]=j;
+        }
+    }
+}
+int deletequeue(queue *s)
+{
+    return s->a[(s->front)++];
+}

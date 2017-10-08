@@ -1,0 +1,47 @@
+#include<stdio.h>
+struct a
+{
+    int m[10];
+    int last;
+};
+void inti(struct a *x)
+{
+    x->last=0;
+}
+void pai(struct a *l)
+{
+    int i=0,j=l->last,k;
+    while(i<j)
+    {
+    while(i<j&&l->m[i]%2!=0)
+    {
+        i++;
+    }
+    while(i<j&&l->m[j]%2==0)
+    {
+        j--;
+    }
+    if(i<j)
+    {
+    k=l->m[i];
+    l->m[i]=l->m[j];
+    l->m[j]=k;
+    }
+    }
+}
+int main()
+{
+    int i;
+    struct a c;
+    inti(&c);
+    for(i=0;i<10;i++)
+    {
+        scanf("%d",&c.m[i]);
+        c.last++;
+    }
+    pai(&c);
+    for(i=0;i<10;i++)
+    {
+        printf("%d ",c.m[i]);
+    }
+}

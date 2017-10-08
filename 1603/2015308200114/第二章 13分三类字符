@@ -1,0 +1,81 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct a
+{
+    char data;
+    struct a*next;
+}node,*list;
+void init(list*l)
+{
+    (*l)=(list)malloc(sizeof(node));
+    (*l)->next=NULL;
+}
+void creat(list l)
+{
+    char c;
+    node*s;
+    c=getchar();
+    while(c!='s')
+    {
+        s=(node*)malloc(sizeof(node));
+        s->data=c;
+        s->next=l->next;
+        l->next=s;
+        c=getchar();
+    }
+}
+void show(list l)
+{
+    node*p;
+    p=l;
+    while(p->next!=NULL)
+    {
+        p=p->next;
+        printf("%c ",p->data);
+    }
+    printf("\n");
+}
+int main()
+{
+    node*a,*b,*c,*p,*q;
+    list l;
+    init(&l);
+    creat(l);
+    p=l->next;
+    init(&a);
+    init(&b);
+    init(&c);
+    printf("%c",p->data);
+    printf("\n");
+    show(l);
+    while(p!=NULL)
+    {
+        if(p->data<='z'&&p->data>='a'||p->data<='Z'&&p->data>='A')
+        {
+            q=p->next;
+            p->next=a->next;
+            a->next=p;
+            p=p->next;
+            p=q;
+        }
+        else if(p->data<='9'&&p->data>='0')
+        {
+            q=p->next;
+            p->next=b->next;
+            b->next=p;
+            p=p->next;
+            p=q;
+        }
+        else
+        {
+            q=p->next;
+            p->next=c->next;
+            c->next=p;
+            p=p->next;
+            p=q;
+        }
+    }
+    show(a);
+    show(b);
+    show(c);
+}

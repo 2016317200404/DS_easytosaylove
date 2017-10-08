@@ -1,0 +1,52 @@
+#include<stdio.h>
+int main()
+{
+    typedef struct
+    {
+        int num[20];
+        int last;
+    }seqlist;
+    int i,j,count=0,k;
+    int a[20];
+
+    seqlist la;
+    seqlist lb;
+    la.num[0]=25;
+    la.num[1]=34;
+    la.num[2]=57;
+    la.num[3]=50;
+    la.num[4]=16;
+    la.num[5]=48;
+    la.num[6]=9;
+    la.num[7]=63;
+    lb.num[0]=12;
+    lb.num[1]=50;
+    lb.num[2]=23;
+    lb.num[3]=79;
+    lb.num[4]=4;
+    lb.num[5]=34;
+    lb.num[6]=25;
+    lb.num[7]=13;
+    lb.last=7;
+    la.last=7;
+
+    for(i=0;i<8;i++)
+    {
+        k=0;
+        for(j=0;j<8;j++)
+        {
+            if(la.num[i]!=lb.num[j])
+               k++;
+        }
+        if(k==8)
+        {
+            a[count]=la.num[i];
+            count++;
+        }
+    }
+    for(i=0;i<count-1;i++)
+    {
+        printf("%d ",a[i]);
+    }
+    return 0;
+}
