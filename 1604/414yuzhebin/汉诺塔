@@ -1,0 +1,26 @@
+#include<stdio.h>
+void move(char x,int n,char y)
+{
+    printf("%d盘由%c移到%c\n",n,x,y);
+}
+void hanoi(int n,char x,char y,char z)
+{
+    if(n==1)
+    {
+        move(x,1,z);
+    }
+    else
+    {
+        hanoi(n-1,x,z,y);
+        move(x,n,z);
+        hanoi(n-1,y,x,z);
+    }
+}
+int main()
+{
+    int n;
+    printf("请输入总盘数：");
+    scanf("%d",&n);
+    hanoi(n,'a','b','c');
+    return 0;
+}
