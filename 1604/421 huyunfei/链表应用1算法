@@ -1,0 +1,8 @@
+ void A（LinkList &la) // la是结点含有back，data，link三个域的单循环链表
+ {
+     while（la->next->back==null)
+     {
+        la->next->back=la;//将结点la后继的back指针指向la
+        la=la->next;//la指针后移
+     }
+ }
