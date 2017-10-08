@@ -1,0 +1,237 @@
+#include<iostream>
+#include<stdlib.h>
+#define n 2
+using namespace std;
+typedef struct Elem
+{
+    int carnum;
+    int time;
+}Elem;
+typedef struct seqstack
+{
+    Elem elem[n];
+    int top;
+}seqstack;
+void initstack(seqstack *s)
+{
+    s->top=-1;
+}
+int push(seqstack *s,Elem x)
+{
+    if(s->top==n-1) return false;
+    s->top++;
+    s->elem[s->top]=x;
+    return true;
+}
+int pop(seqstack *s,Elem *x)
+{
+    if(s->top==-1)
+        return false;
+    else
+    {
+        *x=s->elem[s->top];
+        s->top--;
+        return true;
+    }
+}
+int getstack(seqstack *s,Elem *x)
+{
+    if(s->top==-1)
+        return false;
+    else
+    {
+        *x=s->elem[s->top];
+        return true;
+    }
+}
+int findstack(seqstack *s,Elem x)
+{
+    int i,k=0;
+    if(s->top==-1)
+        return k;
+    else
+    {
+        for(i=0;i<=s->top;i++)
+        {
+            if(s->elem[i].carnum==x.carnum)
+            {
+                k=i+1;
+                cout<<"i="<<i<<endl;
+                break;
+            }
+        }
+
+    }
+    return k;//第几号元素
+}
+int m=1;
+typedef struct node
+{
+    Elem e;
+    int i;//记录队中的位置
+    struct node*next;
+}node;
+typedef struct
+{
+    node *front1;
+    node *rear1;
+}Lq;
+int initqueue(Lq *q)
+{
+    q->front1=(node*)malloc(sizeof(node));
+    if(q->front1!=NULL)
+    {
+        q->rear1=q->front1;
+        q->front1->next=NULL;
+        return true;
+    }
+    else
+        return false;
+}
+int enterq(Lq *q,Elem x)
+{
+    node*p;
+    p=(node*)malloc(sizeof(node));
+    if(p!=NULL)
+    {
+        p->e=x;
+        p->next=NULL;
+        p->i=m++;
+        q->rear1->next=p;
+        q->rear1=p;
+        return true;
+    }
+    else
+        return false;
+}
+int deleteq(Lq *q,Elem*x)
+{
+    node*p;
+    if(q->front1==q->rear1)
+        return false;
+    p=q->front1->next;
+    q->front1->next=p->next;
+    if(q->rear1==p)
+        q->rear1=q->front1;
+    *x=p->e;
+    free(p);
+    return true;
+}
+int findq(Lq*q,Elem x)
+{
+    node*p;
+    int k=0;
+    p=q->front1->next;
+    while(p!=NULL)
+    {
+        if(p->e.carnum!=x.carnum)
+            p=p->next;
+        else
+        {
+            k=1;
+            break;
+        }
+    }
+    return k;
+}
+int main()
+{
+    char c;
+    int carnum,time,j=0,k=0;
+    seqstack s1;
+    Lq q1;
+    Elem e,x,y;
+    initstack(&s1);
+    initqueue(&q1);
+    while(cin>>c>>carnum>>time)
+    {
+        x.carnum=carnum;
+        x.time=time;
+        if(c=='A')//进入
+        {
+            if(j!=0)
+            {
+                if(findstack(&s1,x))//从栈查不合法
+                {
+                    cout<<"输入车牌不合法"<<endl;
+                    k=1;
+                }
+                if(s1.elem[s1.top].time>=time)
+                {
+                    cout<<"输入时间不合法"<<endl;
+                    k=1;
+                }
+                if(k==0&&q1.front1!=q1.rear1)//从队查
+                {
+                    if(findq(&q1,x))
+                    {
+                        cout<<"输入车牌不合法"<<endl;
+                        k=1;
+                    }
+                    if(q1.rear1->e.time>=time)
+                    {
+                        cout<<"输入车牌不合法"<<endl;
+                        k=1;
+                    }
+                }
+            }
+            if(k==0)
+            {
+               e.carnum=carnum;
+               e.time=time;
+                if(s1.top<n-1)
+                {
+                    push(&s1,e);
+                    cout<<"请进入停车场"<<(s1.top+1)<<"车位"<<endl;
+                }
+                else
+                {
+                    enterq(&q1,e);
+                    cout<<"请等候在便道"<<q1.rear1->i<<"车位"<<endl;
+
+                }
+            }
+            j++;
+        }
+        else if(c=='D')//离开
+        {
+            int flag=0;
+            int w,z;
+            w=findstack(&s1,x);
+            cout<<"w="<<w<<endl;
+            if(w)
+            {
+                flag=1;
+                cout<<carnum<<"停车时间为"<<(time-s1.elem[w-1].time)<<"应交费:"<<(time-s1.elem[w-1].time)<<endl;
+                z=w-1;
+                while(z!=s1.top)
+                {
+                    s1.elem[z]=s1.elem[z+1];
+                    z++;
+                }
+                s1.top--;
+                if(q1.front1!=q1.rear1)
+                {
+                    deleteq(&q1,&e);
+                    y.carnum=e.carnum;
+                    y.carnum=time;
+                    push(&s1,y);
+                }
+            }
+            else if(q1.front1!=q1.rear1)
+            {
+                if(findq(&q1,x))
+                {
+                    cout<<carnum<<"便道无费用"<<endl;
+                }
+
+            }
+        }
+        else if(c=='E')
+        {
+            cout<<"结束"<<endl;
+            break;
+        }
+    }
+    return 0;
+}
