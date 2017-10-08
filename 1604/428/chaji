@@ -1,0 +1,46 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct
+{
+    int elem[10];
+    int last;
+}seqlist;
+void findlc(seqlist *la,seqlist *lb);
+int main()
+{
+    seqlist *la=NULL,*lb=NULL;
+   la = (seqlist*)malloc(sizeof(seqlist));
+   lb=(seqlist*)malloc(sizeof(seqlist));
+   int n,i,j,k;
+   printf("输入集合的长度为：");
+   scanf("%d",&n);
+   for(i=0;i<n;i++)
+   {
+       scanf("%d",&la->elem[i]);
+   }
+   for(j=0;j<n;j++)
+      scanf("%d",&lb->elem[j]);
+   la->last=n;
+   lb->last=n;
+   findlc(la,lb);
+   for(k=0;k<la->last;k++)
+    printf("%d ",la->elem[k]);
+  return 0;
+}
+void findlc(seqlist *la,seqlist *lb)
+{
+    int i,j,k;
+    i=0;j=0;k=0;
+    for(i=0;i<la->last;i++)
+    {
+        for(j=0;j<lb->last;j++)
+        {
+            if(la->elem[i]==lb->elem[j])
+            {
+                for(k=0;k<la->last-i;k++)
+                    la->elem[i]=la->elem[i+1];
+                    la->last=la->last-1;
+            }
+        }
+    }
+}
