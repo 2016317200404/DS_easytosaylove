@@ -1,0 +1,31 @@
+LinkList Divids(Linklist &L,List &a,List &b,List &c)
+{
+    s=L->next;
+    a=(List*)malloc(sizeof(Nodes));
+    p=a;
+    b=(List*)malloc(sizeof(Nodes));
+    q=b;
+    c=(List*)malloc(sizeof(Nodes));
+    r=c;
+    while(s!=NULL)
+    {
+         if(s->data>='a'&&s->data<='z'||s->data>='A'&&s->data<='Z')
+         {
+             p->next=s;
+             p=s;
+         }
+          else if(s->data>='0'&&s->data<='9')
+          {
+              q->next=s;
+              q=s;
+          }
+          else
+          {
+              r->next=s;
+              r=s;
+          }
+    }
+    p->next=a;
+    q->next=b;
+    r->next=c;
+}
