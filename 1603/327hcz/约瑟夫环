@@ -1,0 +1,66 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct LNode{
+    int num;                    //序号
+    int data;                   //密码
+    struct LNode  *next;
+}LNode,*LinkList;
+
+int delatenum = 0;           //被删除节点的数据
+LinkList iniList(){//建立空链表
+    LinkList head;
+    if(head = (LinkList) malloc (sizeof(LNode)))
+        head->next = NULL;
+    return head;
+}
+LinkList createList(int a[],int n){  //建立单向循环链表
+    LinkList head = iniList();
+    LinkList r = head;        //r为链表的末端
+    int i=1;
+    for(;i<=n;i++){
+        LinkList q = (LinkList) malloc (sizeof(LNode));
+        q->num = i;
+        q->data = a[i-1];
+        r->next = q;
+        r = q;
+    }
+    r->next = head->next;
+    return head;
+}
+LinkList show(LinkList m,int i){   //输出出列者
+    LinkList p,q;             //m为开始者前一结点,i为开始者的密码
+    p = m;
+    int j;
+    for(j=0;j<i-1;j++)
+        p = p->next;     //p指向将被删除结点的上一结点
+    q = p->next;
+    p->next = q->next;            //删除结点
+    printf("%d ",q->num);
+    delatenum = q->data;
+    free(q);
+    return p;                   //返回下一开始者前一结点
+}
+void game(LinkList L,int n,int a){
+    LinkList q = L;
+    int first = 1;
+    while(n>0){        //输出每轮出列者
+        if(first){                //第一次开始
+            q = show(q,a);    //删除该轮被抽中者
+            first = 0;
+        }
+        else    q = show(q,delatenum);   //删除该轮被抽中者
+        n--;
+    }
+}
+int main(){
+    int pword[30],n=0,a;           //pword数组存储密码
+    LinkList head;
+    printf("请输入初始m值：\n");
+    scanf("%d",&a);
+    printf("请依次输入密码，以非整数字符结束\n");
+    while(scanf("%d",&pword[n++]));
+    head = createList(pword,n-1);//创建链表
+    printf("出列顺序为：\n");
+    game(head,n-1,a);
+    return 0;
+}
