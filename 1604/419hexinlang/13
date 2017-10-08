@@ -1,0 +1,63 @@
+void solve(List *L,Clist *a,Clist *b,Clist *c)
+
+{
+
+    *a=(Clist)malloc(sizeof(node));
+
+    *b=(Clist)malloc(sizeof(node));
+
+    *c==(Clist)malloc(sizeof(node));
+
+    node *p=a;
+
+    node *q=b;
+
+    node *r=c;
+
+    node *s=L->next;
+
+    while(s!=NUll)
+
+    {
+
+        if(s->data>='0'&&s->data<='9')
+
+        {
+
+            p->next=s;
+
+            p=p->next
+
+        }
+
+        else if(s->data>='a'&&s->data<='z'||s->data>='A'&&s->data<='Z')
+
+        {
+
+            q->next=s;
+
+            q=q->next;
+
+        }
+
+        else
+
+        {
+
+            r->next=s;
+
+            r=r->next;
+
+        }
+
+        s=s->next;
+
+    }
+
+    p->next=a;
+
+    q->next=b;
+
+    r->next=c;
+
+}
