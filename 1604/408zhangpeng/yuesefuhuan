@@ -1,0 +1,53 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+typedef struct Node
+{
+    int code;
+    int number;
+    struct Node* next;
+} Node;
+
+void slove(Node *a , int m);
+int main()
+{
+    Node *p , *q , *s;
+    int i , n;
+    srand(time(NULL));
+    p = (Node* )malloc(sizeof(Node));
+    p -> code = rand() % 100 + 1;
+    p -> number = 1;
+    p -> next = NULL;
+    s = p;
+    for(i = 2 ; i <= 10 ; i ++)
+    {
+       q = (Node*)malloc(sizeof(Node));
+        s -> next = q;
+        q -> code = rand() % 100 + 1;
+        q -> number = i;
+        q -> next = NULL;
+        s = q;
+    }
+    s -> next = p;
+    scanf("%d",&n);
+    slove(p,n);
+    return 0;
+}
+
+void slove(Node *a , int n)
+{
+    Node *h , *h2 ;
+    int x , y;
+    h = a;
+    for(x = 0 ; x < 10 ; x ++)
+    {
+        for(y = 1 ; y < n - 1; y ++)
+        {
+            h = h -> next;
+        }
+        printf("%d ",h -> next -> number);
+        h2 = h -> next;
+        y = h -> next -> code;        h -> next = h -> next -> next;
+       free(h2);
+   }
+}
