@@ -1,0 +1,23 @@
+typedef struct Node
+{
+    int date;
+    struct Node *next;
+}Node,*List;
+int deleteM(List s)
+{
+    Node *p=s->next;
+    Node *temp=p,*rear=s;
+    int max=p->date;
+    while(p!=NULL)
+    {
+        if(p->next->date>max)
+        {
+            max=p->next->date;
+            rear=p;
+            temp=p->next;
+        }
+    }
+    rear->next=temp->next;
+    free(temp);
+    return max;
+}
