@@ -1,0 +1,68 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct Node
+{
+    int coef;
+    int exp;
+    struct Node*next;
+}Node,*list;
+Node*createlist(Node*head,int n)
+{
+    Node*rear,*p;
+    head=malloc(sizeof(Node));
+    head->next=NULL;
+    head->exp=-1;
+    rear=head;
+    while(n--)
+    {
+        p=malloc(sizeof(Node));
+        p->next=NULL;
+        scanf("%d,%d",&(p->coef),&(p->exp));
+        rear->next=p;
+        rear=p;
+    }
+    rear->next=head;
+    return head;
+}
+void dao(list*l)//求一阶导数
+{
+    Node*p,*p1;
+    p=(*l);
+    p1=p->next;
+    while(p1->exp!=-1)
+    {
+        if(p1->exp==0)
+        {
+            p->next=p1->next;
+            free(p1);
+            p1=p->next;
+        }
+        else
+        {
+            p1->coef=(p1->coef)*(p1->exp);
+            p1->exp=(p1->exp)-1;
+            p=p->next;
+            p1=p1->next;
+        }
+    }
+}
+void show(Node*head)//输出稀疏多项式
+{
+    Node*p;
+    int i=0;
+    p=head->next;
+    while(p!=head)
+    {
+        if(i==0)
+        {
+            printf("%dX^%d",(p->coef),(p->exp));
+        }
+        else
+        {
+             printf("+%dX^%d",(p->coef),(p->exp));
+        }
+        i=1;
+        p=p->next;
+    }
+    printf("\n");
+}
