@@ -1,0 +1,45 @@
+void divlist(linklist L,linklist A,linklist B)
+
+{
+
+    listnode *P=L->next,*q;
+
+    listnode *a=A;
+
+    listnode *b=B;
+
+    while(p)
+
+    {
+
+        if(p->exp%2!=0)
+
+        {
+
+            q=p;
+
+            p=p->next;
+
+            a->next=A;
+
+            a=a->next;
+
+        }
+
+        else
+
+        {
+
+            q=p;
+
+            p=p->next;
+
+            b->next=B;
+
+            b=b->next;
+
+        }
+
+    }
+
+}
