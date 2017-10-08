@@ -1,0 +1,24 @@
+void A(linklist *a,linklist *b,linklist *L)
+{
+    node *p=a;
+    node *q=b;
+    node *r=L->next;
+    int i=1;
+    while(r!=L)
+    {
+        if(i%2==0)
+        {
+            p->next=r;
+            p=p->next;
+        }
+        else
+        {
+            q->next=r;
+            q=q->next;
+        }
+        r=r->next;
+        i++;
+    }
+    p->next=NULL;
+    q->next=NULL;
+}
