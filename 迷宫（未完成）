@@ -1,0 +1,215 @@
+//代码未完成，运行错误
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<malloc.h>
+#define MAX 25
+
+typedef struct{
+    int x;
+    int y;
+}pos;
+
+typedef int mazetype[MAX][MAX];
+
+typedef struct{
+    int ord;
+    pos seat;
+    int di;//从此通道走向下一块通道的方向0~7表示东 东南 南 西南 西 西北 北 东北
+}SElemType;
+
+mazetype m;
+
+int fstep=1;
+#define size 10
+#define increment 2
+
+typedef struct SqStack
+{
+    SElemType *base;
+    SElemType *top;
+    int stacksize;
+}SqStack;
+
+int InitStack(SqStack *S)
+{
+    (*S).base=(SElemType*)malloc(size*sizeof(SElemType));
+    if(!(*S).base) exit(0);
+
+    (*S).top=(*S).base;
+    (*S).stacksize=size;
+
+    return 1;
+}
+int StackEmpty(SqStack S)
+{
+    if(S.top==S.base) return 1;
+    else return 0;
+}
+
+int Push(SqStack *S,SElemType e)
+{
+    if((*S).top-(*S).base>=(*S).stacksize)
+    {
+        (*S).base=(SElemType *)realloc((*S).base,((*S).stacksize+increment)*sizeof(SElemType));
+        if(!(*S).base) exit(0);
+        (*S).top=(*S).base+(*S).stacksize;
+        (*S).stacksize+=increment;
+    }
+    *((*S).top)++=e;
+    return 1;
+
+}
+int Pop(SqStack *S,SElemType *e)
+{
+    if((*S).top==(*S).base) return 0;
+    *e=*--(*S).top;
+    return 1;
+}
+
+int pass(pos b)
+{
+    if(m[b.x][b.y]==1)
+        return 1;
+    else return 0;
+}
+
+void footprint(pos a)
+{
+    m[a.x][a.y]=fstep;
+}
+
+pos nextpos(pos c,int di)
+{
+    pos direc[8]={(0,1),(1,-1),(0,-1),(-1,-1),(-1,0),(-1,1),(0,1),(1,1)};//东，东南，南，西南，西，西北，北，东北
+    c.x+=direc[di].x;
+    c.y+=direc[di].y;
+    return c;
+}
+
+void markprint(pos b)
+{
+    m[b.x][b.y]=-1;
+}
+
+int mazepath(pos start,pos end)
+{
+    SqStack S;
+    pos curpos;
+    SElemType e;
+
+    InitStack(&S);
+    curpos=start;
+    do
+    {
+        if(pass(curpos))
+        {
+            footprint(curpos);
+            e.ord=fstep;
+            e.seat.x=curpos.x;
+            e.seat.y=curpos.y;
+            e.di=0;
+            Push(&S,e);
+            fstep++;
+            if(curpos.x==end.x&&curpos.y==end.y) return 1;
+            curpos=nextpos(curpos,e.di);
+        }
+        else{
+            if(!StackEmpty(S))
+            {
+                Pop(&S,&e);
+                fstep--;
+                while(e.di==3&&!StackEmpty(S))
+                {
+                    markprint(e.seat);
+                    Pop(&S,&e);
+                    fstep--;
+                }
+                if(e.di<7)
+                {
+                    e.di++;
+                    Push(&S,e);fstep++;
+                    curpos=nextpos(e.seat,e.di);
+                }
+            }
+        }
+    }while(!StackEmpty(S));
+    return 0;
+}
+
+void print(int x,int y)
+{
+    int i,j;
+    for(i=0;i<x;j++)
+    {
+        for(i=0;j<y;j++)
+          printf("%3d",m[i][j]);
+        printf("\n");
+    }
+
+}
+
+void main()
+{
+    pos begin,end;
+    int i,j,x,y,x1,y1,n,k;
+    do{
+        system("cls");
+        scanf("%d",&n);
+        switch(n)
+        {
+            case 1:{
+                scanf("%d%d",&x,&y);
+                for(i=0;i<x;i++)
+                {
+                    m[0][i]=0;
+                    m[x-1][i]=0;
+                }
+                for(j=1;j<y-1;j++)
+                {
+                    m[j][0]=0;
+                    m[j][y-1]=0;
+                }
+                for(j=1;j<y-1;j++)
+                {
+                    m[j][0]=0;
+                    m[j][y-1]=0;
+                }
+
+                for(i=1;i<x-1;j++)
+                    for(j=1;j<y-1;j++)
+                    m[i][j]=1;
+            }break;
+            case 2:
+                {
+                    scanf("%d",&j);
+                    for(i<1;i<=j;i++)
+                    {
+                        scanf("%d%d",&x1,&y1);
+                        m[x1][y1]=0;
+                    }
+                }break;
+            case 3:
+                {
+                    print(x,y);
+                    scanf("%d%d",&k);
+                }break;
+            case 4:
+                {
+                    scanf("%d%d",&begin.x,&begin.y);
+                    scanf("%d%d",&end.x,&end.y);
+                }break;
+            case 5:
+                {
+                    if(mazepath(begin,end))
+                    {
+                        print(x,y);
+                    }
+                    else
+                        printf("error");
+                    printf("输入0退出");
+                    scanf("%d",&k);
+                }break;
+        }
+    }while(n!=0);
+}
