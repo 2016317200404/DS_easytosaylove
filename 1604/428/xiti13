@@ -1,0 +1,90 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct Node
+{
+    char data;
+    struct Node* next;
+}Node,*Linklist;
+void Create(Linklist la);//生成链表
+void Print(Linklist a);//输出链表中的元素
+void Sort(Linklist a,Linklist b,Linklist c,Linklist d);//将原链表分成三个链表
+int main()
+{
+    Linklist a,b,c,d;
+    a=(Node*)malloc(sizeof(Node));
+    b=(Node*)malloc(sizeof(Node));//b为含有字母的链表的头结点
+    c=(Node*)malloc(sizeof(Node));//c为含有数字字符链表的头结点
+    d=(Node*)malloc(sizeof(Node));//d为含有其他字符链表的头结点
+    a->next=NULL;
+    b->next=NULL;
+    c->next=NULL;
+    d->next=NULL;
+    Create(a);
+    Sort(a,b,c,d);
+    Print(b);
+    printf("\n");
+    Print(c);
+    printf("\n");
+    Print(d);
+    return 0;
+}
+void Create(Linklist a)//头插法创建链表
+{
+    Node *s;
+    char c;
+    int flag=1;
+    printf("输入字符：");
+    while(flag)
+    {
+        c=getchar();
+        if(c!='$')//输入$时，停止输入
+        {
+            s=(Node*)malloc(sizeof(Node));
+            s->data=c;
+            s->next=a->next;
+            a->next=s;
+        }
+        else flag=0;
+    }
+}
+void Print(Linklist a)
+{
+    Linklist p=a->next;
+    while(p->next!=NULL)
+    {
+        printf("%c ",p->data);
+        p=p->next;
+    }
+    printf("\n");
+}
+void Sort(Linklist a,Linklist b,Linklist c,Linklist d)
+{
+    Linklist p=a->next,q;
+    while(p)
+    {
+        if((p->data>='a'&&p->data<='z')||(p->data='A'&&p->data<='Z'))
+        {
+            q=p;//保存当前加点的位置，取出节点q
+            p=p->next;//p指向下一个节点
+            a->next=p;//头结点记住p指向的节点的位置
+            q=b->next;//利用头插法将q接到链表b上
+            b->next=q;
+        }
+        else if(p->data>='0'&&p->data<='9')
+        {
+            q=p;//保存当前加点的位置
+            p=p->next;
+            a->next=p;
+            q=c->next;
+            c->next=q;
+        }
+        else
+        {
+            q=p;//保存当前加点的位置
+            p=p->next;
+            a->next=p;
+            q=d->next;
+            c->next=q;
+        }
+    }
+}
