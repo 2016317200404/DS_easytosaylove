@@ -1,0 +1,98 @@
+#include<stdio.h>  
+#include<stdlib.h>
+typedef int ElemType;
+typedef struct Node           //结点类型定义
+{
+    ElemType data;
+    struct Node * next;
+
+}Node,*LinkList;              //LinkList为结构指针类型
+void InitCLinkList(LinkList *CL)
+//*CL用来接收待初始化的循环单链表的头指针变量的地址
+{
+    *CL=(LinkList)malloc(sizeof(Node));      //建立头结点
+    (*CL)->next=*CL;                         //建立空循环链表CL
+}
+void CreateCLinkList(LinkList CL)
+//CL是已经初始化好的，带头结点的空循环链表的头指针，通过键盘输入元素值，利用尾插法建立循环单链表CL
+{
+    Node *rear,*s;
+    rear=CL;            //rear指针动态指向链表表尾，其初值指向头结点
+    char c;
+    int a,i;
+    scanf("%d",&a);
+    c=getchar();        //读入第一个元素
+    for(i=0;i<a;i++)
+    {
+        s=(Node *)malloc(sizeof(Node));
+        s->data=c;
+        rear->next=s;
+        rear=s;
+        c=getchar();
+    }
+    rear->next=CL;      //让最后一个结点的next指向头结点
+}
+//遍历
+void printList(Node *head)
+{
+    Node *temp = head;
+    if (head!=NULL)
+    {
+        while(temp!=head);
+        {
+            printf("%d ",temp->data);
+            temp=temp->next;
+        }
+    }
+}
+LinkList merge1(LinkList LA,LinkList LB)
+//将两个采用头指针的循环单链表的首尾连接起来
+{
+    Node *p,*q;
+    p=LA;
+    q=LB;
+    while(p->next!=LA)
+    {
+        p=p->next;         //找到LA的表尾，用p指向它
+    }
+    while(q->next!=LB)
+    {
+        q=q->next;         //找到LB的表尾，用q指向它
+    }
+    q->next=LA;            //修改LB的尾指针，指向LA的头结点
+    p->next=LB->next;      //修改LA尾指针，指向LB中的第一个结点
+    free(LB);
+    return(LA);
+}
+LinkList merge2(LinkList LA,LinkList LB)
+//将两个采用尾指针的循环单链表的首尾连接起来
+{
+    Node *p;
+    p=LA->next;            //保存LA的头结点地址
+    LA->next=LB->next->next;//链表LB的开始结点链到LA的终端结点之后
+    free(LB->next);         //释放LB的头结点
+    LB->next=p;             //LA的头结点链到LB的终端结点之后
+    return LB;
+}
+void deletelinklist(LinkList s)
+{
+    Node *p,*q;
+    p=s;
+    q=p->next;
+    while(q->next!=s)
+    {
+        p=q;
+        q=q->next;
+    }
+    p->next=s;
+    free(q);
+}
+main()
+{
+    LinkList C;
+    InitCLinkList(&C);
+    CreateCLinkList(C);
+    printList(C);
+    deletelinklist(C);
+    printList(C);
+}
