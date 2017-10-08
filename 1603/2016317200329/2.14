@@ -1,0 +1,78 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct Node
+    {
+        int n;
+        struct Node *next;
+    }Node,*Linklist;
+
+void CreateFromHead(int j,Linklist h)
+{
+    Node *p=(Node *)malloc(sizeof(Node));
+    p->n=j;
+    if(h->next==NULL)
+    {
+        h->next=p;
+        p->next=NULL;
+    }
+    else
+    {
+        p->next=h->next;
+        h->next=p;
+    }
+}
+
+int FindMax(Linklist h)
+{
+    int max,m,temp;
+    Node *p=h;
+    max=p->next->n;
+    while(p->next==NULL)
+    {
+        p=p->next;
+        m=p->n;
+        if(m>max)
+        {
+            temp=m;
+            m=max;
+            max=temp;
+        }
+    }
+    //free(p);
+    return max;
+}
+
+void Delete(int max,Linklist h)
+{
+    Node *p=h->next;
+    Node *ptr=h;
+    while(p->n!=max)
+    {
+        ptr=p;
+        p=p->next;
+    }
+    ptr->next=p->next;
+    free(p);
+    free(ptr);
+}
+
+int main()
+{
+    int i,j,k,n;
+    printf("请输入字符个数：");
+    scanf("%d",&k);
+    Linklist h=(Linklist)malloc(sizeof(Node));
+    h->next=NULL;
+    printf("请输入数字：");
+    for(i=0;i<k;i++)
+    {
+        scanf("%d",&j);
+        CreateFromHead(j,h);
+    }
+    j=FindMax(h);
+
+    Delete(j,h);
+    printf("最大值为%d,该节点已删除",j);
+    return 0;
+}
