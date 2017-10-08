@@ -1,0 +1,18 @@
+#include<cstdio>
+struct node
+{
+    int data;
+    node *next;
+};
+void dellist(node *s)
+{
+    node *p;
+    node *q=s;
+    s=s->next;
+    while(s!=q)
+    {
+        p=s;
+        s=s->next;
+    }
+    p->next=s->next;
+}
