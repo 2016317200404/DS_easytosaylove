@@ -1,0 +1,40 @@
+
+typedef int DataType;  
+typedef struct Node  
+{  
+    DataType data;  
+    struct Node *next;  
+}*PNode,Node; 
+ void ParityRearrangement(PNode *pHead)//将所有奇节点放在偶数节点的前面  
+{  
+    int flag = 0;  
+    PNode CurNode = NULL;  
+    PNode NextNode = NULL;  
+    PNode TailNode = NULL;  
+    assert(pHead);
+    if(NULL == *pHead || NULL == (*pHead)->next)//链表无元素或只有一个元素，直接返回  
+    return;
+    else//链表有多个元素  
+    {  
+        CurNode = *pHead;  
+        while(TailNode != *pHead)  
+        {  
+            flag = 0;  
+            CurNode = *pHead;  
+            while(CurNode->next != TailNode)  
+            {  
+                if((CurNode->data%2 == 0) && (CurNode->next->data%2 == 1))  
+                {  
+                    DataType temp = CurNode->data;  
+                    CurNode->data = CurNode->next->data;  
+                    CurNode->next->data = temp;  
+                    flag = 1;  
+                }  
+                CurNode = CurNode->next;  
+            }  
+            TailNode = CurNode;  
+            if(flag == 0)  
+                break;  
+        }  
+    }  
+}  
