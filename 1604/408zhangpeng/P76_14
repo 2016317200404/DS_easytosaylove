@@ -1,0 +1,29 @@
+int findmax(LinkList *l)
+{
+    int ma;
+    node *p=l->next;
+    while(p!=NULL)
+    {
+        if(ma<p->data)
+            ma=p->data;
+        p=p->next;
+    }
+    return ma;
+}
+
+void delmax(LinkList *l)
+{
+    int ma=findmax(l);
+    node *p=l->next;
+    node q=l;
+    while(1)
+    {
+        if(p->data==ma)
+        {
+            q->next=p->next;
+            break;
+        }
+        q=p;
+        p=p->next;
+    }
+}
