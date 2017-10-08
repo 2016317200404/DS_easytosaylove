@@ -1,0 +1,97 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+    char c;
+    struct node *next;
+
+}node,*Linklist;
+
+void creatlist(node* head)
+{
+    node *p,*rear;
+    char m;
+    p=malloc(sizeof(node));
+    p->next=NULL;
+    head=rear=p;
+    while((m=getchar())!='\n')
+    {
+        p=malloc(sizeof(node));
+        p->next=NULL;
+        p->c=m;
+        rear->next=p;
+        rear=p;
+    }
+}
+
+void InitLinklist(Node *p)
+{
+    p=malloc(sizeof(node));
+    p->next==NULL;
+}
+
+int separatenum(char m)
+{
+    return (m>='0'&&m<='9');
+}
+int separatechar(char m)
+{
+    return (m>='a'&&m<='z');
+}
+
+void separate(node* head,list*la,list*lb,list*lc)  //注意是如何利用指针next重复使用同一空间的
+{
+    node*p,*p1,*p2,*p3;
+    p1=*la;
+    p2=*lb;
+    p3=*lc;
+    p=head->next;
+    while(p!=NULL)
+    {
+        if(separatenum(p->c))
+        {
+            p1->next=p;
+            p1=p;
+        }
+        else if(separatechar(p->c))
+        {
+            p2->next=p;
+            p2=p;
+        }
+        else
+        {
+           p3->next=p;
+           p3=p;
+        }
+        p=p->next;
+    }
+    p1->next=*la;
+    p2->next=*lb;
+    p3->next=*lc;
+}
+
+void show(node*head)
+{
+    node*p;
+    p=head->next;
+    while(p!=head)
+    {
+        printf("%c ",p->c);
+        p=p->next;
+    }
+    printf("\n");
+}
+
+int main()
+{
+    node*head,*head1,*head2,*head3;
+    creatlist(head);
+    InitLinklist(head1);
+    InitLinklist(head2);
+    InitLinklist(head3);
+    separate(head,&head1,&head2,&head3);
+    show(head1);
+    show(head2);
+    show(head3);
+    return 0;
+}
