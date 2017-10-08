@@ -1,0 +1,44 @@
+typedef struct Node {
+	char data;
+	List *next;
+}Node, *List;
+int classify(char x)
+{
+	if(x>='0'&&x<='9')
+    {
+		return 1;
+	}
+	else if
+    (x>='A'&&x<='Z'||x>='a'&&x<='z')
+    {
+		return 2;
+	}
+	else
+    {
+		return 3;
+	}
+}
+void create(List L,List La,List Lb,List Lc)
+{
+	Node *p=L->next;
+	Node *p1=La,
+		 *p2=Lb,
+		 *p3=Lc;
+    while(p!=NULL)
+    {
+		switch (classify(p->data))
+		{
+		case 1:
+			p1->next=p;
+			p1=p1->next;
+			break;
+		case 2:
+			p2->next = p;
+			p2 = p2->next;
+		case 3:
+			p3->next=p;
+			p3=p3->next;
+		}
+		p=p->next;
+	}
+}
