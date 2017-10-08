@@ -1,0 +1,37 @@
+#include<stdio.h>
+void move(char x,int y,char z)
+{
+    printf("将%d号圆盘从%c号塔移动到%c塔\n",y,x,z);
+};
+
+
+void hanoi(int n,char x,char y,char z)
+{
+    if(n==1)
+    move(x,n,z);
+    else
+    {
+        hanoi(n-1,x,z,y);
+        move(x,n,z);
+        hanoi(n-1,y,x,z);
+    }
+};
+
+main()
+{
+    int n;
+    char x = 'x',y = 'y',z = 'z';
+    printf("请输入圆盘个数：");
+    scanf("%d",&n);
+    printf("请输入主塔名称：");
+    getchar();
+    x = getchar();
+    printf("请输入目标塔名称：");
+    getchar();
+    z = getchar();
+    printf("请输入辅助塔名称：");
+    getchar();
+    y = getchar();
+
+    hanoi(n,x,y,z);
+}
