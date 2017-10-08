@@ -1,0 +1,61 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct link
+{
+    int data;
+    struct link *next,*back;
+}link,*LinkList;
+InitCLinkList(LinkList *CL)
+{
+    *CL=(LinkList)malloc(sizeof(link));
+    (*CL)->next=*CL;
+}
+int CreateLinkList(LinkList CL)
+{
+    link *rear,*s;
+    int c,d;
+    rear=CL;
+    scanf("%d",&c);
+    CL->data=c;
+    CL->back=NULL;
+    scanf("%d",&c);
+    d=1;
+    while(c!=0)
+    {
+        s=(link*)malloc(sizeof(link));
+        s->data=c;
+        s->back=NULL;
+        //printf("%d\n",s->data);
+        rear->next=s;
+        rear=s;
+        d++;
+        scanf("%d",&c);
+    }
+    rear->next=CL;
+    for(c=0;c<d;c++)
+    {
+        //printf("%d\n",CL->data);
+        CL=CL->next;
+    }
+    //printf("%d\n",CL->data);
+}
+void shanchu(LinkList CL,link *a)
+{
+    link *rear;
+    rear=CL->next->next;
+    while(1)
+    {
+        if(rear==a)
+            break;
+        rear=rear->next;
+        CL=CL->next;
+    }
+    CL->next=rear;
+}
+main()
+{
+    LinkList L;
+    InitCLinkList(&L);
+    CreateLinkList(L);
+    return 0;
+}
