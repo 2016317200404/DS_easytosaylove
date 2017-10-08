@@ -1,0 +1,40 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define MAXSIZE 200
+
+typedef struct{
+    int elem[MAXSIZE];
+    int length;
+}List;
+
+void Adjust(List *L)
+{
+    int i=0,j=L->length-1;
+    while(i<j)
+    {
+        while(L->elem[i]%2!=0)
+            i++;
+        while(L->elem[j]%2==0)
+            j--;
+        if(i<j)
+        {
+            int t;
+            t=L->elem[i];
+            L->elem[i]=L->elem[j];
+            L->elem[j]=t;
+        }
+    }
+}
+
+void main(){
+    int i;
+    List *l=(List*)malloc(sizeof(List));
+    scanf("%d",&l->length);
+    for(i=0;i<l->length;i++){
+        scanf("%d",&l->elem[i]);
+    }
+    Adjust(l);
+    for(i=0;i<l->length;i++){
+        printf("%d ",l->elem[i]);
+    }
+}
