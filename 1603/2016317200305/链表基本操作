@@ -1,0 +1,148 @@
+#include<stdio.h>
+#include<malloc.h>
+typedef struct Node
+{
+    int data;
+    struct Node *next;
+}Node,*Linklist;
+void InitList(Linklist *L)
+{
+    *L=(Linklist)malloc(sizeof(Node));
+    (*L)->next=NULL;
+}
+void CreatFromHead(Linklist L)
+{
+    Node *s;
+    int data;
+    int flag=1;
+    while(flag)
+    {
+        scanf("%d",&data);
+        if(data!=0)
+        {
+            s=(Node*)malloc(sizeof(Node));
+            s->data=data;
+            s->next=L->next;
+            L->next=s;
+        }
+        else flag=0;
+    }
+}
+void CreatFromTail(Linklist L)
+{
+    Node *s;
+    Node *r;
+    int flag=1;
+    r=L;
+    int data;
+    while(flag)
+    {
+        scanf("%d",&data);
+        if(data!=0)
+        {
+            s=(Node*)malloc(sizeof(Node));
+            s->data=data;
+            r->next=s;
+            r=s;
+        }
+        else
+        {
+            flag=0;
+            r->next=NULL;
+        }
+    }
+}
+void InsList(Linklist L,int i,int e)
+{
+    Node *pre,*s;
+    int k;
+    if(i<0)return 0;
+    pre=L;k=0;
+    while(pre!=NULL&&k<i-1)
+    {
+
+        pre=pre->next;
+        k=k+1;
+    }
+    if(pre==NULL)
+    {
+        printf("ERROR!");
+    }
+    s=(Node*)malloc(sizeof(Node));
+    s->data=e;
+    pre->next=s;
+    s->next=pre->next;
+    return 0;
+}
+int Dellist(Linklist L,int i,int *e)
+{
+    Node *pre,*r;
+    int k;
+    pre=L;
+    k=0;
+    while(pre->next!=NULL&&k<i-1)
+    {
+        pre=pre->next;
+        k=k+1;
+    }
+    if(pre->next=NULL)
+    {
+        printf("ERROR");
+    }
+    r=pre->next;
+    *e=r->data;
+    pre->next=r->next;
+    free(r);
+    return 0;
+}
+void print(Linklist L)
+{
+    Node *s=(Node*)malloc(sizeof(Node));
+    s=L;
+    while(s->next!=NULL)
+    {
+        s=s->next;
+        printf("%d ",s->data);
+
+    }
+}
+Linklist Merge(Linklist LA,Linklist LB)
+{
+    Node *pa,*pb,*r;
+    Linklist LC;
+    pa=LA->next;
+    pb=LB->next;
+    LC=LA;
+    LC->next=NULL;
+    r=LC;
+    while(pa!=NULL&&pb!=NULL)
+    {
+        if(pa->data<=pb->data)
+        {
+           r->next=pa;r=pa;pa=pa->next;
+
+
+        }
+        else{
+            r->next=pb;r=pb;pb=pb->next;
+        }
+
+    }
+    if(pa)
+        r->next=pa;
+    else
+        r->next=pb;
+    free(LB);
+    return (LC);
+}
+
+int main()
+{
+    Linklist LA,LB,LC;
+    InitList(&LA);
+    InitList(&LB);
+    CreatFromHead(LA);
+    CreatFromHead(LB);
+    LC=Merge(LA,LB);
+    print(LC);
+}

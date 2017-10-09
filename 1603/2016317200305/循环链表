@@ -1,0 +1,66 @@
+#include<stdio.h>
+#include<malloc.h>
+typedef struct Node
+{
+    int data;
+    struct Node *next;
+}Node,*Linklist;
+void Init(Linklist *L)
+{
+    *L=(Linklist)malloc(sizeof(Node));
+    (*L)->next=*L;
+}
+void CreatFromTail(Linklist L)
+{
+    Node *t,*s;
+    t=L;
+    int data;
+    int flag=1;
+    while(flag)
+    {
+        scanf("%d",&data);
+        if(data!=0)
+        {
+            s=(Node*)malloc(sizeof(Node));
+            s->data=data;
+            t->next=s;
+            s->next=L;
+            t=s;
+        }
+        else
+            flag=0;
+    }
+}
+void Print(Linklist L)
+{
+    Node *s;
+    s=L->next;
+    while(s!=L)
+    {
+        printf("%d",s->data);
+        s=s->next;
+    }
+}
+Linklist Merge(Linklist LA,Linklist LB)
+{
+    Node *p,*q;
+    p=LA;
+    q=LB;
+    while(p->next!=LA) p=p->next;
+    while(q->next!=LB) q=q->next;
+    p->next=LB->next;
+    q->next=LA;
+    free(LB);
+    return LA;
+}
+
+int main()
+{
+    Linklist LA,LB;
+    Init(&LA);
+    Init(&LB);
+    CreatFromTail(LA);
+    CreatFromTail(LB);
+    Merge(LA,LB);
+    Print(LA);
+}
