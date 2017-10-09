@@ -1,0 +1,67 @@
+#include<stdio.h>
+#include<malloc.h>
+#include<stdlib.h>
+typedef int ElemType;
+typedef struct Node
+{
+    ElemType data;
+    struct Node *next;
+}Node;
+typedef struct Queue
+{
+    Node *front;
+    Node *rear;
+}LinkQueue;
+void InitQueue(LinkQueue *Q)
+{
+    Q->front=(Node*)malloc(sizeof(Node));
+    Q->rear=Q->front;
+    Q->front->next=NULL;
+}
+
+void EnterQueue(LinkQueue *Q)
+{
+    Node *s;
+    int flag=1,c;
+    printf("Input some integers and over with -1:");
+    while(flag)
+    {
+        scanf("%d",&c);
+        if(c!=-1)
+        {
+            s=(Node*)malloc(sizeof(Node));
+            s->data=c;
+            s->next=NULL;
+            Q->rear->next=s;
+            Q->rear=s;
+        }
+        else
+            flag=0;
+    }
+}
+void DeleteQueue(LinkQueue *Q,ElemType *e)
+{
+    Node *s;
+    if(Q->front==Q->rear)
+    {
+        printf("队列为空!\n");
+        exit(1);
+    }
+    s=Q->front->next;
+    Q->front->next=s->next;
+    if(s==Q->rear)
+        Q->rear=Q->front;
+    *e=s->data;
+    free(s);
+}
+int main()
+{
+    ElemType e;
+    LinkQueue Q;
+    InitQueue(&Q);
+    EnterQueue(&Q);
+    DeleteQueue(&Q,&e);
+    printf("%d\n",e);
+
+    return 0;
+}
