@@ -1,0 +1,121 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#define N 100 //100个停车位
+#define M 100 //100各出位
+#define F 1.2 //停车费1.2/h
+#define NUMBER 100
+void menu();
+void chushi();
+void jinru();
+void likai();
+struct car
+{
+    int carnum;
+    int cararr;
+    int carlef;
+    int carstay;
+}car[NUMBER];
+
+struct park
+{
+    int neikong;
+}chn[N-1];
+
+struct changwai
+{
+    int waikong;
+}chw[M-1];
+
+void main()
+{
+    menu();//菜单
+}
+void menu()
+{
+    int n,m;
+    do
+    {
+        puts("***MENU***");
+        puts("1.初始化");
+        puts("2.有车进入");
+        puts("3.有车离开");
+        puts("4.退出");
+        printf("请输入选择1-4：");
+        scanf("%d",&n);
+        if(n<1||n>4)
+        {
+            m=1;
+            getchar();
+        }
+        else m=0;
+    }while(m==1);
+    switch(n)
+    {
+        case 1:chushi();break;//停车函数
+        case 2:jinru();break;//开车函数
+        case 3:likai();break;//退出
+        case 4:exit(0);break;//初始化
+    }
+}
+void chushi()//初始化
+{
+    int i,j;
+    for(i=0;i<N;i++)
+    {
+        chn[i].neikong=0;//停车场设置为空
+    }
+    for(j=0;j<M;j++)
+        chw[i].waikong=0;
+    printf("已经初始化");
+    menu();
+}
+void jinru()//车辆进入函数
+{
+    int i,a;
+    int h=0;
+    printf("输入该车序号（从0开始）：");
+    scanf("%d",&a);
+    for(i=0;i<N;i++)
+    {
+        if(chn[i].neikong==0)//无车标记
+        if(chn[i].neikong==1)//有车标记
+        h=h+1;
+    }
+    if(h==N)
+        printf("停车场内已满");
+    else
+    {
+        car[a].carstay=h;
+        chn[h].neikong=1;
+        printf("该车应该停在停车场内");
+        printf("请输入该车进入停车场的时间：");
+        scanf("%d",&car[a].cararr);
+    }
+    menu();
+}
+void likai()//车辆离开函数
+{
+    int i,k,choi,time;
+    double fee;
+    printf("请输入离开车辆序号[]",&i);
+    scanf("%d",&i);
+    printf("请输入离开时间：");
+    scanf("%d",&car[i].carlef);
+    fee=F*(car[i].carlef-car[i].cararr);
+    time=car[i].carlef-car[i].cararr;
+    printf("序号为%d的车停时间%d小时，应收费%f元",i,time,fee);
+    printf("便道上现在有车吗（输入1或2,1：有，2：没有）");
+    scanf("%d",&choi);
+    if(choi==2)
+    {
+        menu();
+    }
+    if(choi==1)
+    {
+        printf("请让便道上的第一辆车进场");
+        printf("该车的序号为：");
+        scanf("%d",&car[k].cararr);
+        menu();
+    }
+}
