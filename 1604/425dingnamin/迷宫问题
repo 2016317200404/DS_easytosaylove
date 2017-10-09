@@ -1,0 +1,126 @@
+#include<stdio.h>
+struct
+{
+    int i;
+    int j;
+    int di;
+}Stack[1000];//定义栈的数组
+int top = -1;//栈顶指针
+void mgpath(int xi,int yi,int xe,int ye)
+{
+    int x,y;
+    int mg[100][100];
+    printf("请输入迷宫示意图，1代表障碍物，0代表通路\n");
+    printf("认为第一个数为入口，最后一个数为出口,生成迷宫时请将入口和出口设置为0\n");
+    for(x = 1; x <= xe; x++)
+    {
+        for(y = 1; y <= ye; y++)
+        {
+            scanf("%d",&mg[x][y]);
+        }
+    }
+    for(x = 0; x < xe+2; x++)
+    {
+        for(y = 0; y < ye+2; y++)
+        {
+            mg[0][y] = 1;
+            mg[x][0] = 1;
+            mg[x][ye+1] = 1;
+            mg[xe+1][y] = 1;
+        }
+    }
+    printf("生成迷宫样式为\n");
+    for(x = 0; x < xe+2; x++)
+    {
+        for(y = 0; y < ye+2; y++)
+        {
+            printf("%d ",mg[x][y]);
+        }
+        printf("\n");
+    }
+    int i,j,di,find,k;
+    int a = 0;//判断是否有出路
+    top++;//进栈
+    Stack[top].i = xi;
+    Stack[top].j = yi;
+    Stack[top].di = -1;
+    mg[xi][yi] = -1; //初始方块进栈
+    while(top>-1)
+    {
+        if(i==xe&&j==ye)//找到出口，输出路径
+        {
+            printf("迷宫的其中一条路径为：\n");
+            for(x = 0; x < xe+2; x++)
+            {
+                for(y = 0; y < ye+2; y++)
+                {
+                    for(k = 0; k <= top; k++)
+                    {
+                        if(x==Stack[k].i&&y==Stack[k].j)
+                        {
+                            mg[x][y] = 8;
+                            break;
+                        }
+                    }
+                }
+            }
+            for(x = 0; x < xe+2; x++)
+            {
+                for(y = 0; y < ye+2; y++)
+                {
+                    printf("%d ",mg[x][y]);
+                }
+                printf("\n");
+            }
+            a=1;
+            break;
+        }
+        i = Stack[top].i;
+        j = Stack[top].j;
+        di = Stack[top].di;
+        find = 0;
+        while(di < 8&&find==0) //找下一个可走方块
+        {
+            di++;
+            switch(di)
+            {
+                case 0:i = Stack[top].i-1; j = Stack[top].j; break;
+                case 1:i = Stack[top].i; j = Stack[top].j+1; break;
+                case 2:i = Stack[top].i+1; j = Stack[top].j; break;
+                case 3:i = Stack[top].i; j = Stack[top].j-1; break;
+                case 4:i = Stack[top].i+1; j = Stack[top].j-1; break;
+                case 5:i = Stack[top].i-1; j = Stack[top].j-1; break;
+                case 6:i = Stack[top].i-1; j = Stack[top].j+1; break;
+                case 7:i = Stack[top].i+1; j = Stack[top].j+1; break;
+            }
+            if(mg[i][j]==0) find = 1;
+        }
+        if(find==1)
+        {
+            Stack[top].di = di;//找到下一个可走方块，修改栈顶元素的di值
+            top++;
+            Stack[top].i = i;
+            Stack[top].j = j;
+            Stack[top].di = -1;//下一个可走节点进栈
+            mg[i][j] = -1;//避免重复走到该方块
+        }
+        else
+        {
+            mg[Stack[top].i][Stack[top].j] = 0;//没有路径可走则退栈，将该位置变为其他路径可走方块
+            top--;
+        }
+    }
+    if(a==0)
+    {
+        printf("该迷宫没有通路\n");
+    }
+}
+int main (void)
+{
+
+    int n,m;
+    printf("请输入迷宫大小（第一位数为迷宫长度，第二位为宽度）：\n");
+    scanf("%d%d",&n,&m);
+    mgpath(1,1,n,m);
+    return 0;
+}
