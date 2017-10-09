@@ -1,0 +1,65 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct ListNode
+{
+    int data;
+    struct ListNode* next;
+};
+struct ListNode* create()
+{
+    struct ListNode* head=NULL;
+    printf("input the numbers of list:");
+    int k,tmp;
+    scanf("%d",&k);
+    for(int i=0;i<k;i++)
+        {
+            printf("input the elem of list:");
+            scanf("%d",&tmp);
+            struct ListNode* p=(struct ListNode*)malloc(sizeof(struct ListNode));
+            p->data=tmp;
+            p->next=head;
+            head=p;
+        }
+     return head;
+}
+struct ListNode* rlistodd(struct ListNode** head)
+{
+    struct ListNode *p1,*p2,*newhead;
+    p1=*head;
+    newhead=NULL;
+    while(p1)
+    {
+        p2=p1->next;
+        if(newhead)
+        p1->next=newhead;
+        else
+        p1->next=NULL;
+        newhead=p1;
+        if(p2)
+        {
+            p1=p2->next;
+            free(p2);
+        }
+        else
+        break;
+    }
+    return newhead;
+}
+void print(struct  ListNode* head)
+{
+    struct ListNode*p=head;
+    while(p)
+    {
+        printf("%d ",p->data);
+        p=p->next;
+    }
+    printf("");
+}
+int main()
+{
+    struct ListNode* head;
+    head=create();
+    print(head);
+    head=rlistodd(&head);
+    print(head);
+}
