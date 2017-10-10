@@ -1,0 +1,36 @@
+#include<stdio.h>
+#include<conio.h>
+hanoi(int n,char x,char y,char z)
+{
+    if(n==1)
+        move(x,n,z);
+    else
+    {
+        hanoi(n-1,x,z,y);
+        move(x,n,z);
+        hanoi(n-1,y,x,z);
+    }
+}
+void move(char x,int n,char y)
+{
+    printf("把%d号盘子从%c塔移到%c塔\n",n,x,y);
+}
+int main()
+{
+    char x,y,z;
+    int n;
+    printf("输入盘子的个数:");
+    scanf("%d",&n);
+getchar();/*注意输入的回车，和getchar()位置*/
+    printf("请输入主塔的名字：");
+    scanf("%c",&x);
+
+getchar();
+    printf("请输入目标塔的名字：");
+    scanf("%c",&y);
+    getchar();
+    printf("请输入辅助塔的名字：");
+    scanf("%c",&z);
+
+    hanoi(n,x,y,z);
+}
