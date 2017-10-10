@@ -1,0 +1,12 @@
+#include <stdio.h>
+#include <string.h>
+int main()
+{
+    char str[100];
+    printf("请输入字符串：");
+    gets( str );    //输入字符
+    char *p1 = str, *p2 = str + strlen(str) - 1;//指针定义     p2指向头,p1指向尾
+    for( ;p1 < p2 && *p1 == *p2; ++p1, --p2 );       //FOR循环体为空       如果在p1和p2两个指针"汇合"前出现*p1!=*p2则退出循环
+    puts( p1 < p2 ? "所输字符串不是回文" : "所输字符串是回文" );   //在退出循环的情况下p1<p2,即此时可以判断不是回文
+    return 0;
+}
