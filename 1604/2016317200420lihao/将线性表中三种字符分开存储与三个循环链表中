@@ -1,0 +1,100 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<malloc.h>
+typedef struct node
+{
+    char data;
+    struct node *next;
+}node,*linklist;
+int initlist(linklist *l)
+{
+    (*l)=(linklist)malloc(sizeof(node));
+    (*l)->next=NULL;
+    return 1;
+}
+void creatfromtail(linklist l,int n)
+{
+    node *s,*k;
+    int i;
+    char c;
+    k=l;
+    for(i=0;i<n;i++)
+    {
+        scanf("%c",&c);
+        getchar();
+        s=(node *)malloc(sizeof(node));
+        s->data=c;
+        k->next=s;
+        k=s;
+    }
+    k->next=NULL;
+
+}
+void display(linklist a)
+{
+    node *m;
+    m=a->next;
+    while(m!=a)
+    {
+        printf("%c ",m->data);
+        m=m->next;
+    }
+
+}
+void alist(linklist l,int n)
+{
+    linklist a,b,c;
+    node *s,*m,*x,*y;
+    initlist(&a);
+    initlist(&b);
+    initlist(&c);
+    s=l->next;
+    m=a;
+    x=b;
+    y=c;
+    int i;
+    for(i=0;i<n;i++)
+    {
+        if((s->data>='0')&&(s->data<='9'))
+        {
+            m->next=s;
+            m=s;
+            s=s->next;
+            m->next=NULL;
+        }
+       else if(((s->data>='A')&&(s->data<='Z'))||((s->data>='a')&&(s->data<='z')))
+        {
+            x->next=s;
+            x=s;
+            s=s->next;
+            x->next=NULL;
+        }
+        else
+        {
+            y->next=s;
+            y=s;
+            s=s->next;
+            y->next=NULL;
+        }
+    }
+      m->next=a;
+      x->next=b;
+      y->next=c;
+    display(a);
+    printf("\n");
+    display(b);
+    printf("\n");
+    display(c);
+}
+int main()
+{
+    linklist l;
+    int n;
+    scanf("%d",&n);
+    getchar();
+    initlist(&l);
+    creatfromtail(l,n);
+    alist(l,n);
+    return 0;
+
+}
