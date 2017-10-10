@@ -1,0 +1,21 @@
+void derivative(SimpleCircLinkList &ha)
+{
+   Node<ElemType> *q, *pa;
+   q=ha;
+   pa=ha->next;
+   while(pa->exp!=-1)
+   {
+       if(pa->exp==1)//指数为零删除该节点
+       {
+           q->next=pa->next;
+           pa=q->next;
+       }
+       else
+       {
+           pa->coef=pa->coef*pa->exp;
+           pa->exp--;
+           q=pa;
+           pa=pa->next;
+       }
+   }
+}
