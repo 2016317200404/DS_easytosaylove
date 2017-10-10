@@ -1,0 +1,67 @@
+#include<stdio.h>
+#define MAX 30
+typedef struct
+{
+    char ch[MAX];
+    int len;
+}string;
+void Init_string(string *s);
+void assign(string *s,int num);
+void insert_string(string *s1,string *s2,int n);
+void display(string *s);
+int main()
+{
+    int n;
+    string s1,s2;
+    Init_string(&s1);
+    Init_string(&s2);
+    assign(&s1,14);
+    getchar();//读入缓冲区的回车
+    assign(&s2,18);
+    printf("Input the insert location:");
+    scanf("%d",&n);
+    insert_string(&s1,&s2,n);
+    display(&s1);
+    return 0;
+}
+void Init_string(string *s)
+{
+    s->len=0;
+}
+void assign(string *s,int num)
+{
+    int i=0;
+    printf("Input the string:\n");
+    s->len=num;
+    for(;i<num;i++)
+    {
+        scanf("%c",&(s->ch[i]));
+    }
+}
+void insert_string(string *s1,string *s2,int n)
+{
+        int j=0;
+    for(;j<s2->len&&s1->len<MAX&&n<MAX;)//字符串长度小于MAX，插入位置合法
+    {
+        int i=s1->len;//指向字符串最后一位的下一位
+       for(;i>n;i--)
+        {
+
+           s1->ch[i]=s1->ch[i-1];//删除将要插入位置的字符
+
+         }
+            s1->ch[n]=s2->ch[j++];
+            n++;//插入位置后移
+            (s1->len)++;
+
+    }
+}
+void display(string *s)
+{
+    int i=0;
+    printf("Display the string:\n");
+    for(;i<s->len;i++)
+    {
+        printf("%c",s->ch[i]);
+    }
+}
