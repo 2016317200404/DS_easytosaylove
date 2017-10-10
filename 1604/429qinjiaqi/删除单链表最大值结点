@@ -1,0 +1,18 @@
+int Delete(linklist &l)
+{
+    linklist *q=l;
+    int max;
+    max=q->num;
+    while(q->next!=NULL)
+    {
+        if(q->next->num>max)
+        {
+            max=q->next->num;
+            p=q;
+        }
+        q=q->next;
+    }
+    p->next=p->next->next;
+    free(p->next);
+    return max;
+}
