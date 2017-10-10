@@ -1,0 +1,8 @@
+void schangetod(linklist &la)
+{
+    while(la->next->back==NULL)
+    {
+        la->next->back=la;
+        la=la->next;
+    }
+}//结束时la指向头指针
