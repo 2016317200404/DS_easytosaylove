@@ -1,0 +1,109 @@
+#include<stdio.h>
+
+#include<malloc.h>
+
+typedef struct List
+
+{
+
+    int *a;
+
+    int length;
+
+    int listsize;
+
+}List;
+
+void Init(List *l,int k)
+
+{
+
+    l->a=(int *)malloc(100*sizeof(int));
+
+    l->length=k;
+
+    l->listsize=100;
+
+}
+
+void Sort(List *x,List *y,List *z)
+
+{
+
+    int i,j,k=0,temp;
+
+    for(i=0;i<x->length;i++)
+
+    {
+
+        temp=0;
+
+        for(j=0;j<y->length;j++)
+
+        {
+
+            if(x->a[i]==y->a[j])
+
+                temp=1;
+
+
+
+        }
+
+        if(temp!=1)
+
+        {
+
+            z->a[k]=x->a[i];
+
+            k++;
+
+        }
+
+    }
+
+    z->length=k;
+
+}
+
+int main()
+
+{
+
+    List a,b,c;
+
+    int i,j,k=0,temp;
+
+    int al,bl;
+
+    printf("Input alength:");
+
+    scanf("%d",&al);
+
+    Init(&a,al);
+
+    for(i=0;i<al;i++)
+
+        scanf("%d",&a.a[i]);
+
+    printf("Input blength:");
+
+    scanf("%d",&bl);
+
+    Init(&b,bl);
+
+    for(i=0;i<bl;i++)
+
+        scanf("%d",&b.a[i]);
+
+    Init(&c,al+bl);
+
+    Sort(&a,&b,&c);
+
+    for(i=0;i<c.length;i++)
+
+        printf("%d ",c.a[i]);
+
+
+
+}
