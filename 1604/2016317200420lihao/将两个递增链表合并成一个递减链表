@@ -1,0 +1,88 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<malloc.h>
+typedef struct node
+{
+    int data;
+    struct node *next;
+}node,* linklist;
+int initlist(linklist *l)
+{
+    (*l)=(linklist)malloc(sizeof(node));
+    (*l)->next=NULL;
+    return 1;
+}
+void creatfromtail(linklist l,int n)
+{
+    node *r,*s;
+    r=l;
+    int c,i;
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&c);
+        s=(node *)malloc(sizeof(node));
+        s->data=c;
+        r->next=s;
+        r=s;
+    }
+    r->next=NULL;
+}
+void alist(linklist a,linklist b)
+{
+    node *p,*q,*t,*r;
+    p=a->next;
+    q=b->next;
+    a->next=NULL;
+    while(p!=NULL&&q!=NULL)
+    {
+        if(p->data<=q->data)
+        {
+           t=p->next;
+           p->next=a->next;
+           a->next=p;
+           p=t;
+        }
+        else
+        {
+           t=q->next;
+           q->next=a->next;
+           a->next=q;
+           q=t;
+        }
+    }
+        while(p!=NULL)
+        {
+           t=p->next;
+           p->next=a->next;
+           a->next=p;
+           p=t;
+        }
+        while(q!=NULL)
+        {
+           t=q->next;
+           q->next=a->next;
+           a->next=q;
+           q=t;
+        }
+     free(b);
+     r=a->next;
+     while(r!=NULL)
+     {
+         printf("%d ",r->data);
+         r=r->next;
+     }
+}
+int main()
+{
+    linklist a;
+    linklist b;
+    int m,n;
+    scanf("%d",&n);
+    scanf("%d",&m);
+    initlist(&a);
+    initlist(&b);
+    creatfromtail(a,m);
+    creatfromtail(b,n);
+    alist(a,b);
+}
+
