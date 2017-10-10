@@ -1,0 +1,75 @@
+//链表应用1
+void change(Linklist l)
+{
+    Node *p;
+    Node *q;
+    p=l->next;
+    while(p->next!=NULL)
+    {
+        q=p->next;
+        q->back=p;
+        p=p->next;
+    }
+    p->next=l;
+    return;
+}
+//链表应用2
+void qiudao(Linklist ha)
+{
+    Node *p=ha->next;
+    while(p->exp!=-1)
+    {
+        if(p->exp=0)
+        {
+            p->coef=0;
+            p->exp=0;
+        }
+        else
+        {
+            p->coef=p->coef*p->exp;
+            p->exp--;
+        }
+    }
+    return;
+}
+//链表应用3
+void  (Linklist &L)
+{
+    p=L->next;
+    q=p->next;
+    r=q->next;
+    while (q!=L)
+    {
+        while((p!=L)&&(p->data>q->data))
+                p=p->back;
+                q->back->next=r;
+                r->back=q->back;//(1)
+                q->next=p->next;
+                q->back=p;
+                p->next=q;//(2)
+                r->back-back=q;//(3)
+                q=r;
+                p=q->back;
+                r=L->next;//(4)
+}
+//链表应用4
+Node* Locale(Linklist L,int x)
+{
+    Node *p=l;
+    Node *q=l->next;
+    while(q->data!=x)
+    {
+        q=q->next;
+    }
+    q->frep++;
+    if(q->next)
+        q->next->back=q->back;
+    q->back->next=q->next;
+    p=q->back;
+    while(p!=l&&p->frep<q->frep)
+        p=p->back;
+    q->next=p->next;
+    p->next->back=q;
+    p->next=q;
+    q->back=p;
+} 
