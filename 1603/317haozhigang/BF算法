@@ -1,0 +1,54 @@
+#include<stdio.h>
+#define MAX 30
+typedef struct
+{
+    char ch[MAX];
+    int len;
+}string;
+void Init_string(string *s);
+void assign(string *s,int num);
+int BF(string *s1,string *s2);
+int main()
+{
+    int n;
+    string s1,s2;
+    Init_string(&s1);
+    Init_string(&s2);
+    assign(&s1,14);
+    getchar();//读入缓冲区的回车
+    assign(&s2,3);
+    n=BF(&s1,&s2);
+    printf("%d",n);
+    return 0;
+}
+void Init_string(string *s)
+{
+    s->len=0;
+}
+void assign(string *s,int num)
+{
+    int i=0;
+    printf("Input the string:\n");
+    s->len=num;
+    for(;i<num;i++)
+    {
+        scanf("%c",&(s->ch[i]));
+    }
+}
+int BF(string *s1,string *s2)
+{
+    int i,j;
+    for(i=0;i<(s1->len-s2->len+1);i++)
+    {
+        for(j=0;j<s2->len;j++)
+        {
+            if(s1->ch[i+j]==s2->ch[j])
+            continue;
+            else
+            break;
+        }
+        if(j==s2->len)
+        return i+1;
+    }
+    return -1;
+}
