@@ -1,0 +1,66 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct Node{
+        int coef,exp;
+        struct Node *next;
+}Node,*LinkList;
+InitLinkList(LinkList *L){
+    *L=(LinkList)malloc(sizeof(Node));
+    (*L)->exp=-1;
+    (*L)->next=*L;
+}
+void CreateLinkList(LinkList L)
+{
+    Node *r,*s;
+    int a,b;
+    r=L;
+    while(1){
+        s=(Node*)malloc(sizeof(Node));
+        scanf("%d %d",&a,&b);
+        s->coef=a;
+        s->exp=b;
+        r->next=s;
+        r=s;
+        if(b==0) break;
+    }
+    r->next=L;
+}
+void derivative(LinkList la){
+    LinkList p,q;
+    q=la;
+    p=la->next;
+    while(p->exp!=-1)
+    {
+        if(p->exp==0)
+        {
+            q->next=p->next;
+            free(p);
+            p=q->next;
+        }
+        else
+        {
+            p->coef*=p->exp;
+            p->exp--;
+            q=q->next;
+            p=p->next;
+        }
+    }
+}
+int main(){
+    int i;
+    LinkList la,p;
+    InitLinkList(&la);
+    CreateLinkList(la);
+    derivative(la);
+    p=la->next;
+    printf("F(x)=%dx^%d",p->coef,p->exp);
+    while(p->next->exp!=-1)
+    {
+        p=p->next;
+        if(p->coef>=0)
+            printf("+%dx^%d",p->coef,p->exp);
+        else
+            printf("%dx^%d",p->coef,p->exp);
+    }
+    return 0;
+}
