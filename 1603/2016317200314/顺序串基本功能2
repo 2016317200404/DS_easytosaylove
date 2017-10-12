@@ -1,0 +1,191 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<malloc.h>
+#define MaxSize 20
+typedef struct String
+{
+    char elem[MaxSize];
+    int len;
+}String;
+void InitString(String *S)
+{
+    S->len=0;
+}
+void Assignment(String *S)
+{
+    int flag=1,k=0,len;
+    char c;
+    printf("Please input the string and over with $:");
+    while(flag)
+    {
+        c=getchar();
+        if(c!='$')
+            S->elem[k++]=c;
+        else
+            flag=0;
+    }
+    S->elem[k]='\0';
+    S->len=k;
+}
+int Length(String *S)
+{
+    if(S->len!=0)
+        return S->len;
+    else
+        return -1;
+}
+void StrCmp(String *S1,String *S2)
+{
+    int i,len,min,count=0;;
+    if(S1->len==0||S2->len==0)
+    {
+        printf("Error!\n");
+        exit(1);
+    }
+    if(S1->len>S2->len)
+        min=S2->len;
+    else
+        min=S1->len;
+    for(i=0;i<min;i++)
+    {
+        if(S1->elem[i]>S2->elem[i])
+        {
+            printf(">\n");
+            break;
+        }
+        else if(S1->elem[i]<S2->elem[i])
+        {
+            printf("<\n");
+            break;
+        }
+        else
+            count++;
+    }
+    if(count==min)
+    {
+        if(S1->len>S2->len)
+            printf(">\n");
+        else if(S1->len<S2->len)
+            printf("<\n");
+        else
+            printf("=\n");
+    }
+}
+void StrCpy(String *S1,String *S2)
+{
+    int i,k=0;
+    if(S1->len==0)
+    {
+        printf("Error!\n");
+        exit(1);
+    }
+    for(i=0;i<S1->len;i++)
+    {
+        S2->elem[k++]=S1->elem[i];
+    }
+    S2->elem[k]='\0';
+    S2->len=k;
+}
+void StrCat(String *S1,String *S2)
+{
+    int i,k=0;
+    if(S1->len+S2->len<MaxSize)
+    {
+        for(i=S1->len;S2->elem[k]!='\0';i++)
+            S1->elem[i]=S2->elem[k++];
+        S1->elem[S1->len+S2->len]='\0';
+        S1->len=S1->len+S2->len;
+    }
+    else
+    {
+        for(i=S1->len;i<MaxSize;i++)
+            S1->elem[i]=S2->elem[k++];
+        S1->elem[MaxSize]='\0';
+        S1->len=MaxSize;
+    }
+}
+void Display(String *S)
+{
+    int i;
+    if(S->len==0)
+    {
+        printf("Error!\n");
+        exit(1);
+    }
+    for(i=0;i<S->len;i++)
+    {
+        printf("%c",S->elem[i]);
+        if(i<S->len-1)
+            printf(" ");
+    }
+    printf("\n");
+}
+void Delete1(String *S,int pos,char *e)/*just delete a single char*/
+{
+    int i,j;
+    if(S->len==0||S->len<=pos||pos<1)
+    {
+        printf("Error!\n");
+        exit(1);
+    }
+    else
+    {
+        *e=S->elem[pos-1];
+        for(i=pos-1;i<S->len-1;i++)
+        {
+            S->elem[i]=S->elem[i+1];
+        }
+        S->len--;
+    }
+}
+void Insert1(String *S,int pos,char e)/*just insert a single char*/
+{
+    int i,j;
+    if(S->len==0||S->len<pos||pos<1)
+    {
+        printf("Error!\n");
+        exit(1);
+    }
+    else
+    {
+        if(pos==S->len)
+        {
+            S->elem[S->len]=e;
+            S->elem[S->len+1]='\0';
+            S->len++;
+        }
+        else
+        {
+            for(i=S->len;i>=pos-1;i--)
+            {
+                S->elem[i+1]=S->elem[i];
+            }
+            S->elem[i+1]=e;
+            S->len++;
+        }
+    }
+}
+int main()
+{
+    char e;
+    String S1,S2,S3;
+    InitString(&S1),InitString(&S2),InitString(&S3);
+    Assignment(&S1);
+    Display(&S1);
+    getchar();
+    Assignment(&S2);
+    Display(&S2);
+
+    StrCmp(&S1,&S2);
+    StrCat(&S1,&S2);
+    Display(&S1);
+    StrCpy(&S1,&S3);
+    Display(&S3);
+
+    Insert1(&S2,3,'q');
+    Display(&S2);
+    Delete1(&S2,4,&e);
+    Display(&S2);
+    printf("%c\n",e);
+    return 0;
+}
