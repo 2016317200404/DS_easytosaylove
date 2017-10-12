@@ -1,0 +1,296 @@
+
+#include<stdio.h>
+
+#include<stdlib.h>
+
+#include<malloc.h>
+
+typedef struct List
+
+{
+
+    char data;
+
+    struct List *next;
+
+}List,*L;
+
+void init(L *l)
+
+{
+
+    (*l)=(L)malloc(sizeof(List));
+
+    (*l)->next=NULL;
+
+}
+
+void CreateFromTail(L l)
+
+{
+
+    L p=l;
+
+    L s;
+
+    int flag=1;
+
+    char c;
+
+    while(flag)
+
+    {
+
+        scanf("%c",&c);
+
+        if(c!='$')
+
+        {
+
+            s=(L)malloc(sizeof(List));
+
+            s->data=c;
+
+            p->next=s;
+
+            p=s;
+
+            scanf("%c",&c);
+
+
+
+        }
+
+        else{
+
+            flag=0;
+
+            p->next=NULL;
+
+        }
+
+    }
+
+}
+
+void Sort(L l,L l1,L l2,L l3)
+
+{
+
+    L p=l;
+
+    L pr=l->next;
+
+    L temp;
+
+    L t=l;
+
+    int length=0;
+
+    int i;
+
+    while(t->next!=NULL)
+
+    {
+
+        t=t->next;
+
+        length++;
+
+    }
+
+    for(i=0;i<length;i++)
+
+    {
+
+        if(((pr->data>='A'&&pr->data<='Z')||(pr->data>='a'&&pr->data<='z'))&&pr!=l->next)
+
+        {
+
+            temp=pr->next;
+
+            pr->next=l->next;
+
+            l->next=pr;
+
+            p->next=temp;
+
+            pr=temp;
+
+        }
+
+        else
+
+        {
+
+            p=p->next;
+
+            pr=pr->next;
+
+        }
+
+    }
+
+    l1->next=l->next;
+
+    temp=l;
+
+    while((temp->next->data>='A'&&temp->next->data<='Z')||(temp->next->data>='a'&&temp->next->data<='z'))
+
+        temp=temp->next;
+
+    l2->next=temp->next;
+
+    temp->next=l1;
+
+    t=l2;
+
+    length=0;
+
+    while(t->next!=NULL)
+
+    {
+
+        t=t->next;
+
+        length++;
+
+    }
+
+    p=l2;
+
+    pr=l2->next;
+
+    temp=l2;
+
+    for(i=0;i<length;i++)
+
+    {
+
+        if((pr->data>='0'&&pr->data<='9')&&pr!=l2->next)
+
+        {
+
+            temp=pr->next;
+
+            pr->next=l2->next;
+
+            l2->next=pr;
+
+            p->next=temp;
+
+            pr=temp;
+
+        }
+
+        else
+
+        {
+
+            p=p->next;
+
+            pr=pr->next;
+
+        }
+
+    }
+
+    temp=l2;
+
+    while(temp->next->data>='0'&&temp->next->data<='9')
+
+        temp=temp->next;
+
+    l3->next=temp->next;
+
+    temp->next=l2;
+
+    temp=l3;
+
+    while(temp->next!=NULL)
+
+    {
+
+        temp=temp->next;
+
+    }
+
+    temp->next=l3;
+
+}
+
+int main()
+
+{
+
+    L l,l1,l2,l3;
+
+    int i;
+
+    L p;
+
+    L q;
+
+    L r;
+
+    init(&l);
+
+    init(&l1);
+
+    init(&l2);
+
+    init(&l3);
+
+    p=l1;
+
+    q=l2;
+
+    r=l3;
+
+    CreateFromTail(l);
+
+    Sort(l,l1,l2,l3);
+
+    printf("letter£º");
+
+    for(i=0;i<3;i++)
+
+    {
+
+        printf("%c",p->next->data);
+
+        p=p->next;
+
+    }
+
+    printf("\n");
+
+    printf("number£º");
+
+    for(i=0;i<3;i++)
+
+    {
+
+        printf("%c",q->next->data);
+
+        q=q->next;
+
+    }
+
+    printf("\n");
+
+    printf("other£º");
+
+    for(i=0;i<3;i++)
+
+    {
+
+        printf("%c",r->next->data);
+
+        r=r->next;
+
+    }
+
+    printf("\n");
+
+}
