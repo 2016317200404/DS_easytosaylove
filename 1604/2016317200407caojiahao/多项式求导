@@ -1,0 +1,76 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+    int coef;
+    int exp;
+    struct node*next;
+}node,*list;
+node*createlist(node*head,int n)
+{
+    node*rear,*p;
+    head=malloc(sizeof(node));
+    head->next=NULL;
+    head->exp=-1;
+    rear=head;
+    while(n--)
+    {
+        p=malloc(sizeof(node));
+        p->next=NULL;
+        scanf("%d,%d",&(p->coef),&(p->exp));
+        rear->next=p;
+        rear=p;
+    }
+    rear->next=head;
+    return head;
+}
+void d(list*l)
+{
+    node*p,*p1;
+    p=(*l);
+    p1=p->next;
+    while(p1->exp!=-1)
+    {
+        if(p1->exp==0)
+        {
+            p->next=p1->next;
+            free(p1);
+            p1=p->next;
+        }
+        else
+        {
+            p1->coef=(p1->coef)*(p1->exp);
+            p1->exp=(p1->exp)-1;
+            p=p->next;
+            p1=p1->next;
+        }
+    }
+}
+void show(node*head)
+{
+    node*p;
+    int i=0;
+    p=head->next;
+    while(p!=head)
+    {
+        if(i==0)
+        {
+            printf("%dX^%d",(p->coef),(p->exp));
+        }
+        else
+        {
+             printf("+%dX^%d",(p->coef),(p->exp));
+        }
+        i=1;
+        p=p->next;
+    }
+    printf("\n");
+}
+int main()
+{
+    node*head;
+    head=createlist(head,4);
+    d(&head);
+    show(head);
+    return 0;
+}
