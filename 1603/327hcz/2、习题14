@@ -1,0 +1,31 @@
+typedef struct Node
+{
+    int data;
+    struct Node *next;
+}Node,*LinkList;
+int DeleteMax{LinkList H)//H为头结点
+{
+    int max;//记录最大值
+    Node *p;//遍历链表比较最大值
+    Node *pre;//p的前驱结点
+    Node *q;//记录最大值所在结点
+    pre=H;
+    p = H->next;
+    q = H->next;
+    max = p->data;
+    while(p!=NULL)
+    {
+        if(p->data>max)//找最大值
+            {
+                max = p->data;
+                q = p;
+            }
+        p = p->next;
+        pre = pre->next;
+    }
+    if(q==H->next)//最大值是头结点下一个
+        H = q->next;
+    if(q->next==NULL)//最大值在最后一个结点
+        pre->next = NULL;
+    return max;
+}
