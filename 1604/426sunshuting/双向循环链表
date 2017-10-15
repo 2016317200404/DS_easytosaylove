@@ -1,0 +1,52 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct Node
+{    
+    int data;
+		struct Node *next,*back;
+}Node,*LinkList;
+InitLinkList(LinkList *l)
+{
+    *l=(LinkList)malloc(sizeof(Node));
+		(*l)->back=NULL;
+		(*l)->data=-1;
+		(*l)->next=*l;
+}
+void CreatLinkList(LinkList l)
+{    
+    Node *r,*s;
+		int i;
+		r=l;
+		for(i=0;i<5;i++)
+		{
+		    s=(Node*)malloc(sizeof(Node));
+				s->data=i;
+				s->back=NULL;
+				r->next=s;
+				r=s;
+		}
+		r->next=l;
+}
+void Change(LinkList l)
+{
+    while(!l->next->back)
+		{
+		    l->next->back=l;
+				l=l->next;
+		}
+}
+int main()
+{
+    int i;
+		LinkList l;
+		InitLinkList(&l);
+		CreatLinkList(l);
+		Change(l);
+		l=l->back;
+		for(i=0;i<6;i++)
+		{
+		    printf("%d ",l->data);
+				l=l->back;
+		}
+		return 0;
+}
