@@ -1,0 +1,81 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct Node
+{    
+    int data,freq;
+    struct Node *back,*next;
+}Node,*DoubleList;
+InitDoubleList(DoubleList *l)
+{    
+    *l=(DoubleList)malloc(sizeof(Node));
+    (*l)->back=*l;
+    (*l)->next=*l;
+}
+void CreateDoubleList(DoubleList l)
+{
+    Node *r,*s;
+    int i;
+    r=l;
+    do{
+        s=(DoubleList)malloc(sizeof(Node));
+        scanf("%d",&i);
+        s->data=i;
+        s->freq=0;
+        s->back=r;
+        s->next=NULL;
+        r->next=s;
+        r=s;
+    }while(getchar()!='\n');
+}
+void print(DoubleList l)
+{    
+    DoubleList p;
+    p=l->next;
+    while(p->next)
+    { 
+        printf("%d(%d)\n",p->data,p->freq);
+        p=p->next;
+    }
+    printf("%d(%d)\n",p->data,p->freq);
+}
+DoubleList Locate(DoubleList l,int x)
+{
+    DoubleList p,q;
+    p=l->next;
+    while(p->next)
+    {  
+        if(p->data==x)
+        { 
+            (p->freq)++; 
+            q=p->back; 
+            q->next=p->next;
+            p->next->back=p->back;
+            while(q!=l&&p->freq==q->freq)
+            {         
+                q=q->back; 
+            }
+            p->back=q;
+            p->next=q->next;
+            q->next=p; 
+            p->next->back=p; 
+            return p;    
+       }
+        p=p->next;
+   }
+   return NULL;
+ }
+ int main()
+ { 
+     int i;
+     DoubleList l,p;
+     InitDoubleList(&l);
+     CreateDoubleList(l); 
+     for(i=0;i<2;i++)
+         Locate(l,2);
+     for(i=0;i<4;i++)
+         Locate(l,3);
+     for(i=0;i<4;i++)
+         Locate(l,4);
+     print(l);
+     return 0;
+ }
