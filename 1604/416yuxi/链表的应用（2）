@@ -1,0 +1,79 @@
+#include<stdio.h>
+#include<malloc.h>
+typedef struct List
+{
+    int coef;
+    int exp;
+    struct List *next;
+}List,*L;
+void init(L *ha)
+{
+    (*ha)=(L)malloc(sizeof(List));
+    (*ha)->next=(*ha);
+    (*ha)->exp=-1;
+}
+void CreateFromTail(L ha)
+{
+    L p=ha;
+    L s;
+    int flag=1;
+    int e;
+    int c;
+    scanf("%d",&e);
+    while(flag)
+    {
+        if(e!=-1)
+        {
+            s=(L)malloc(sizeof(List));
+            s->exp=e;
+            scanf("%d",&c);
+            s->coef=c;
+            p->next=s;
+            p=s;
+            scanf("%d",&e);
+        }
+        else
+        {
+            flag=0;
+            p->next=ha;
+        }
+    }
+}
+void Deri(L ha)
+{
+    L p=ha->next;
+    while(p->exp!=-1)
+    {
+        p->coef=(p->coef)*(p->exp);
+        p->exp--;
+        p=p->next;
+    }
+}
+void Show(L ha)
+{
+    L p=ha->next;
+    while(p->exp!=-1)
+    {
+        if(p->next->exp!=-1)
+        {
+            printf("%dX",p->coef);
+            printf("^%d+",p->exp);
+
+        }
+        else
+        {
+            printf("%dX",p->coef);
+            printf("^%d\n",p->exp);
+        }
+        p=p->next;
+    }
+}
+int main()
+{
+    List *ha;
+    init(&ha);
+    CreateFromTail(ha);
+    Show(ha);
+    Deri(ha);
+    Show(ha);
+}
