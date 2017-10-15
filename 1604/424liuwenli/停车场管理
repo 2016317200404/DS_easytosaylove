@@ -1,0 +1,214 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+typedef struct car    //对车的信息进行封装--->储存在栈里
+{
+    int number;   //车牌号
+    float t;            //进栈时间
+}carnode;
+
+typedef struct   //停车场--->堆栈
+{
+    carnode *base;  //栈底
+    carnode *top;     //栈顶
+    int stacksize;
+}stack;
+
+void initstack(stack *L)    //初始化栈
+{
+    L->base=(carnode*)malloc(sizeof(carnode));
+    L->top=L->base;
+    L->stacksize=0;
+}
+
+void push(stack *L,carnode *a)
+{
+    L->top++;
+    L->top->number=a->number;
+    L->top->t=a->t;
+    L->stacksize++;
+}
+
+void pop(stack *L,carnode *a)
+{
+    if(L->top==L->base)
+    {
+        printf("停车场为空!");
+        return;
+    }
+    a->number=L->top->number;
+    a->t=L->top->t;
+    L->top--;
+    L->stacksize--;
+}
+
+typedef struct queue   //对车信息进行封装--->储存进队列
+{
+    int number;
+    float t;
+    struct queue *next;
+}queueptr;
+
+typedef struct     //便道---->队列
+{
+    queueptr *front;   //队头
+    queueptr *rear;    //队尾
+    int length;
+} linkqueue;
+
+void initqueue(linkqueue *q)
+{
+    q->front =q->rear=(queueptr *)malloc(sizeof(queueptr));
+    q->front->next=NULL;
+    q->length=0;
+}
+void interqueue(linkqueue *q,int number,int t)   //进队列
+{
+    queueptr *p;
+    p=(queueptr *)malloc(sizeof(queueptr));
+    p->number=number;
+    p->t=t;
+    p->next=NULL;
+    q->rear->next=p;
+    q->rear=p;
+    q->length++;
+}
+
+void popqueue(linkqueue *q,queueptr *w)  //出队列
+{
+    queueptr *p;
+
+    if(q->front==q->rear)
+    {
+        printf("通道为空");
+        return;
+    }
+    p=q->front->next;
+    w=p;
+    q->front->next=p->next;
+    q->length--;
+    if(q->rear==p)
+        q->front=q->rear;
+}
+
+float stime(float x,float y)           //求时间差-->停留的时间
+{
+    int shix,shiy,fenx,feny;
+    float st;
+    shix=x;  shiy=y;
+    fenx=(int)((x-shix)*100);
+    feny=(int)((y-shiy)*100);
+    if(fenx>feny)
+    {
+        st=(shiy-shix-1)+(float)(feny+60-fenx)/100;
+    }
+    else
+    st=(shiy-shix)+(float)(feny-fenx)/100;
+    return st;
+}
+
+void getin(stack *st,linkqueue *q)        //对进入停车场的汽车的处理；
+{
+     int number;
+     float t;
+     printf("请输入车牌号:");
+     scanf("%d" ,&number);
+     printf("请输入您进车场的时间(比如说：8点半则输入8.30):");
+     scanf("%f",&t);
+     if((st->stacksize)<10)
+     {
+         carnode *e;
+         e->number=number;
+         e->t=t;
+         push(st,e);
+         printf("请把你的车停在%d号车道\n\n",st->stacksize);
+     }
+    else
+    {
+        interqueue(q,number,t);
+        printf("停车场已满，请把你的车停在便道的第%d个位置上",q->length);
+    }
+}
+
+void getout(stack *st,stack *sl,linkqueue *q)       //对离开的汽车的处理；
+{                                     //st 堆栈为停车场，sl 堆栈为倒车场
+    int number,flag=1;                    //q 为便道队列
+    float sh,t,arrivaltime,money1;
+    printf("请输入您的车牌号:");
+    scanf("%d",&number);
+    printf("请输入您出车场的时间(比如说：8点半则输入8.30):");
+    scanf("%f",&t);
+    carnode *e,*q_to_s; queueptr *w;
+    e->number=st->top->number;
+    e->t=st->top->t;
+    while(flag)
+    {
+     if(e->number!=number)
+    {
+        pop(st,e);
+        push(sl,e);
+        e->number=st->top->number;
+        e->t=st->top->t;
+    }
+    else
+    {
+            flag=0;
+            arrivaltime=e->t;
+            sh=stime(arrivaltime,t);
+            money1=(int)sh*2+(sh-(int)sh)*100/30;
+            pop(st,e);
+             while((sl->stacksize)>0)   //把倒车场的其他车倒回停车场
+            {
+                pop(sl,e);
+                push(st,e);
+                e->number=sl->top->number;
+                e->t=sl->top->t;
+            }
+    }
+    }
+      if(st->stacksize<10&&q->length!=0)   //停车场有空位，便道上的车w开进入停车场
+      {
+           popqueue(q,w);
+           q_to_s->t=t;
+           q_to_s->number=w->number;   //用q_to_s 记录w的信息,---->q_to_s进停车场
+           push(st,q_to_s);
+           printf("车牌为%d 的车已从通道进入停车场, 所在的停车位为 %d:\n",q_to_s->number,st->stacksize);
+        }
+        printf("\n 收据");
+        printf("车牌号:%d\n",number);
+        printf("++++++++++++++++++++++++++++++\n");
+        printf("     进车场时间:%4.2f\n",arrivaltime);
+        printf("     出车场时间:%4.2f\n",t);
+        printf("     停留时间:%4.2f\n",sh);
+        printf("     应付(元) %4.2f\n",money1);
+        printf("++++++++++++++++++++++++++++++\n\n");
+}
+
+void main()
+{
+    int m=100;
+    int flag;                 //进入或离开的标识；
+    stack *sting,*slinshi;  //停车场和临时倒车场堆栈的定义；
+    linkqueue *line;          //队列的定义；
+    initstack(sting);        //构造停车场堆栈sting
+     initstack(slinshi);      //构造倒车场堆栈slinshi
+     initqueue(line);         //构造便道队列line
+     while(m)
+    {
+        printf("\n      ******************停车场管理程序***************        ");
+        printf("\n*===========================================================*");
+        printf("\n* 1 *** 汽车进车场    2 *** 汽车出车场     3 *** 退出程序   *");
+        printf("\n*===========================================================*");
+        printf("\n          请输入您需要的服务的代号(1、2、3)，谢谢！\n");
+        scanf("%d",&flag);
+        switch(flag)
+        {
+            case '1': getin(sting,line);break;            //汽车进车场
+            case '2': getout(sting,slinshi,line);break;    //汽车出车场
+            case '3': exit(0);
+        }
+        m--;
+    }
+}
