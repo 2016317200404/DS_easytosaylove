@@ -1,0 +1,134 @@
+#include<stdio.h>
+#include<malloc.h>
+typedef struct List
+{
+    int data,freq;
+    struct List *back;
+    struct List *next;
+}List,*L;
+void init(L *l)
+{
+    (*l)=(L)malloc(sizeof(List));
+    (*l)->back=NULL;
+    (*l)->next=NULL;
+    (*l)->freq=0;
+    (*l)->data=-1;
+}
+void CreateFromTail(L l)
+{
+    L p=l;
+    L s;
+    int flag=1;
+    int d;
+    scanf("%d",&d);
+    while(flag)
+    {
+        if(d!=-1)
+        {
+            s=(L)malloc(sizeof(List));
+            s->data=d;
+            s->freq=0;
+            p->next=s;
+            s->back=p;
+            p=s;
+            scanf("%d",&d);
+        }
+        else
+        {
+            p->next=NULL;
+            flag=0;
+        }
+    }
+}
+void Sort(L l)
+{
+    L p=l->next;
+    L q;
+    L qr;
+    while(p!=NULL)
+    {
+        q=l->next;
+        while(q->next!=NULL)
+        {
+            qr=q->next;
+            if(qr->next!=NULL&&(!((qr->freq)<(q->freq))))
+            {
+                q->back->next=qr;
+                qr->back=q->back;
+                q->next=qr->next;
+                qr->next->back=q;
+                q->back=qr;
+                qr->next=q;
+            }
+            else if(qr->next==NULL&&(!((qr->freq)<(q->freq))))
+            {
+                q->back->next=qr;
+                qr->back=q->back;
+                q->next=qr->next;
+                q->back=qr;
+                qr->next=q;
+            }
+            else
+            {
+                q=q->next;
+            }
+        }
+        p=p->next;
+    }
+}
+L Locate(L l,int x)
+{
+    L p=l->next;
+    L q;
+    L qr;
+    while(p->data!=x)
+    {
+        p=p->next;
+    }
+    p->freq++;
+    Sort(l);
+    q=p;
+    qr=q->next;
+    while((qr!=NULL)&&((q->freq)==(qr->freq)))
+    {
+        q->back->next=qr;
+        qr->back=q->back;
+        q->next=qr->next;
+        q->back=qr;
+        qr->next=q;
+        if(qr->next!=NULL)
+        {
+            qr->next->back=q;
+        }
+        qr=q->next;
+    }
+
+    return p;
+}
+void Show(L l)
+{
+    L p=l->next;
+    while(p!=NULL)
+    {
+        printf("%d\t",p->data);
+        printf("%d\n",p->freq);
+        p=p->next;
+    }
+    printf("\n");
+}
+int main()
+{
+    List *l;
+    L p;
+    int i;
+    init(&l);
+    CreateFromTail(l);
+    Sort(l);
+    for(i=0;i<3;i++)
+        p=Locate(l,5);
+    for(i=0;i<2;i++)
+        p=Locate(l,4);
+    for(i=0;i<2;i++)
+        p=Locate(l,3);
+    Show(l);
+}
