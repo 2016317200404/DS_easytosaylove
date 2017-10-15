@@ -1,0 +1,73 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct link
+{
+    int data;
+    struct link *next;
+}link,*LinkList;
+InitCLinkList(LinkList *R)
+{
+    *R=(LinkList)malloc(sizeof(link));
+    (*R)->next=*CL;
+}
+int CreateLinkList(LinkList R)
+{
+    link *rear,*s;
+    int c,d;
+    rear=R;
+    scanf("%d",&c);
+    R->data=c;
+    scanf("%d",&c);
+    d=1;
+    while(c!=0)
+    {
+        s=(link*)malloc(sizeof(link));
+        s->data=c;
+        rear->next=s;
+        rear=s;
+        d++;
+        sacnf("%d",&c);
+    }
+    rear->next=CL;
+    for(c=0;c<6;c++)
+    {
+        R=R->next;
+    }
+    return d;
+}
+void Calcultion(LinkList L,int m,int h)
+{
+    int n,q;
+    n=0;
+    q=0;
+    while(q<h)
+    {
+        n++;
+        if(L->data!=0)
+        {
+            m--;
+            if(m==0)
+            {
+                q++;
+                m=L->data;
+                L->data=0;
+                if(n%h==0)
+                    prinf("%d",h);
+                else
+                    printf("%d",n%h);
+            }
+            L=L->next;
+            printf("%d ",L->data);
+        }
+    }
+    int main()
+    {
+        int m,n;
+        scanf("%d",&m);
+        LinkList L;
+        InitCLinkList(&L);
+        n=CreateLinkList(L);
+        Calculation(L,m,n);
+        return 0;
+    }
+}
