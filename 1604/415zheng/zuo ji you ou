@@ -1,0 +1,48 @@
+#include<stdio.h>
+#include<malloc.h>
+
+int change(int *a,int n)
+{
+    int i,h=n-1,l=0;
+    while(h>l)
+    {
+        while(h>l&&a[h]%2==0)
+        {
+            h--;
+        }
+        while(h>l&&a[l]&2!=0)
+        {
+            l++;
+        }
+        while(a[h]%2!=0&&a[l]%2==0)
+        {
+            i = a[l];
+            a[l] = a[h];
+            a[h] = i;
+        }
+        if(h-l==1&&a[h]%2==0&&a[l]%2!=0)
+        {
+            l++;
+        }
+    }
+    return a;
+}
+
+
+int main()
+{
+    int x,y,n;
+    printf("请输入数组长度：");
+    scanf("%d",&n);
+    int *a = (int*)malloc(sizeof(int)*n);
+    for(x=0;x<n;x++)
+    {
+        scanf("%d",&a[x]);
+    }
+    a = change(a,n);
+    for(x=0;x<n;x++)
+    {
+        printf("%d ",a[x]);
+    }
+    return 1;
+}
