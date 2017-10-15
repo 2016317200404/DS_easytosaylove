@@ -1,0 +1,21 @@
+typedef struct CNode
+{
+    int data;
+    struct CNode *next;
+}CNode;
+
+void delPreNode(CNode *s)
+{
+    CNode *p,*q,*r;
+    p = s;
+    q = s->next;
+    r = s->next->next;
+    while(r!=s)//找到s的前驱结点
+    {
+        p = p->next;
+        q = q->next;
+        r = r->next;
+    }
+    p->next = r;
+    delete(q);
+}
