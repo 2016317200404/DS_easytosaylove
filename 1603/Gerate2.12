@@ -1,0 +1,45 @@
+#include<stdio.h>
+typedef struct Node
+{
+    char data;
+    struct Node *prior,*next;
+}Node,*LinkList;
+
+void incl(LinkList *L)
+{
+    *L = (LinkList)malloc(sizeof(Node));
+    (*L)->next = *L;
+}
+void creatalist(LinkList L)
+{
+    Node *p,*s;
+    s=(Node*)malloc(sizeof(Node));
+    char c;
+    c=getchar();
+    if(s){
+    s->data=c;
+    s->prior=p->prior;
+    p->prior->next=s;
+    s->next=p;
+    p->prior=s;
+    return TURE;
+    }
+    else return FALSE;
+}
+void delatepri(LinkList L,Node *s)
+{
+    Node *p;
+    p=s->prior->prior;
+    p->next=s;
+    s->prior=p;
+}
+int main()
+{
+    LinkList L;
+    in(&L);
+    char c;
+    c=getchar();
+    Node *s=c;
+    delatepri(L,s);
+
+}
