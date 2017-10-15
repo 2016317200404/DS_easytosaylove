@@ -1,0 +1,13 @@
+void Dlinklistchange(linklist L)
+{
+    Node *p,*q;
+    p=L->next;
+    while(p->next!=NULL)
+    {
+        q=p->next;
+        q->back=p;
+        p=p->next;
+    }
+    p->next=L;
+    return p;
+}
