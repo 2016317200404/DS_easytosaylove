@@ -1,0 +1,54 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#define MAXLEN 40
+
+typedef struct SString
+{
+    char ch[MAXLEN];
+    int len;
+}SString;
+
+
+
+void BF(SString *c,SString *t)
+{
+    int i,j,start;
+    int n=0,num=0;
+    if(t->len==0)
+    {
+        printf("any string!");
+        return;
+    }
+    for(i=0;i<c->len;i++)//主串循环
+    {
+        start = 0;
+        for(j = 0;j<t->len;j++)//子串循环
+        {
+            n=0;
+            if(c->ch[i+start] == t->ch[j])
+            {
+                start++;
+                n++;
+            }
+            else break;
+        }
+        if(n==t->len)
+            num++;
+    }
+    printf("相同子串有%d个",num);
+}
+
+int main()
+{
+    SString *c=(SString*)malloc(sizeof(SString));
+    SString *t=(SString*)malloc(sizeof(SString));
+    printf("INPUT A MAIN STRING:(less than 40)\n");
+    gets(c->ch);
+    c->len=strlen(c->ch);
+    printf("INPUT A SUBSTRING:(less than 40)\n");
+    gets(t->ch);
+    t->len=strlen(t->ch);
+    BF(c,t);
+    return 0;
+}
