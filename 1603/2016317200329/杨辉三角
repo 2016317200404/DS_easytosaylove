@@ -1,0 +1,78 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define MAXSIZE 100
+
+typedef struct Queue
+{
+    int tri[MAXSIZE];
+    int rear;
+    int head;
+}Queue;
+
+void InitQueue(Queue *q)
+{
+    q->rear=-1;
+    q->head=0;
+}
+
+void EnterQueue(Queue *q,int a)
+{
+    q->rear=(q->rear+1)%MAXSIZE;
+    q->tri[q->rear]=a;
+}
+
+void DeleteQueue(Queue *q,int *a)
+{
+    printf("%d ",q->tri[q->head]);
+    *a=q->tri[q->head];
+}
+
+void GetHead(Queue *q,int *a)
+{
+    q->head=(q->head+1)%MAXSIZE;
+    *a=q->tri[q->head];
+}
+
+int IsEmpty(Queue *q)
+{
+    if(q->head==q->rear)
+    return 1;
+    else return 0;
+}
+
+void YangHuiTriangle(int n,Queue *q)
+{
+    int i,j,k,temp;
+    EnterQueue(q,1);  //第一行1入队
+    for(i=2;i<=n;i++)
+    {
+        EnterQueue(q,1);  //每行第一个元素1入队
+        for(j=1;j<=i-2;j++)  //每行中间元素入队，并打印上一行
+        {
+            DeleteQueue(q,&temp);  //打印（出队）上一行的head并记录该值为temp
+            GetHead(q,&k);        //移动head，获得第一个元素记录为k
+            temp=temp+k;           //得到和
+            EnterQueue(q,temp);    //和入栈
+        }
+        DeleteQueue(q,&k); // 打印上一行最后一个元素（实际上就是1）
+        printf("\n");
+        EnterQueue(q,1);   //最后一个元素1入栈
+    }
+    while(!IsEmpty(q))   //最后一行出队列
+    {
+        DeleteQueue(q,&k);
+        GetHead(q,&k);
+    }
+    DeleteQueue(q,&k);
+}
+
+int main()
+{
+    int n;
+    Queue *q=(Queue*)malloc(sizeof(Queue));
+    InitQueue(q);
+    printf("请输入杨辉三角行数（100以内）：");
+    scanf("%d",&n);
+    YangHuiTriangle(n,q);
+    return 0;
+}
