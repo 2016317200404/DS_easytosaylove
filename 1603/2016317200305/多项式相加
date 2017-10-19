@@ -1,0 +1,87 @@
+#include<stdio.h>
+typedef struct Polynode{
+    int coef;
+    int exp;
+    struct Polynode *next;
+}Polynode,*Polylist;
+Polylist PolyCreat()
+{
+    Polynode   *head,*rear,*s;
+    int c,e;
+    head=(Polylist)malloc(sizeof(Polynode));
+    rear=head;
+    scanf("%d %d",&c,&e);
+    while(c!=0)
+    {
+        s=(Polylist)malloc(sizeof(Polynode));
+        s->coef=c;
+        s->exp=e;
+        rear->next=s;
+        rear=s;
+        scanf("%d %d",&c,&e);
+    }
+    rear->next=NULL;
+    return head;
+}
+void Add(Polylist polya,Polylist polyb)
+{
+    Polynode *p,*q,*tail,*temp;
+    int sum;
+    p=polya->next;
+    q=polyb->next;
+    tail=polya;
+    while(p!=NULL&&q!=NULL)
+    {
+        if(p->exp<q->exp)
+        {
+            tail->next=p;tail=p;p=p->next;
+        }
+        else if(p->exp==q->exp)
+        {
+            sum=p->coef+q->coef;
+            if(sum==0)
+            {
+               temp=p; p=p->next;free(temp);
+               temp=q; q=q->next;free(temp);
+            }
+            else
+            {
+                p->coef=sum;
+                tail->next=p;
+                tail=p;
+                p=p->next;
+                temp=q;
+                q=q->next;free(temp);
+            }
+        }
+        else{
+            tail->next=q;
+            tail=q;
+            q=q->next;
+        }
+    }
+    if(p!=NULL)
+        tail->next=p;
+    if(q!=NULL)
+    {
+        tail->next=q;
+    }
+}
+void Print(Polylist pl)
+{
+        Polylist p;
+        p=pl->next;
+        while(p!=NULL)
+        {
+            printf("%dx%d ",p->coef,p->exp);
+            p=p->next;
+        }
+}
+int main()
+{
+    Polylist pa,pb;
+    pa=PolyCreat();
+    pb=PolyCreat();
+    Add(pa,pb);
+Print(pa);
+}
