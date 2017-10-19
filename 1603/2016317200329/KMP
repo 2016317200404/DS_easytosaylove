@@ -1,0 +1,59 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#define MAXLEN 40
+
+typedef struct SString
+{
+    char ch[MAXLEN];
+    int len;
+}SString;
+
+void KMP(SString *s,SString *t)
+{
+    //NEXT数组
+    int k = 0,p = 0;
+    int i = 0,j = 0;
+    int next[MAXLEN];
+    next[0] = -1;
+    for(k = 1;k < t->len;k++)
+        {
+            for(p = 0;t->ch[k+p] == t->ch[p];p++)
+            {
+                next[k+p] = p+1;
+            }
+            if(p == 0) next[k+p] = 0;
+        }
+
+    //KMP
+    while (i < s->len && j < t->len)
+    {
+        if (j == -1 || s->ch[i] == t->ch[j])//如果j = -1，或者当前字符匹配成功
+        {
+            i++;
+            j++;
+        }
+        else                       //如果j != -1，且当前字符匹配失败
+        {
+            j = next[j];
+        }
+    }
+    if (j == t->len)
+        printf("主串的第%d个字符开始出现子串",i - j+1);
+    else
+        printf("无子串出现");
+}
+
+int main()
+{
+    SString *s=(SString*)malloc(sizeof(SString));
+    SString *t=(SString*)malloc(sizeof(SString));
+    printf("INPUT A MAIN STRING:(less than 40)\n");
+    gets(s->ch);
+    s->len=strlen(s->ch);
+    printf("INPUT A SUBSTRING:(less than 40)\n");
+    gets(t->ch);
+    t->len=strlen(t->ch);
+    KMP(s,t);
+    return 0;
+}
