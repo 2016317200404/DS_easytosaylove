@@ -1,0 +1,18 @@
+typedef struct Node {
+	ElemType data;
+	struct Node *back;
+	struct Node *next;
+}Node, *Linklist;
+
+//循环单链表改循环双链表
+void exchange(Linklist *L) {
+	Node *rear,*s;
+	rear = L;
+	s = L->next;
+	while (s->next != L) {
+		s->back = rear;
+		rear = rear->next;
+		s = s->next;
+	}
+	L->back = s;
+}

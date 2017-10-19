@@ -1,0 +1,85 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct Node {
+	int data;	//数据
+	int freq;	//频度
+	struct Node *back, *next;
+}Node, *List;
+
+void Init(List *L) {
+	*L = (List)malloc(sizeof(Node));
+	(*L)->next = NULL;
+	(*L)->back = NULL;
+}
+
+//尾插法建立双向链表
+void create(List L) {
+	Node *rear, *s;
+	int n;
+	rear = L;
+	scanf("%d", &n);
+	while (n != -1) {
+		s = (Node*)malloc(sizeof(Node));
+		s->data = n;
+		s->freq = 0;
+		rear->next = s;
+		s->back = rear;
+		rear = s;
+		scanf("%d", &n);
+	}
+	s->next = NULL;
+}
+
+//Locate算法实现
+Node* Locate(List L, int x) {
+	Node *r,*s;
+	r = L->next;
+	s = L;
+	//遍历使freq+1并重新排序
+	while (s->next != NULL) {
+		s = s->next;
+		if (s->data == x) {
+			s->freq++;
+			while (r!=NULL && s->freq <= r->freq) {
+				//排在频度相同的最后
+				r = r->next;
+			}
+			if (r != NULL) {
+				s->back->next = s->next;
+				if (s->next != NULL) {
+					s->next->back = s->back;
+				}
+				r->back->next = s;
+				s->back = r->back;
+				s->next = r;
+				r->back = s;
+			}
+			return s;
+		}
+	}
+}
+
+void print(List L) {
+	Node *s;
+	s = L;
+	while (s->next != NULL) {
+		s = s->next;
+		printf("%d,%d ", s->data, s->freq);
+	}
+	printf("\n");
+}
+
+int main() {
+	List L;
+	int i;
+	Init(&L);
+	create(L);
+	scanf("%d", &i);
+	while (i != -1) {
+		Locate(L, i);
+		print(L);
+		scanf("%d", &i);
+	}
+	return 0;
+}
