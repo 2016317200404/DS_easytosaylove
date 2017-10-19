@@ -1,0 +1,107 @@
+#include<stdio.h>
+#include<malloc.h>
+typedef struct Node
+{
+    int data;
+    struct Node *pre,*next;
+
+}Dnode,Doublelist;
+Dnode* Init(Doublelist *d)
+{
+    d=(Dnode*)malloc(sizeof(Dnode));
+    d->pre=d;
+    d->next=d;
+    return d;
+}
+void build(Doublelist *L)
+{
+    Dnode *p,*r;
+    r=L;
+    int data;
+    scanf("%d",&data);
+    while(data)
+    {
+        p=(Dnode*)malloc(sizeof(Dnode));
+        p->data=data;
+        p->pre=r->next;
+
+        r->next=p;
+        r=p;
+        scanf("%d",&data);
+    }
+    p->next=L;
+    L->pre=p;
+}
+Doublelist* Dinsert(Doublelist *L,int i,int e)
+{
+        Dnode *s,*p;
+        int j=0;
+        if(i<0)printf("ERROE");
+        else{
+            p=L;
+            while(p->next!=L&&j<i-1)
+            {
+                j++;
+                p=p->next;
+            }
+        }
+        s=(Dnode*)malloc(sizeof(Dnode));
+        if(s)
+        {
+                s->data=e;
+                s->pre=p;
+
+                s->next=p->next;
+                p->next=s;
+                return L;
+        }
+        else
+            printf("EOOR");
+
+}
+int Dlinkdel(Doublelist *L,int i,int *e)
+{
+    int j=0;
+    Dnode *s,*p;
+    s=L;
+    if(i<0)
+    {
+        printf("ERROR\n");
+    }
+    else
+    {
+        while(s->next!=L&&j<i-1)
+        {
+            j++;
+            s=s->next;
+        }
+        p=s->next;
+        s->next=p->next;
+        p->next->pre=p;
+        free(p);
+        return 0;
+    }
+}
+void Print(Doublelist *L)
+{
+    Dnode *p;
+    p=L->next;
+    while(p!=L)
+    {
+        printf("%d ",p->data);
+        p=p->next;
+    }
+    printf("\n");
+}
+int main()
+{
+    Doublelist *L;
+    int *e;
+    L=Init(&L);
+    build(L);
+    Print(L);
+    Dinsert(L,2,8);
+    Print(L);
+    Dlinkdel(L,3,e);
+    Print(L);
+}
