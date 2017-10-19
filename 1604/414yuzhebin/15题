@@ -1,0 +1,82 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct Polynode
+{
+    int coef;
+    int exp;
+    struct Polynode *next;
+}Polynode,*Polylist;
+Polylist PolyCreat()
+{
+    Polynode *head,*rear,*s;
+    int c,e;
+    head=(Polynode*)malloc(sizeof(Polynode));
+    rear=head;
+    scanf("%d,%d",&c,&e);
+    while(c!=0)
+    {
+        s=(Polynode*)malloc(sizeof(Polynode));
+        s->coef=c;
+        s->exp=e;
+        rear->next=s;
+        rear=s;
+        scanf("%d,%d",&c,&e);
+    }
+    rear->next=NULL;
+    return (head);
+}
+int odd(int x)
+{
+    if(x%2==0)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+void Polycut(Polylist Poly1,Polylist Poly2)
+{
+    Polynode *p,*q,*rear;
+    rear=Poly1;
+    p=Poly1->next;
+    q=Poly2;
+    while(p!=NULL)
+    {
+        if(odd(p->exp))
+        {
+            rear=rear->next;
+            p=p->next;
+        }
+        else
+        {
+            q->next=p;
+            q=q->next;
+            rear->next=p->next;
+            p=p->next;
+            q->next=NULL;
+        }
+    }
+}
+void Print(Polylist L)
+{
+    Polynode *p;
+    p=L->next;
+    while(p!=NULL)
+    {
+        printf("%dx^%d",p->coef,p->exp);
+        p=p->next;
+    }
+    printf("\n");
+}
+int main()
+{
+    Polylist x,y;
+    x=PolyCreat();
+    y=PolyCreat();
+    Polycut(x,y);
+    Print(x);
+    Print(y);
+    return 0;
+}
