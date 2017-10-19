@@ -1,0 +1,126 @@
+typedef struct
+{
+    StackElemtType elem[50]
+}SeqStack;
+//初始化栈
+void InitStack(SeqStack *S)
+{
+    S->top=-1;
+}
+//进栈
+int push(SeqStack *S,StackElemtType x)
+{
+    if(S->top==49) return (FALSE);
+    S->top++;
+    S->elem(S->top}=x;
+    return (TRUE);
+}
+//出栈
+int pop(SeqStack *S,StackElemtType *x)
+{
+    if(S->top==-1)
+        return(FALSE);
+    else
+    {
+        *x=S->elem[S->top];
+        S->top--;
+        return(TURE);
+    }
+}
+//读栈顶元素并存入X所指的空间
+int GetTop(SeqStack *S,StackElemtType *x)
+{
+    if(S->top==-1)
+        return (FALSE)
+    else
+    {
+        *x=S->elem[S->top];
+    return(TRUE);
+    }
+}
+
+
+
+
+//链队列定义
+typedef struct Node
+{
+    QueueElemtType data;
+    struct Node *next;
+}LinkQueueNode;
+typedef struct
+{
+    LinkQueueNode *front;
+    LinkQueueNode *rear;
+}LinkQueue;
+//初始化
+int InitQueue(LinkQueue *Q)
+{
+    Q->front=(LinkQueueNode *)malloc(sizeof(LinkQueueNode));
+    if(Q->front!=NULL)
+    {
+        Q->rear=Q->front;
+        Q->front->next=NULL;
+        return(TRUE);
+    }
+    else return (FALSE);
+}
+//入队列
+int EnterQueue(LinkQueue *Q,QueueElemeType x)
+{
+    LinkQueueNode *NewNode;
+    NewNode=(LinkQueueNode *)malloc(sizeof(LinkQueueNode));
+    if(NewNode!=NULL)
+    {
+        NewNode->data=x;
+        NewNode->next=NULL;
+        Q->rear->next=NewNode;
+        Q->rear=NewNode;
+        return(TRUE);
+    }
+    else return(FALSE);
+}
+//出队列
+int DeleteQueue(LinkQueue *Q,QueueElementType *x)
+{
+    LinkQueueNode *p;
+    if(Q->front==Q->rear)
+        return (FALSE);
+    p=Q->front->next;
+    Q->front->next=p->next;
+    if(Q->rear==p)
+        Q->rear=Q->front;
+    *x=p->data;
+    free(p);
+    return(TRUE);
+}
+int carstop(char c,int id,int time)
+{
+    int time,id,i;
+    int choice;
+    id=id;
+    time=time;
+    choice=c;
+    if(choice=1)
+    {
+        EnterQueue(LinkQueue *Q,int id);
+        if(S1->top<49)
+        {
+            push(SeqStack *S,int id);
+            printf("%d",S1->top);
+        }
+
+    }
+    else
+    {
+        id=S1->Top;
+        printf("%d",id);
+        for(i=0;S1->top<49;i++)
+        {
+            pop(SeqStack *S1,int *id);
+            push(SeqStack *S2,int id);
+        }
+
+    }
+
+}
