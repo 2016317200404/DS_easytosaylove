@@ -1,0 +1,71 @@
+#include<stdio.h>
+#include<malloc.h>
+typedef struct list
+{
+    struct list *back;
+    int data;
+    struct list *next;
+}list,*L;
+void init(L *l)
+{
+    (*l)=(L)malloc(sizeof(list));
+    (*l)->back=NULL;
+    (*l)->next=NULL;
+    (*l)->data=-1;
+}
+void CreateFromTail(L l)
+{
+    L p=l;
+    L s;
+    int flag=1;
+    int c;
+    scanf("%d",&c);
+    while(flag)
+    {
+        if(c!=-1)
+        {
+            s=(L)malloc(sizeof(list));
+            s->data=c;
+            p->next=s;
+            p=s;
+            scanf("%d",&c);
+        }
+        else{
+            flag=0;
+            p->next=NULL;
+        }
+    }
+}
+void Set(L l)
+{
+    L q=l;
+    L p=l;
+    L pr=l->next;
+    while(pr!=NULL)
+    {
+        pr->back=p;
+        p=p->next;
+        pr=pr->next;
+    }
+    p->next=q;
+    q->back=p;
+}
+void Show(L l)
+{
+    L p=l->next;
+    while(p->data!=-1)
+    {
+
+        printf("%d ",p->data);
+        p=p->next;
+}
+    }
+
+int main()
+{
+    list *l;
+    init(&l);
+    CreateFromTail(l);
+    Set(l);
+    Show(l);
+}
