@@ -1,0 +1,140 @@
+#include <iostream>
+#include<stdlib.h>
+using namespace std;
+int R[10][10];
+typedef struct node
+{
+    int e;
+    struct node*next;
+}node;
+typedef struct
+{
+    node *front;
+    node* rear;
+    int len;
+}linkqueue;
+int initqueue(linkqueue*Q)
+{
+    Q->front=(node*)malloc(sizeof(node));
+    if(Q->front!=NULL)
+    {
+        Q->front->next=NULL;
+        Q->rear=Q->front;
+        return true;
+    }
+    else return false;
+}
+int enterqueue(linkqueue*Q,int x)
+{
+    node*p;
+    p=(node*)malloc(sizeof(node));
+    if(p!=NULL)
+    {
+        p->e=x;
+        p->next=NULL;
+        Q->rear->next=p;
+        Q->rear=p;
+        Q->len++;
+        return true;
+    }
+    else return false;
+}
+int deletequeue(linkqueue*Q,int *x)
+{
+    node*p;
+    if(Q->front==Q->rear)
+    {
+        return false;
+    }
+    p=Q->front->next;
+    Q->front->next=p->next;
+    if(Q->rear==p)
+    {
+        Q->rear=Q->front;
+    }
+    *x=p->e;
+    free(p);
+    Q->len--;
+    return true;
+}
+int main()
+{
+    linkqueue Q1;
+    initqueue(&Q1);
+    int i=1,j,group=1,k;
+    int newr[10],result[10];
+    R[1][2]=1;
+    R[2][1]=1;
+    R[2][8]=1;
+    R[8][2]=1;
+    R[4][9]=1;
+    R[9][4]=1;
+    R[2][9]=1;
+    R[9][2]=1;
+    R[2][5]=1;
+    R[5][2]=1;
+    R[2][6]=1;
+    R[6][2]=1;
+    R[5][9]=1;
+    R[9][5]=1;
+    R[5][6]=1;
+    R[6][5]=1;
+    R[5][4]=1;
+    R[4][5]=1;
+    R[7][5]=1;
+    R[5][7]=1;
+    R[6][7]=1;
+    R[7][6]=1;
+    R[3][7]=1;
+    R[7][3]=1;
+    R[6][3]=1;
+    R[3][6]=1;
+    while(i<=9)
+    {
+        enterqueue(&Q1,i);
+        i++;
+    }
+    while(Q1.front!=Q1.rear)
+    {
+        int l=Q1.len;
+        int x;
+        for(j=1;j<=l;j++)
+        {
+            if(deletequeue(&Q1,&x))
+            {
+                if(newr[x]!=1)
+                {
+                    result[x]=group;
+                    for(i=1;i<=9;i++)
+                    {
+                        if(R[x][i]==1)
+                            newr[i]=R[x][i];
+                    }
+                }
+                else
+                    enterqueue(&Q1,x);
+            }
+        }
+        group++;
+        for(i=1;i<=9;i++)
+        {
+            newr[i]=0;
+        }
+    }
+    k=group;
+    group=1;
+    for(j=1;j<k;j++)
+    {
+        cout<<'A'<<j<<"={";
+        for(i=1;i<=9;i++)
+        {
+            if(result[i]==group)
+            {
+                cout<<i;
+            }
+        }
+        cout<<"}"<<endl;
+        group++;
+    }
+    return 0;
+}
