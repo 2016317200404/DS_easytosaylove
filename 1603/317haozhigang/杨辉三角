@@ -1,0 +1,81 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define MAXSIZE 10
+#define FALSE 0
+#define TRUE 1
+#define N 7
+int x;
+typedef struct
+{
+    int n[MAXSIZE];
+    int front;
+    int rear;
+}SeqQueue;
+void InitQueue(SeqQueue *Q);
+int EnterQueue(SeqQueue *Q, int n);
+int DeleteQueue(SeqQueue *Q, int* x);
+int GetHead(SeqQueue Q);
+int isEmpty(SeqQueue Q);
+int main()
+{
+    TangHuiTriangle();
+    return 0;
+}
+void InitQueue(SeqQueue *Q)
+{
+    Q->front = Q->rear = 0;
+}
+int EnterQueue(SeqQueue *Q, int n)
+{
+    if((Q->rear+1)%MAXSIZE == Q->front)
+    return FALSE;
+    Q->n[Q->rear] = n;
+    Q->rear = (Q->rear+1)%MAXSIZE;
+    return TRUE;
+}
+int DeleteQueue(SeqQueue *Q, int* x)
+{
+    if(Q->front == Q->rear)
+    return FALSE;
+    *x = Q->n[Q->front];
+    Q->front = (Q->front+1)%MAXSIZE;
+    return TRUE;
+}
+int GetHead(SeqQueue Q)
+{
+    return Q.n[Q.front];
+}
+int isEmpty(SeqQueue Q)
+{
+    if(Q.front == Q.rear)
+    return TRUE;
+    else return FALSE;
+}
+void TangHuiTriangle()
+{
+    int n,i,temp;
+    SeqQueue Q;
+    InitQueue(&Q);
+    EnterQueue(&Q, 1);
+    for(n = 2;n <= N; n++)
+    {
+        EnterQueue(&Q,1);
+        for(i = 1; i <= n-2; i++)
+        {
+            DeleteQueue(&Q, &temp);
+            printf("%d ", temp);
+            x = GetHead(Q);
+            temp = temp+x;
+            EnterQueue(&Q, temp);
+        }
+        DeleteQueue(&Q, &x);
+
+        printf("%d ", x);putchar('\n');
+        EnterQueue(&Q, 1);
+    }
+    while(!isEmpty(Q))
+    {
+        DeleteQueue(&Q, &x);
+        printf("%d ", x);
+    }
+}
