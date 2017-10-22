@@ -1,0 +1,77 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<malloc.h>
+typedef struct node
+{
+    int data;
+    struct node *next;
+}node,* linklist;
+int initlist(linklist *l)
+{
+    (*l)=(linklist)malloc(sizeof(node));
+    (*l)->next=NULL;
+}
+void creatfromtail(linklist l,int n)
+{
+    node *r,*s;
+    r=l;
+    int i,c;
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&c);
+        s=(node *)malloc(sizeof(node));
+        s->data=c;
+        r->next=s;
+        r=s;
+    }
+    r->next=NULL;
+}
+void alist(linklist la,linklist lb)
+{
+    node *r,*p,*pr,*s,*k;
+    r=la;
+    while(r->next!=NULL)
+    {
+        r=r->next;
+    }
+    r->next=lb->next;
+    p=la->next;
+    pr=p->next;
+    s=p;
+    while(p->next!=NULL)
+    {
+        while(pr->next!=NULL)
+        {
+            if(pr->data==p->data)
+            {
+                s->next=pr->next;
+                free(pr);
+                break;
+            }
+            pr=pr->next;
+        }
+        p=p->next;
+        s=p;
+        pr=s->next;
+    }
+    k=la->next;
+    while(k!=NULL)
+    {
+        printf("%d ",k->data);
+        k=k->next;
+    }
+
+}
+int main()
+{
+    linklist a,b;
+    initlist(&a);
+    initlist(&b);
+    int m,n;
+    scanf("%d,%d",&m,&n);
+    creatfromtail(a,m);
+    creatfromtail(b,n);
+    alist(a,b);
+    return 0;
+
+}
