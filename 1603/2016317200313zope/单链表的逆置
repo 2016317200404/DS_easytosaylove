@@ -1,0 +1,73 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<malloc.h>
+#define OK 1
+#define ERROR 0
+typedef int ElemType;
+typedef struct Node
+{
+    ElemType data;
+    struct Node *next;
+}Node,*LinkList;
+void InitList(LinkList *L)
+{
+    *L=(LinkList)malloc(sizeof(Node));
+    (*L)->next=NULL;
+}
+void CreateFromTail(LinkList L)
+{
+    Node *r,*s;
+    int m;
+    int flag=1;
+    r=L;
+    while(flag)
+    {
+        scanf("%d",&m);
+        if(m!=0)
+        {
+            s=(Node *)malloc(sizeof(Node));
+            s->data=m;
+            r->next=s;
+            r=s;
+        }
+        else
+        {
+            flag=0;
+            r->next=NULL;
+        }
+    }
+}
+void ReverseList(LinkList L)
+{
+    LinkList p,r;
+    p=L->next;
+    L->next=NULL;
+    while(p)
+    {
+        r=p->next;
+        p->next=L->next;
+        L->next=p;
+        p=r;
+    }
+    return OK;
+}
+void DisLinkList(LinkList L)
+{
+    LinkList p;p=L;
+    while(p->next)
+    {
+        printf("%d ",p->next->data);p=p->next;
+    }
+}
+main()
+{
+    LinkList L;
+    InitList(&L);
+    printf("input:\n");
+    CreateFromTail(L);
+    DisLinkList(L);
+    printf("\n");
+    printf("output:\n");
+    ReverseList(L);
+    DisLinkList(L);
+}
