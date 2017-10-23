@@ -1,0 +1,72 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<malloc.h>
+typedef struct Node
+{
+    int data;
+    struct Node *next,*back;
+}Node,*LinkList;
+void InitLinkList(LinkList *l)
+{
+    *l=(LinkList)malloc(sizeof(Node));
+    (*l)->back=NULL;
+    (*l)->data=-1;
+    (*l)->next=*l;
+}
+void Create(LinkList l,int n)
+{
+    Node *r,*s;
+    int i,a;
+    r=l;
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&a);
+        s=(Node*)malloc(sizeof(Node));
+        s->data=a;
+        s->back=NULL;
+        r->next=s;
+        r=s;
+    }
+    r->next=NULL;
+}
+void Delete(LinkList l,int i)
+{
+    Node *p;
+    p=l;
+    while(p->next!=NULL&&p->next->data!=i)
+    {
+        p=p->next;
+    }
+    if(p->next==NULL)
+    {
+        printf("delete error!");
+    }
+    else
+    {
+        p->next=p->next->next;
+    }
+}
+void print(LinkList l)
+{
+    Node *p;
+    p=l->next;
+    while(p!=NULL)
+    {
+        printf("%d ",p->data);
+        p=p->next;
+    }
+}
+int main()
+{
+    LinkList l;
+    l=(LinkList)malloc(sizeof(Node));
+    l->next=NULL;
+    int n,i;
+    scanf("%d %d",&n,&i);
+    Create(l,n);
+    print(l);
+    printf("\n");
+    Delete(l,i);
+    print(l);
+    return 0;
+}
