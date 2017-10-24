@@ -1,0 +1,113 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define MAXSIZE 10
+typedef struct
+{
+    int data;
+    int cursor;
+}Component,StaticList[MAXSIZE];
+void inital(StaticList space, int *av)
+{
+    int k;
+    space[0].cursor=-1;
+    for(k = 1; k < MAXSIZE-1; k++)
+    {
+        space[k].cursor = k+1;
+    }
+    space[k].cursor = -1;
+    *av = 1;
+}
+int getnode(StaticList space, int *av)
+{
+    int i;
+    i = *av;
+    *av = space[*av].cursor;
+    return i;
+}
+void freenode(StaticList space, int *av, int k)
+{
+    space[k].cursor = *av;
+    *av = k;
+}
+void Insert(StaticList space, int *av)
+{
+    int n, i = 0, k;
+
+    scanf("%d",&n);
+    while(space[i].cursor != -1)
+    {
+        i++;
+    }
+    k = getnode(space, av);
+    space[k].data = n;
+    space[k].cursor = -1;
+    space[i].cursor = k;
+}
+void Delete(StaticList space,int k, int *av)
+{
+    int i=0, j;
+    if(space[0].cursor == -1)
+    {
+        printf("链表为空\n");
+        return;
+    }
+  else
+  {
+      i = space[0].cursor;
+      while(space[i].cursor != -1 && space[i].data != k)
+      {
+          j=i;
+          i++;
+      }
+      if(space[i].data != k)
+      {
+          printf("未找到该元素->%d\n",k);
+          return ;
+      }
+      else
+      {
+          space[j].cursor = space[i].cursor;
+          freenode(space, av, i);
+          printf("已删除该元素->%d\n",k);
+      }
+  }
+}
+void Displsy(StaticList space)
+{
+    int i;
+    if(space[0].cursor == -1)
+    {
+        printf("链表为空");
+        return ;
+    }
+    else
+    {
+        printf("链表元素：\n");
+        int i = space[0].cursor;
+        while(space[i].cursor != -1)
+        {
+            printf("%d ",space[i].data);
+            i=space[i].cursor;
+        }
+        printf("%d",space[i].data);
+    }
+}
+int main()
+{
+    int i, j ,av, n;
+   StaticList s;
+   inital(s, &av);
+   printf("输入要插入数据个数:\n");
+   scanf("%d", &i);
+   printf("请输入数据：\n");
+   for(j = 0; j < i; j++)
+   {
+       Insert(s, &av);
+   }
+   printf("请输入要删除的元素值:");
+   scanf("%d",&n);
+   Delete(s, n ,&av);
+   Displsy(s);
+   printf("\n%d",av);
+   return 0;
+}
