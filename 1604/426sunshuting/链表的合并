@@ -1,0 +1,98 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<malloc.h>
+typedef struct Node
+{
+    int data;
+    struct Node *next;
+}Node,*LinkList;
+void Create(LinkList l,int n)
+{
+    Node *r,*s;
+    r=l;
+    int a,i;
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&a);
+        s=(Node *)malloc(sizeof(Node));
+        s->next=r->next;
+        s->data=a;
+        r->next=s;
+        r=s;
+    }
+    r->next=NULL;
+}
+void Delete(LinkList l,int i)
+{
+    Node *p,*r;
+    p=l;
+    while(p->next!=NULL&&p->next->data!=i)
+    {
+        p=p->next;
+    }
+    if(p->next==NULL)
+    {
+        printf("delete error!");
+    }
+    else
+    {
+        r=p->next;
+        p->next=r->next;
+        free(r);
+    }
+}
+void print(LinkList l)
+{
+    Node *p;
+    p=l->next;
+    while(p!=NULL)
+    {
+        printf("%d",p->data);
+        p=p->next;
+    }
+    printf("\n");
+}
+void mergeLinkList(LinkList la,LinkList lb,int n,int m)
+{
+    int i,j,a,b;
+    Node *p,*q;
+    p=la;
+    for(i=0;i<n;i++)
+    {
+        p=p->next;
+        a=p->data;
+        q=lb;
+        for(j=0;j<m;j++)
+        {
+            q=q->next;
+            b=q->data;
+            if(b==a)
+            {
+                Delete(lb,b);
+            }
+        }
+    }
+        for(j=0;j<m;j++)
+        {
+            q->next=p->next;
+            p->next=q;
+        }
+    p->next=lb->next;
+}
+int main()
+{
+    LinkList la,lb;
+    int m,n;
+    la=(LinkList)malloc(sizeof(Node));
+    la->next=NULL;
+    lb=(LinkList)malloc(sizeof(Node));
+    lb->next=NULL;
+    scanf("%d %d",&m,&n);
+    Create(la,m);
+    Create(lb,n);
+    print(la);
+    print(lb);
+    mergeLinkList(la,lb,m,n);
+    print(la);
+    return 0;
+}
