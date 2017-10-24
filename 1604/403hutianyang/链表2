@@ -1,0 +1,77 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct Node
+{
+	int coef;
+	int exp;
+	struct Node *next;
+}Node, *List;
+void init(List *H) 
+{
+	*H = (List)malloc(sizeof(Node));
+	(*H)->exp = -1;
+	(*H)->next = *H;
+}
+void Create(List L)
+{
+	Node *rear, *s;
+	int scoef, sexp;
+	rear = L;
+	scanf("%d,%d", &scoef, &sexp);
+	while (scoef!=-1)
+	{
+		s = (Node*)malloc(sizeof(Node));
+		s->coef = scoef;
+		s->exp = sexp;
+		rear->next = s;
+		rear = s;
+		scanf("%d,%d", &scoef, &sexp);
+	}
+	rear->next = L;
+}
+void derivation(List L) 
+{
+	Node *rear, *s;
+	rear = L;
+	s = L；
+	while (s->next->exp != -1) 
+  {
+		rear = s;
+		s = s->next;
+		s->coef = (s->coef)*(s->exp);	
+		s->exp--;	
+		if (s->exp < 0)
+    {
+			rear->next = s->next;
+			free(s);
+			s = rear->next;
+		}
+	}
+}
+void print(List L) 
+{
+	Node *s;
+	s = L;
+	while (s->next->exp != -1)
+  {
+		s = s->next;
+		if (s->exp == 0)
+    {
+			printf("%d ", s->coef);
+		}
+		else 
+    {
+			printf("%dx^%d ", s->coef, s->exp);
+		}
+	}
+}
+int main() 
+{
+	List L;
+	int scoef, sexp;
+	init(&L);
+	Create(L);
+	derivation(L);
+	print(L);
+	return 0；
+}
