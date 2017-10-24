@@ -1,0 +1,96 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<malloc.h>
+#define OK 1
+#define ERROR 0
+typedef int ElemType;
+typedef struct Node
+{
+    ElemType data;
+    struct Node *next;
+}Node,*LinkList;
+void InitList(LinkList *L)
+{
+    *L=(LinkList)malloc(sizeof(Node));
+    (*L)->next=NULL;
+}
+void CreateFromTail(LinkList L)
+{
+    Node *r,*s;
+    int m;
+    int flag=1;
+    r=L;
+    while(flag)
+    {
+        scanf("%d",&m);
+        if(m!=0)
+        {
+            s=(Node *)malloc(sizeof(Node));
+            s->data=m;
+            r->next=s;
+            r=s;
+        }
+        else
+        {
+            flag=0;
+            r->next=NULL;
+        }
+    }
+}
+ int Locate(LinkList L,ElemType key) //在带头结点的单链表L中查找其结点值等于key的第一个结点，若找到则返回该结点的位置p,否则返回NULL//
+{
+    Node *p;
+    int i=0;
+    p=L->next; //从表中第一个结点开始//
+    while(p!=NULL) //当前表未查完//
+     if(p->data!=key)
+     {
+         p=p->next;
+         i++;
+     }
+    else break; //找到结点值=key时退出循环//
+    return i+1;
+}
+int DelList(LinkList L,int i) //在带头结点的单链表L中删除第i个元素，并将删除的元素保存到变量* e中//
+{
+    Node *pre,*r;
+    int k;
+    pre=L;k=0;
+    while(pre->next!=NULL&&k<i-1) //寻找被删除结点i的前驱结点i-1使p指向它//
+    {
+        pre=pre->next;
+        k=k+1;
+    } //查找第i-1个结点//
+    if(pre->next==NULL) //while循环是因为p->next=NULL或i<1而跳出来的，因为pre->next为空，没有找到合法的前驱位置，说明删除位置i不合法//
+    {
+        printf("删除结点的位置i不合理！");
+        return ERROR;
+    }
+    r=pre->next;
+    pre->next=r->next; //修改指针，删除结点r//
+    return OK;
+}
+void DisLinkList(LinkList L) //单链表的显示//
+{
+    LinkList p;p=L;
+    while(p->next)
+    {
+        printf("%d ",p->next->data);p=p->next;
+    }
+}
+main()
+{
+    LinkList L;
+    int a,x;
+    InitList(&L);
+    printf("初始化单链表如下：\n");
+    CreateFromTail(L);
+    DisLinkList(L);
+    printf("\n");
+    printf("输入需要删除的元素的值x：");
+    scanf("%d",&x);
+    a=Locate(L,x);
+    DelList(L,a);
+    printf("删除元素%d后的单链表如下\n",x);
+    DisLinkList(L);
+}
