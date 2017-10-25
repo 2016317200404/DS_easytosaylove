@@ -1,0 +1,79 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<malloc.h>
+#define MAX 50
+typedef  struct{
+    int q[MAX];
+    int front,rear;
+}SeqQueue;
+void InitQueue(SeqQueue *Q)
+{
+    Q->front=Q->rear=0;
+}
+int EnterQueue(SeqQueue *Q,int x)
+{
+    if((Q->rear+1)%MAX==Q->front)
+        return -1;
+    Q->q[Q->rear]=x;
+    Q->rear=(Q->rear+1)%MAX;
+    return 0;
+}
+
+int DeleteQueue(SeqQueue *Q,int *x)
+{
+    if(Q->front==Q->rear)
+        return -1;
+    *x=Q->q[Q->front];
+    Q->front=(Q->front+1)%MAX;
+    return 0;
+}
+int GetHead(SeqQueue *Q,int *x)
+{
+    if(Q->front==Q->rear)
+        return -1;
+    *x=Q->q[Q->front];
+    return 0;
+}
+int IsEmpty(SeqQueue *Q)
+{
+    int tag;
+    if(Q->front!=NULL)
+        tag=1;
+    else
+        tag=0;
+}
+void YangHuiTriangle()
+{
+    int i,n,*temp,*x;
+    scanf("%d",&n);
+    SeqQueue Q;
+    InitQueue(&Q);
+    EnterQueue(&Q,1);
+    for(n=2;n<=MAX;n++) /* 产生第n行元素并入队， 同时打印第n-1行的元素*/
+    {
+        EnterQueue(&Q,1);    /* 第n行的第一个元素入队*/
+        for(i=1;i<=n-2;i++)   /* 利用队中第n-1行元素产生第n行的中间n-2个元素并入队*/
+        {
+            DeleteQueue(&Q,&temp);
+            printf("%d",temp);      /* 打印第n-1行的元素*/
+            GetHead(&Q,&x);
+            temp=temp+x; /*利用队中第n-1行元素产生第n行元素*/
+            EnterQueue(&Q,temp);
+        }
+        DeleteQueue(&Q,&x);
+        printf("%d",x);     /* 打印第n-1行的最后一个元素*/
+        EnterQueue(&Q,1);   /* 第n行的最后一个元素入队*/
+    }
+    while(!IsEmpty(&Q))    /*打印最后一行元素*/
+    {
+        DeleteQueue(&Q,&x);
+        printf("%d",x);
+
+    }
+}
+int main()
+{
+    SeqQueue Q;
+    YangHuiTriangle();
+    return 0;
+}
