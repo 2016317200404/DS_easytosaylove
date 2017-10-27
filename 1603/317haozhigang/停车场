@@ -1,0 +1,222 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define TRUE 1
+#define FALSE 0
+#define MAX 3
+typedef struct
+{
+  long CR_Number;
+  int R_date;
+  int L_date;
+  struct Car  *next;
+}Car;
+typedef struct
+{
+    int top;
+    Car P[MAX];
+}ParkStack;
+typedef struct
+{
+    Car *front;
+    Car * rear;
+    int Position;
+} LinkQueue;
+void Init_Park(ParkStack *p);
+void Init_Link(LinkQueue *l);
+void Push(ParkStack *p,Car *s);
+void EnterLink(LinkQueue *l, Car *q);
+void Pop(ParkStack *p, Car *s);
+void DeleteQueue(LinkQueue *l, Car *q);
+int S_IsEmpty(ParkStack *p);
+int Q_IsEmpty(LinkQueue *l);
+int IsFull(ParkStack *p);
+int GetTp(ParkStack *p);
+int GetPosition(LinkQueue *l);
+void Arrive(ParkStack *p, LinkQueue *l);
+void Leave(ParkStack *p, LinkQueue *l);
+int main()
+{
+    char c;
+    ParkStack p;
+    LinkQueue l;
+    Init_Park(&p);
+    Init_Link(&l);
+   while(1){
+    printf("\n请输入指令(1->到达；2->离去；3->退出）：");
+     r:c=getchar();
+    switch(c)
+    {
+        case '1':
+        {
+         Arrive(&p, &l);
+         break;
+        }
+        case '2':
+        Leave(&p, &l);
+        break;
+        case '\n':    //读入回车
+       goto r;
+       case '3':
+       printf("\nBye!");
+       exit(0);
+        default:
+        printf("\n指令无效！");
+        break;
+
+    }
+    }
+    return 0;
+}
+void Arrive(ParkStack *p, LinkQueue *l)
+{
+    int time;
+    long number;
+    Car S;
+    printf("\n请输入汽车牌照号码：");
+    scanf("%ld",&number);
+    S.CR_Number = number;
+    printf("\n请输入时间：");
+    scanf("%d",  &time);
+
+    S.R_date = time;
+    S.L_date = 0;
+    if(!IsFull(p))
+    {
+        Push(p, &S);
+        printf("该车在停车场的位置：%d", GetTp(p));
+    }
+     else
+     {
+         S.R_date = 0;
+         S.L_date = 0;
+         EnterLink(l, &S);
+         printf("该车在便道的位置：%d",GetPosition(l));
+     }
+
+}
+void Leave(ParkStack *p, LinkQueue *l)
+{
+    ParkStack p1;
+    Init_Park(&p1);
+    int time;
+    Car Q;
+    long number;
+    printf("\n请输入汽车牌照号码：");
+    scanf("%ld",&number);
+    printf("\n请输入时间(minutes)：");
+    scanf("%d",  &time);
+    if(!S_IsEmpty(p)) //先假定只走停车场的
+    {
+        Pop(p, &Q);
+        printf("%ld",Q.CR_Number);
+       while(Q.CR_Number != number && !S_IsEmpty(p))
+        {
+            Push(&p1, &Q);
+            Pop(p, &Q);
+        }
+        Q.L_date = time;
+        int Delta_T = Q.L_date - Q.R_date;
+            int Cost = Delta_T * 10;
+        printf("该车停留时间为:%d分钟 应交费用为:%d元", Delta_T, Cost);
+        while(!S_IsEmpty(&p1))
+        {
+            Pop(&p1, &Q);  //位置要变
+            Push(p, &Q);
+        }
+          if(!Q_IsEmpty(l))
+        {
+            DeleteQueue(l, &Q);//位置要变
+            Push(p, &Q);
+        }
+
+    }
+    else
+    {
+        printf("停车场无车停放！");
+    }
+
+}
+void Init_Park(ParkStack *p)
+{
+    p->top = -1;
+}
+void Init_Link(LinkQueue *l)
+{
+    Car *c = (Car *)malloc(sizeof(Car));
+    if(c == NULL) exit(0);
+    l->Position = 0;
+    l->front = c;
+    c->next = NULL;
+    l->rear = c;
+}
+void Push(ParkStack *p,Car *s)
+{
+    (p->top)++;
+    (p->P[(p->top)]).CR_Number = s->CR_Number;
+    (p->P[(p->top)]).L_date = s->L_date;
+    (p->P[(p->top)]).R_date = s->R_date;
+    (p->P[(p->top)]).next = NULL;
+}
+void EnterLink(LinkQueue *l, Car *q)
+{
+    Car *c = (Car*)malloc(sizeof(Car));
+    if(c == NULL)
+    exit(0);
+    (l->Position)++;
+    c->CR_Number = q->CR_Number;
+    c->L_date = q->L_date;
+    c->R_date = q->R_date;
+    (l->rear)->next = c;
+    l->rear = c;
+}
+void Pop(ParkStack *p, Car *s)
+{
+    s->CR_Number = (p->P[(p->top)]).CR_Number;
+    s->L_date = (p->P[(p->top)]).L_date;
+    s->R_date = (p->P[(p->top)]).R_date;
+     (p->top)--;
+}
+void DeleteQueue(LinkQueue *l, Car *q)
+{
+    Car *p;
+    p = (l->front)->next;
+    (l->front)->next = p->next;
+    q->CR_Number = p->CR_Number;
+    q->L_date = p->L_date;
+    q->R_date = p->R_date;
+     if(p == l->rear)
+     l->rear = l->front;
+     free(p);
+     (l->Position)--;
+}
+
+int S_IsEmpty(ParkStack *p)
+{
+    if(p->top == -1)
+    return TRUE;
+    else
+    return FALSE;
+}
+int Q_IsEmpty(LinkQueue *l)
+{
+    if(l->front == l->rear)
+    return TRUE;
+    else
+    return FALSE;
+}
+int IsFull(ParkStack *p)
+{
+    if(p->top == MAX-1)
+    return TRUE;
+    else
+    return FALSE;
+}
+int GetTp(ParkStack *p)
+{
+    return (p->top)+1;
+}
+int GetPosition(LinkQueue *l)
+{
+    return l->Position;
+}
