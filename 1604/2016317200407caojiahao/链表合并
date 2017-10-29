@@ -1,0 +1,96 @@
+#include <iostream>
+#include<stdlib.h>
+using namespace std;
+typedef struct node
+{
+    int e;
+    struct node*next;
+}node,*List;
+node* createlist(int n)
+{
+    node*head,*p,*rear;
+    int a;
+    head=(List)malloc(sizeof(node));
+    head->next=NULL;
+    rear=head;
+    p=head;
+    while(n--)
+    {
+        cin>>a;
+        p=(List)malloc(sizeof(node));
+        p->next=NULL;
+        p->e=a;
+        rear->next=p;
+        rear=p;
+    }
+    return head;
+}
+void insertlist(List*la,int a)
+{
+    node*p,*q;
+    q=(List)malloc(sizeof(node));
+    q->next=NULL;
+    q->e=a;
+    p=*la;
+    while(p->next!=NULL)
+    {
+        p=p->next;
+    }
+    p->next=q;
+}
+int ffind(List la,int a)
+{
+    node*p;
+    int flag=0;
+    p=la->next;
+    while(p!=NULL)
+    {
+        if(p->e==a)
+        {
+            flag=1;break;
+        }
+        else
+            p=p->next;
+    }
+    return flag;
+}
+void show(List l)
+{
+    node*p;
+    p=l->next;
+    while(p!=NULL)
+    {
+        cout<<(p->e)<<" ";
+        p=p->next;
+    }
+    cout<<endl;
+}
+int main()
+{
+   List la,lb;
+   int a,b;
+
+   while(1)
+   {
+       node*p=NULL;
+       cin>>a;
+       la=createlist(a);
+       cin>>b;
+       lb=createlist(b);
+       p=lb->next;
+       show(la);
+       show(lb);
+       while(p!=NULL)
+       {
+           if(ffind(la,p->e))
+            show(la);
+           else
+           {
+               insertlist(&la,p->e);
+               show(la);
+           }
+           p=p->next;
+       }
+   }
+    return 0;
+}
