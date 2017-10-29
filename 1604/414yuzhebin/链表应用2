@@ -1,0 +1,18 @@
+void solve(Linklist L)
+{
+    Node *p=L->next;
+    while(p->exp!=-1)
+    {
+        if(p->exp=0)
+        {
+            p->coef=0;
+            p->exp=0;
+        }
+        else
+        {
+            p->coef=p->coef*p->exp;
+            p->exp--;
+        }
+    }
+    return;
+}
