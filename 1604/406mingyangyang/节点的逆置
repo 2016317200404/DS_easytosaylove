@@ -1,0 +1,66 @@
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+typedef struct node
+{
+    int e;
+    struct node*next;
+}node,*List;
+node*createlist(int n)
+{
+    node*head,*p,*rear;
+    head=(node*)malloc(sizeof(node));
+    head->next=NULL;
+    rear=head;
+    while(n--)
+    {
+        int a;
+        cin>>a;
+        p=(node*)malloc(sizeof(node));
+        p->next=NULL;
+        p->e=a;
+        rear->next=p;
+        rear=p;
+    }
+    return head;
+}
+void nizhi(List*l,int n)//节点的逆向放置
+{
+    node*q,*r,*p;
+    p=(*l);
+    while(--n)
+    {
+        q=p->next;
+        while(q->next->next!=NULL)
+        {
+            q=q->next;
+        }
+        r=q->next;
+        q->next=NULL;
+        r->next=p->next;
+        p->next=r;
+        p=p->next;
+    }
+}
+void show(node*l)
+{
+    node*p;
+    p=l->next;
+    while(p!=NULL)
+    {
+        cout<<p->e<<" ";
+        p=p->next;
+    }
+    cout<<endl;
+}
+int main()
+{
+    node*la;
+    int n;
+    cin>>n;
+    la=createlist(n);
+    show(la);
+    nizhi(&la,n);
+    show(la);
+    return 0;
+}
