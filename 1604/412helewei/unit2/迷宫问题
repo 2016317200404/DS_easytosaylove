@@ -1,0 +1,49 @@
+//dfs会比栈好用（并不是抄的）
+#include<bits/stdc++.h>
+const int manx = 1000;
+bool vis[1000][1000];
+int mp[1000][1000];
+int m,n;
+bool judge(int x , int y)
+{
+    if(mp[x][y] == 0 && x >= 0 && x < n && y >= 0 && y<m && vis[x][y] == 0)
+        return 1;
+    else
+        return 0;
+}
+int flag ;
+void dfs(int x, int y)
+{
+    if(x == n && y == m)
+    {
+        flag = 1;
+        return ;
+    }
+    vis[x][y] = 1;
+    for(int i = -1; i <= 1; i++)
+    {
+        for(int j = -1; j <= 1; j++)
+        {
+            int x1 = x + i;
+            int y1 = y + j;
+            if(judge(x1,y1))
+                dfs(x,y);
+        }
+    }
+}
+int main()
+{
+    while(~scanf("%d%d",&n,&m))
+    {
+        flag = 0;
+        for(int i = 0; i < n; i++)
+            for(int j = 1; j < m; j++)
+            scanf("%d",&mp[i][j]);
+        dfs(0,0);
+        if(flag)
+            printf("Yes");
+        else
+            printf("No");
+    }
+    return 0;
+}
