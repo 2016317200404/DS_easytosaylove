@@ -1,0 +1,96 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define MAX 100
+
+int maze[MAX][MAX];
+int move[8][2] = { {-1,-1},{-1,0},{-1,1},{0,-1},{0,1},{1,-1},{1,0}, {1,1} };
+
+typedef struct Stack {
+	int i;
+	int j;
+	int fl;
+}Stack;
+int top = -1;
+
+void find(int m, int n);
+//建立迷宫,以9为终点
+void create() {
+	int m, n, i, j;
+	scanf("%d %d", &m, &n);
+	for (i = 0; i < m + 2; i++) {
+		maze[i][0] = 1;
+		maze[i][n + 1] = 1;
+	}
+	for (j = 0; j < n; j++) {
+		maze[0][j] = 1;
+		maze[m + 1][j] = 1;
+	}
+	for (i = 1; i < m + 1; i++) {
+		for (j = 1; j < n + 1; j++) {
+			scanf("%d", &maze[i][j]);
+		}
+	}
+	find(m + 1, n + 1);
+}
+
+void find(int m,int n) {
+	int i=0,j=0,fl,findn;
+	int x, y, k;
+	Stack stack[MAX];
+	top++;
+	stack[top].i = 1;
+	stack[top].j = 1;
+	stack[top].fl = -1;
+	maze[1][1] = -1;
+	while (top > -1) {
+		if (maze[i][j] == 9) {
+			for (x = 1; x < m + 1; x++) {
+				for (y = 1; y < n + 1; y++) {
+					for (k = 0; k < top; k++) {
+						if (x == stack[k].i && y == stack[k].j) {
+							maze[x][y] = 9;
+						}
+					}
+				}
+			}
+			for (x = 1; x < m + 1; x++) {
+				for (y = 1; y < n + 1; y++) {
+					printf("%d ", maze[x][y]);
+				}
+				printf("\n");
+			}
+			return;
+		}
+
+		i = stack[top].i;
+		j = stack[top].j;
+		fl = stack[top].fl;
+		findn = 0;
+		while (fl <= 7&&findn==0) {
+			fl++;
+			i = stack[top].i + move[fl][0];
+			j = stack[top].j + move[fl][1];
+			if (maze[i][j] == 0) {
+				findn = 1;
+				break;
+			}
+		}
+		if (findn == 1) {	//入栈
+			stack[top].fl = fl;
+			top++;
+			stack[top].i = i;
+			stack[top].j = j;
+			stack[top].fl = -1;
+			maze[i][j] = -1;
+		}
+		else {
+			maze[stack[top].i][stack[top].j] = 0;	//退栈
+			top--;
+		}
+	}
+	printf("没有通路\n");
+}
+int main() {
+	create();
+	return 0;
+}
