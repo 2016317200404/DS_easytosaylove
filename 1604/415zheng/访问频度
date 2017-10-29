@@ -1,0 +1,84 @@
+#include<stdio.h>
+#include<malloc.h>
+typedef struct node
+{
+    int data,freq;
+    struct node *next,*back;
+}node,*hnode;
+
+int nodein(hnode L)
+{
+    hnode p=L,q;
+    int m,n;
+    printf("请输入数组长度：");
+    scanf("%d",&n);
+    printf("请输入数组中的数值：");
+    for(m=0;m<n;m++)
+    {
+        q = (hnode)malloc(sizeof(node));
+        scanf("%d",&q->data);
+        p->next = q;
+        q->freq = 0;
+        q->back = p;
+        p = p->next;
+    }
+    p->next = NULL;
+    return 1;
+};
+
+hnode Locate(hnode L,int x)
+{
+    hnode p = L,q;
+    int m,n,i = 1;
+    while(p->next)
+    {
+        p = p->next;
+        if(p->data==x)
+        {
+            p->freq++;
+            n = p->freq;
+            q=p;
+            break;
+        }
+    }
+    p = L;
+    while(p!=q)
+    {
+        if(p->next->data<n)
+        {
+            if(q->next)
+            {
+            q->back->next = q->next;
+            q->next->back = q->back;
+            }
+            else
+            {
+                q->back->next = NULL;
+            }
+            p->next = q->next;
+            p->next = q;
+            q->back = p;
+            q->next->back = q;
+            break;
+        }
+        p = p->next;
+    }
+    return q;
+};
+
+main()
+{
+    int x;
+    hnode L;
+    L = (hnode)malloc(sizeof(node));
+    nodein(L);
+    printf("请输入要查询的数：");
+    scanf("%d",&x);
+    Locate(L,x);
+    while(L->next)
+    {
+        L = L->next;
+        printf("%d,%d\n",L->data,L->freq);
+    }
+    return 0;
+}
