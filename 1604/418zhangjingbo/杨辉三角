@@ -1,0 +1,91 @@
+#include<stdio.h>
+#define MAXSIZE 100
+typedef struct
+
+{
+
+	int num[MAXSIZE];
+	int front;
+	int rear;
+
+}SeqQueue;
+
+void InitQueue(SeqQueue *Q)
+{
+	Q->front = Q->rear = 0;
+}
+
+int EnterQueue(SeqQueue *Q, int x)
+{
+	if ((Q->rear + 1) % MAXSIZE == Q->front) {
+		return 0;
+	}
+	Q->num[Q->rear] = x;
+	Q->rear = (Q->rear + 1) % MAXSIZE;
+	return 1;
+}
+
+int DeleteQueue(SeqQueue *Q, int *x)
+{
+	if (Q->front == Q->rear) {
+		return 0;
+	}	
+	*x = Q->num[Q->front];
+	Q->front = (Q->front + 1) % MAXSIZE;
+	return 1;
+
+}
+
+int GetHead(SeqQueue *Q, int *x)
+{
+	if (Q->front == Q->rear)
+	{
+		return 0;
+	}
+	else
+	{
+		*x = Q->num[Q->front];
+		return 1;
+	}
+}
+
+int IsEmpty(SeqQueue *Q)
+{
+	if (Q->front == Q->rear)
+	{
+		printf("Empty");
+		return 1;
+	}
+}
+
+int main()
+{
+	SeqQueue Q;
+	InitQueue(&Q);
+	EnterQueue(&Q, 1);
+	int n, i, temp, N;
+	int x = 1;
+	for (n = 2; n <= 11; n++)
+	{
+		EnterQueue(&Q, 1);
+		for (i = 1; i <= n - 2; i++)
+		{
+			DeleteQueue(&Q, &temp);
+			printf("%5d", temp);
+			GetHead(&Q, &x);
+			temp = temp + x;
+			EnterQueue(&Q, temp);
+		}
+		DeleteQueue(&Q, &x);
+		printf("%5d", x);
+		printf("\n");
+		EnterQueue(&Q, 1);
+	}
+	while (!IsEmpty(&Q))
+	{
+		DeleteQueue(&Q, &x);
+		printf("%5d", x);
+	}
+	return 0;
+
+}
