@@ -1,0 +1,77 @@
+#include <iostream>
+#define maxsize 50
+using namespace std;
+typedef struct
+{
+    int a[maxsize];
+    int front;
+    int rear;
+}seqQueue;
+void initqueue(seqQueue *Q)
+{
+    Q->front=Q->rear=0;
+}
+int enterqueue(seqQueue *Q,int x)
+{
+    if((Q->rear+1)%maxsize==Q->front)
+        return false;
+    Q->a[Q->rear]=x;
+    Q->rear=(Q->rear+1)%maxsize;
+    return true;
+}
+int DeleteQueue(seqQueue *Q,int *x)
+{
+    if(Q->front==Q->rear)
+        return false;
+    *x=Q->a[Q->front];
+    Q->front=(Q->front+1)%maxsize;
+    return true;
+}
+int gethead(seqQueue*Q,int &x)
+{
+    if((Q->rear+1)%maxsize==Q->front)
+        return false;
+    x=Q->a[Q->front];
+    return true;
+}
+int isEmpty(seqQueue Q)
+{
+    if(Q.rear==Q.front)
+        return false;
+    else
+        return true;
+}
+void yanghuitriangle(int N)
+{
+    seqQueue Q;
+    int temp,x,n,i;
+    initqueue(&Q);
+    enterqueue(&Q,1);
+    for(n=2;n<=N;n++)
+    {
+        enterqueue(&Q,1);
+        for(i=1;i<=n-2;i++)//打印第n-i行的n-2个元素并生成第2行中间的n-2个元素
+        {
+            DeleteQueue(&Q,&temp);
+            cout<<temp<<" ";
+            gethead(&Q,x);
+            temp=temp+x;
+            enterqueue(&Q,temp);
+        }
+        DeleteQueue(&Q,&temp);
+        cout<<temp<<endl;
+        enterqueue(&Q,1);
+    }
+    while(isEmpty(Q))
+    {
+        DeleteQueue(&Q,&temp);
+        cout<<temp<<" ";
+    }
+}
+int main()
+{
+    int n;
+    cin>>n;
+    yanghuitriangle(n);
+    return 0;
+}
