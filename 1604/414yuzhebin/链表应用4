@@ -1,0 +1,20 @@
+Node* Locale(Linklist L,int x)
+{
+    Node *p=L;
+    Node *q=L->next;
+    while(q->data!=x)
+    {
+        q=q->next;
+    }
+    q->frep++;
+    if(q->next)
+        q->next->back=q->back;
+    q->back->next=q->next;
+    p=q->back;
+    while(p!=L&&p->frep<q->frep)
+        p=p->back;
+    q->next=p->next;
+    p->next->back=q;
+    p->next=q;
+    q->back=p;
+} 
