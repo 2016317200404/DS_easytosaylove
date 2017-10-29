@@ -1,0 +1,56 @@
+#include<iostream>
+#include<malloc.h>
+using namespace std;
+ typedef struct node
+{
+    int data;
+    struct node *next;
+}LinkStacknode,*LinkStack;
+
+int push(LinkStack top,int x)
+{
+    LinkStack p=new LinkStacknode;
+    if(p==NULL)
+    {
+        return 0;
+    }
+    p->data=x;
+    p->next=top->next;
+    top->next=p;
+    return 0;
+}
+int pop(LinkStack S,int *x)
+{
+    LinkStack temp;
+    temp=S->next;
+    if(temp==NULL)
+    {
+        return 0;
+    }
+    S->next=temp->next;
+    *x=temp->data;
+    free(temp);
+    return 0;
+}
+void Print(LinkStack L)
+{
+    LinkStack top;
+    top=L->next;
+    while(top!=NULL)
+    {
+        cout<<top->data<<" ";
+        top=top->next;
+    }
+    cout<<endl;
+}
+int main()
+{
+    LinkStacknode L;
+    L.next=NULL;
+    for(int i=0;i<5;i++)
+    {
+        push(&L,i);
+    }
+    Print(&L);
+    
+}
