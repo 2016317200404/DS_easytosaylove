@@ -1,0 +1,58 @@
+#include<stdio.h>
+#include<malloc.h>
+typedef struct node
+{
+    int data;
+    struct node *next;
+    struct node *back;
+}Nnode,*hnode;
+
+int nodein(hnode *h,int x,int y)
+{
+    hnode p=h,q;
+    int i=1;
+
+        p->back = NULL;
+        p->data = y;
+        printf("创建节点%d\n",y);
+        y++;
+    while(y<x)
+    {
+    printf("创建节点%d\n",y);
+    q = ((hnode)malloc(sizeof(Nnode)));
+    q->back = NULL;
+    q->data = y;
+    p->next = q;
+    p=q;
+    y++;
+    }
+    h = q->next;
+    return 1;
+};
+
+int nodeback(Nnode *h,int x)
+{
+    hnode p=h,q=h;
+    while(p->data<x-1)
+    {
+            p->next->back = p;
+            p = p->next;
+        printf("节点%d连接节点%d\n",p->data,p->back->data);
+    }
+    q->back = p;
+    printf("节点%d连接节点%d\n",q->data,q->back->data);
+    return 1;
+};
+
+int main()
+{
+    int x,y=0;
+
+    printf("请输入链表长度：");
+    scanf("%d",&x);
+
+    hnode h = ((hnode)malloc(sizeof(Nnode)));       //头结点
+        nodein(h,x,y);
+        nodeback(h,x);
+        return 0;
+}
