@@ -1,0 +1,60 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct Node
+{
+    int data;
+    struct Node *next;
+}Node,*Linklist;
+void Create(Linklist la,int n)
+{
+    Node *s;
+    int x,i;
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&x);
+        s=(Node*)malloc(sizeof(Node));
+        s->data=x;
+        s->next=la->next;
+        la->next=s;
+    }
+}
+void Inversion(Linklist la,int num)
+{
+    Node *q,*s;
+    int i;
+    q=la;
+    s=la->next;
+    while(q->next!=NULL)//q始终指向最后一个节点
+    {
+        q=q->next;
+    }
+    for(i=0;i<num-1;i++)
+    {
+        s=la->next;//用暂时保存la后面一个节点
+        la->next=s->next;
+        s->next=q->next;
+        q->next=s;
+    }
+}
+void Show(Node *la)
+{
+    Node *s;
+    s=la->next;
+    while(s!=NULL)
+    {
+        printf("%d",s->data);
+        s=s->next;
+    }
+}
+int main()
+{
+    Linklist la;
+    int num;//链表元素的个数
+    la=(Node*)malloc(sizeof(Node));
+    la->next=NULL;
+    scanf("%d",&num);
+    Create(la,num);
+    Inversion(la,num);
+    Show(la);
+    return 0;
+}
