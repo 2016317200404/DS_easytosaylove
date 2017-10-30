@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX_LENGTH 200
+void show(int *a,int n)
+{
+    int i;
+    for(i=0;i<n;i++)
+        printf("%d ",a[i]);
+    printf("\n");
+}
+int Union(int *a,int *b,int m,int n)
+{
+    int i,j,temp;
+    for(i=0;i<n;i++)
+    {
+        temp=0;
+        for(j=0;j<m;j++)
+        {
+            if(a[j]==b[i])
+            {
+                temp=1;
+                break;
+            }
+        }
+        if(temp==0)
+        {
+            a[m]=b[i];
+            m++;
+        }
+        show(a,m);
+    }
+    return m;
+}
+int main()
+{
+    int m,n;
+    int i;
+    int a[MAX_LENGTH];
+    int b[MAX_LENGTH/2];
+    while(scanf("%d",&m)!=EOF)
+    {
+        for(i=0;i<m;i++)
+            scanf("%d",&a[i]);
+        scanf("%d",&n);
+        for(i=0;i<n;i++)
+            scanf("%d",&b[i]);
+        show(a,m);
+        show(b,n);
+        m=Union(a,b,m,n);
+    }
+    return 0;
+}
