@@ -1,0 +1,129 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+typedef struct Node
+{
+    int data;
+    struct Node *next;
+}Node,*Linklist;
+void Get(Node *la,int id)
+{
+    int i;
+    Node *s;
+    s=la;
+    for(i=0;i<id;i++)
+    {
+        s=s->next;
+    }
+    printf("%d",s->data);
+}
+void Create(Linklist la,int n)
+{
+    Node *s;
+    int x,i;
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&x);
+        s=(Node*)malloc(sizeof(Node));
+        s->data=x;
+        s->next=la->next;
+        la->next=s;
+    }
+}
+void Delete(Node *la,int key)
+{
+    Node *pre,*r;
+    pre=la;
+    int k=0;
+    while(k<key-1)
+    {
+        pre=pre->next;
+        k++;
+    }
+    if(pre->next==NULL)
+    {
+        printf("delete fail");
+    }else
+    {
+    r=pre->next;
+    pre->next=r->next;
+    free(r);
+    printf("delete OK");
+    }
+}
+void Insert(Node *la,int i,int e)
+{
+    Node *pre,*s;
+    int k;
+    pre=la;
+    k=0;
+    while(k<i-1)
+    {
+        pre=pre->next;
+        k++;
+    }
+    if(pre->next==NULL)
+    {
+        printf("insert fail");
+    }
+    else
+    {
+    s=(Node*)malloc(sizeof(Node));
+    s->data=e;
+    s->next=pre->next;
+    pre->next=s;
+    printf("insert OK");
+    }
+}
+void Show(Node *la)
+{
+    Node *s;
+    s=la;
+    if(s->next==NULL)
+    {
+        printf("Linklist is empty");
+    }
+    else
+    {
+    while(s->next!=NULL)
+    {
+        printf("%d",s->next->data);
+        s=s->next;
+    }
+    }
+}
+int main()
+{
+    char a[20];
+    int n,x,pos,e;
+    Node *la;
+    la=(Node*)malloc(sizeof(Node));
+    la->next=NULL;
+    scanf("%d",&n);
+    Create(la,n);
+    scanf("%d",&x);
+    while(x--)
+    {
+        scanf("%s",&a);
+        if(a[0]=='s')
+        {
+            Show(la);
+        }
+        if(a[0]=='d')
+        {
+            scanf("%d",&pos);
+            Delete(la,pos);
+        }
+        if(a[0]=='i')
+        {
+            scanf("%d %d",&pos,&e);
+            Insert(la,pos,e);
+        }
+        if(a[0]=='g')
+        {
+            scanf("%d",&pos);
+            Get(la,pos);
+        }
+    }
+    return 0;
+}
