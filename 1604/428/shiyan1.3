@@ -1,0 +1,79 @@
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct Node
+{
+    int data;
+    struct Node *back,*next;
+}Node,*Linklist;
+void Initial(Linklist la)
+{
+    la->back=la;
+    la->next=la;
+}
+void Insert(Linklist la,int i,int e)
+{
+    int k=0;
+    Node *p,*s;
+    p=la;
+    while(k<i)
+    {
+        p=p->next;
+        k++;
+    }
+    s=(Node*)malloc(sizeof(Node));
+    s->data=e;
+    p->back->next=s;
+    s->back=p->back;
+    p->back=s;
+    s->next=p;
+}
+void Delete(Linklist la,int i)
+{
+    Node *p;
+    int k=0;
+    p=la;
+    while(k<i)
+    {
+        p=p->next;
+        k++;
+    }
+    p->back->next=p->next;
+    p->next->back=p->back;
+    free(p);
+}
+void Show(Linklist la)
+{
+    Node *s;
+    s=la;
+    while(s->next!=la)
+    {
+        printf("%d",s->next->data);
+        s=s->next;
+    }
+}
+int main()
+{
+    Linklist la;
+    int i,e,key,j;
+    la=(Node*)malloc(sizeof(Node));
+    Initial(la);
+    for(j=0;j<12;j++)
+    {
+        scanf("%d",&key);
+        switch(key)
+        {
+            case 0:
+              Show(la);
+              break;
+            case 1:
+              scanf("%d %d",&i,&e);
+              Insert(la,i,e);
+              break;
+            case 2:
+              scanf("%d",&i);
+              Delete(la,i);
+              break;
+        }
+    }
+    return 0;
+}

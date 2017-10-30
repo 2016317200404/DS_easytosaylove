@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct
+{
+    int elem[100];
+    int last;
+}List;
+void Create(List la,int num)
+{
+    int value,i;
+    for(i-0;i<num;i++)
+    {
+        scanf("%d",&value);
+        la.elem[i]=value;
+    }
+}
+void Union(List la,List lb,List lc)
+{
+    int i,j,k,tmp;
+    whlie(k<la.last)
+    {
+        lc.elem[i]=la.elem[i];
+        i++;
+        k++;
+    }
+    while(j<lb.last)
+    {
+        k=0;
+        while(k<la.last)
+        {
+            if(lb.elem[j]==la.elem[k])
+            {
+                break;
+            }
+        }
+        if(k==last)
+        {
+            lc.elem[i]=lb.elem[j];
+            lc.last++;
+        }
+        j++;
+    }
+}
+Show(List lc)
+{
+    int i;
+    for(i=0;i<lc.last;i++)
+    {
+        printf("%d ",lc.elem[i]);
+    }
+    printf("\n");
+}
+int main()
+{
+    List la,lb,lc;
+    int num_1,num_2;
+    scanf("%d",&num_1);
+    Create(la,num_1);
+    scanf("%d",&num_2);
+    Show(la);
+    Show(lb);
+    Union(la,lb,lc);
+    Show(lc);
+    return 0;
+}

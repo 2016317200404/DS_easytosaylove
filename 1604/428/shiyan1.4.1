@@ -1,0 +1,87 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct Node
+{
+    int data;
+    struct Node *next;
+}Node,*Linklist;
+void Create(Linklist la,int n)//创建链表
+{
+    Node *s;
+    int i,x;
+    s=la;
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&x);
+        s=(Node*)malloc(sizeof(Node));
+        s->data=x;
+        s->next=la->next;
+        la->next=s;
+    }
+}
+void Union(Linklist la,Linklist lb,Linklist lc)//将la和lb合起来赋给lc
+{
+    Node *s,*p,*q;//p指向la,q指向lb，s生成lc的节点
+    p=la;
+    q=lb;
+    s=lc;
+    while(p->next!=NULL)//先把lc全部赋给lc
+    {
+        s=(Node*)malloc(sizeof(Node));
+        s->data=p->next->data;
+        s->next=lc->next;
+        lc->next=s;
+        p=p->next;
+    }
+    while(q->next!=NULL)//把lb中不重复的元素赋给lc
+    {
+        p=la;//每次循环开始让p指向la的头结点
+        while(p->next!=NULL)
+        {
+            if(q->next->data==p->next->data)//如果在lb中找到和la元素相同的数据，则该元素不能赋给lc，让q指向下一个节点
+            {
+                break;
+            }
+            p=p->next;
+        }
+        if(p->next==NULL)//如果在lb中没有找到和la相同的元素，该元素可以赋给lc
+        {
+            s=(Node*)malloc(sizeof(Node));
+            s->data=q->next->data;
+            s->next=lc->next;
+            lc->next=s;
+        }
+        q=q->next;
+    }
+}
+void Show(Linklist la)
+{
+    Node *s;
+    s=la;
+    while(s->next!=NULL)
+    {
+        printf("%d ",s->next->data);
+        s=s->next;
+    }
+    printf("\n");
+}
+int main()
+{
+    Linklist la,lb,lc;
+    int num_1,num_2;
+    la=(Node*)malloc(sizeof(Node));
+    lb=(Node*)malloc(sizeof(Node));
+    lc=(Node*)malloc(sizeof(Node));
+    la->next=NULL;
+    lb->next=NULL;
+    lc->next=NULL;
+    scanf("%d",&num_1);
+    Create(la,num_1);
+    scanf("%d",&num_2);
+    Create(lb,num_2);
+    Show(la);
+    Show(lb);
+    Union(la,lb,lc);
+    Show(lc);
+    return 0;
+}
