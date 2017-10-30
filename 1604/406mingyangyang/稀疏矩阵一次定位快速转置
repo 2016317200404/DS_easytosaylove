@@ -1,0 +1,113 @@
+#include <iostream>
+#include<stdio.h>
+#define maxsize 100
+using namespace std;
+typedef struct
+{
+    int row,col;
+    int e;
+}triple;
+typedef struct
+{
+    triple data[maxsize+1];
+    int m,n,len;
+}TSMatrix;
+void inijuzhen(TSMatrix*A)
+{
+    A->data[1].row=1;
+    A->data[1].col=2;
+    A->data[1].e=12;
+    A->data[2].row=1;
+    A->data[2].col=3;
+    A->data[2].e=9;
+    A->data[3].row=3;
+    A->data[3].col=1;
+    A->data[3].e=-3;
+    A->data[4].row=3;
+    A->data[4].col=6;
+    A->data[4].e=14;
+    A->data[5].row=4;
+    A->data[5].col=3;
+    A->data[5].e=24;
+    A->data[6].row=5;
+    A->data[6].col=2;
+    A->data[6].e=18;
+    A->data[7].row=6;
+    A->data[7].col=1;
+    A->data[7].e=15;
+    A->data[8].row=6;
+    A->data[8].col=4;
+    A->data[8].e=-7;
+    A->m=6;A->n=6;
+    A->len=8;
+}
+void FastTranspose(TSMatrix A,TSMatrix*B)
+{
+    int col,t,p,q;
+    int num[maxsize],position[maxsize];
+    B->len=A.len;
+    B->m=A.n;
+    B->n=A.m;
+    if(B->len)
+    {
+        for(col=1;col<=A.n;col++)
+        {
+            num[col]=0;
+        }
+        for(t=1;t<=A.len;t++)
+        {
+            num[A.data[t].col]++;
+        }
+        position[1]=1;
+        for(col=2;col<=A.n;col++)
+        {
+            position[col]=position[col-1]+num[col-1];
+        }
+        for(p=1;p<=A.len;p++)
+        {
+            col=A.data[p].col;
+            q=position[col];
+            B->data[q].row=A.data[p].col;
+            B->data[q].col=A.data[p].row;
+            B->data[q].e=A.data[p].e;
+            position[col]++;//指向下一个列号为col的非0元素
+        }
+    }
+}
+void show(TSMatrix A)
+{
+    int i,j,k;
+    int a[100][100];
+    for(i=1;i<=A.m;i++)
+    {
+        for(j=1;j<=A.n;j++)
+        {
+            a[i][j]=0;
+        }
+    }
+    for(k=1;k<=A.len;k++)
+    {
+        i=A.data[k].row;
+        j=A.data[k].col;
+        a[i][j]=A.data[k].e;
+    }
+    for(i=1;i<=A.m;i++)
+    {
+        for(j=1;j<=A.n;j++)
+        {
+            printf("%2d     ",a[i][j]);
+        }
+        cout<<endl;
+    }
+}
+int main()
+{
+    TSMatrix A,B;
+    inijuzhen(&A);
+    cout<<"A:"<<endl;
+    show(A);
+    FastTranspose(A,&B);
+    cout<<"B:"<<endl;
+    show(B);
+    return 0;
+}
