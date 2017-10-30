@@ -1,0 +1,121 @@
+#include<stdio.h>
+#include<malloc.h>
+typedef struct Stack{
+    char ch;
+    struct Stack *next;
+}Stack;
+Stack* Init(Stack *top)
+{
+    top=(Stack*)malloc(sizeof(Stack));
+    top->next=NULL;
+    return top;
+}
+void push(Stack *top,char data)
+{
+    Stack *p;
+    p=(Stack*)malloc(sizeof(Stack));
+    p->ch=data;
+    printf("push %c\n",data);
+    p->next=top->next;
+    top->next=p;
+}
+void pop(Stack *top)
+{
+    Stack *temp;
+    char c;
+    if(top->next!=NULL){
+    temp=top->next;
+
+    top->next=temp->next;
+
+    free(temp);
+    printf("pop %c\n",c);
+    return c;
+    }
+    printf("Stack is full!\n");
+}
+char Getpop(Stack *top)
+{
+    Stack *temp;
+    char c;
+    if(top->next!=NULL){
+    temp=top->next;
+    c=temp->ch;
+    printf("Gettop %c\n",c);
+
+
+    return c;
+    }
+    printf("Stack is full!\n");
+}
+int Match(char ch,char b)
+{
+    if((ch=='('&&b==')')||(ch=='['&&b==']')||(ch=='{'&&b=='}'))
+        return 1;
+    else
+        return 0;
+}
+int Isempty(Stack *s)
+{
+    if(s->next==NULL)
+       {
+
+           return 1;
+       }
+    else
+    {
+
+        return 0;
+    }
+}
+void BracketMatch(char *str)
+{
+    Stack L,*S;
+    S=Init(&L);
+    int i;
+    char ch;
+    for(i=0;str[i]!='\0';i++)
+    {
+        switch(str[i]){
+        case '(':
+        case '[':
+        case '{':
+            push(S,str[i]);
+            break;
+        case ')':
+        case ']':
+        case '}':
+            if(Isempty(S))
+            {
+                printf("右括号多余\n");return 0;
+            }
+            else
+            {
+                ch=Getpop(S);
+                if(Match(ch,str[i]))
+                    pop(S);
+                else
+                {
+                    printf("左右括号不同类\n");
+
+                }
+            }
+            break;
+
+        }
+    }
+    if(Isempty(S))
+        printf("括号匹配\n");
+    else
+    {
+
+        printf("左括号多余\n");
+    }
+}
+
+int main()
+{
+    Stack S;
+    char str[]="([{}]([]))";
+    BracketMatch(str);
+}
