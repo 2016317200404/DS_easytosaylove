@@ -1,0 +1,96 @@
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+typedef struct node
+{
+    int e;
+    struct node*back,*next;
+}node,*List;
+List createlist(int n)
+{
+    node*p,*head,*rear;
+    head=(node*)malloc(sizeof(node));
+    head->e=-1;
+    head->back=head;
+    head->next=head;
+    rear=head;
+    while(n--)
+    {
+        int a;
+        cin>>a;
+        p=(node*)malloc(sizeof(node));
+        p->e=a;
+        p->back=rear;
+        p->next=head;
+        rear->next=p;
+        rear=p;
+        head->back=p;
+    }
+    return head;
+}
+void insertlist(List*l,int i,int x)
+{
+    node*p,*s;
+    p=(*l);
+    while(i--)
+    {
+        p=p->next;
+    }
+    s=(node*)malloc(sizeof(node));
+    s->e=x;
+    s->next=p;
+    s->back=p->back;
+    p->back->next=s;
+    p->back=s;
+}
+void deletelist(List*l,int i,int *x)
+{
+    node*p;
+    p=(*l);
+    while(i--)
+    {
+        p=p->next;
+    }
+    *x=p->e;
+    p->back->next=p->next;
+    p->next->back=p->back;
+    free(p);
+}
+void show(List l)
+{
+    node*p;
+    p=l->next;
+    while(p!=l)
+    {
+        cout<<p->e<<" ";
+        p=p->next;
+    }
+    cout<<endl;
+}
+int main()
+{
+    List la;
+    la=createlist(0);
+    while(1)
+    {
+        int n;
+        cin>>n;
+        switch (n)
+        {
+        case 0:
+            show(la);
+            break;
+        case 1:
+            int i,x;
+            cin>>i>>x;
+            insertlist(&la,i,x);
+            break;
+        case 2:
+            int a;
+            cin>>a;
+            deletelist(&la,a,&x);
+            break;
+        }
+    }
+    return 0;
+}
