@@ -1,0 +1,104 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include<stdio.h>
+#include<malloc.h>
+typedef struct List
+{
+    int data;
+    struct List *back;
+    struct List *next;
+}List,*L;
+void init(L *l)
+{
+    (*l)=(L)malloc(sizeof(List));
+    (*l)->back=*l;
+    (*l)->next=*l;
+    (*l)->data=-1;
+}
+void CreateFromTail(L l)
+{
+    L p=l;
+    L s;
+    int flag=1;
+    int d;
+    scanf("%d",&d);
+    while(flag)
+    {
+        if(d!=-1)
+        {
+            s=(L)malloc(sizeof(List));
+            s->data=d;
+            p->next=s;
+            s->back=p;
+            p=s;
+            scanf("%d",&d);
+        }
+        else
+        {
+            p->next=l;
+            flag=0;
+        }
+    }
+}
+void Show(L l)
+{
+    L p=l->next;
+    while(p->data!=-1)
+    {
+        printf("%d ",p->data);
+        p=p->next;
+    }
+    printf("\n");
+}
+void Insert(L l,int j,int k)
+{
+    L p=l;
+    L pr=l->next;
+    L q=(L)malloc(sizeof(List));
+    int i;
+    q->data=k;
+    for(i=1;i<j;i++)
+        {
+            p=p->next;
+            pr=pr->next;
+        }
+    q->back=p;
+    p->next=q;
+    q->next=pr;
+    pr->back=q;
+}
+void Delete(L l,int j)
+{
+    L p=l;
+    int i;
+    L pr=l->next;
+    for(i=1;i<j;i++)
+    {
+        p=p->next;
+        pr=pr->next;
+    }
+    pr->next->back=p;
+    p->next=pr->next;
+}
+int main()
+{
+    int i,j,k;
+    List *l;
+    init(&l);
+    while(scanf("%d",&i)!=EOF)
+    {
+        if(i==0)
+            Show(l);
+        else if(i==1)
+        {
+            scanf("%d %d",&j,&k);
+            Insert(l,j,k);
+        }
+        else if(i==2)
+        {
+            scanf("%d",&j);
+            Delete(l,j);
+        }
+    }
+    return 0;
+}
