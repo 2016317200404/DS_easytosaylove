@@ -1,0 +1,97 @@
+#include<cstdio>
+
+using namespace std;
+
+typedef struct List{
+
+    int L[100];
+
+    int length;
+
+}List;
+
+List La,Lb;
+
+bool LocateElem(List &La,int x){
+
+    for(int i=0;i<La.length;i++){
+
+        if(La.L[i]==x)
+
+            return true;
+
+    }
+
+    return false;
+
+}
+
+void show(List &L){
+
+    printf("%d",L.L[0]);
+
+    for(int i=1;i<L.length;i++)
+
+        printf(" %d",L.L[i]);
+
+       printf("\n");
+
+}
+
+void Union(List &La,List &Lb){
+
+    int e;
+
+    for(int i=0;i<Lb.length;i++){
+
+        e=Lb.L[i];
+
+        if(!LocateElem(La,e)){
+
+            La.L[La.length]=e;
+
+            La.length++;
+
+        }
+
+        show(La);
+
+    }
+
+}
+
+int main(){
+
+    int n1,n2;
+
+    while(scanf("%d",&n1)!=EOF){
+
+        for(int i=0;i<n1;i++)
+
+            scanf("%d",&La.L[i]);
+
+        La.length=n1;
+
+        scanf("%d",&n2);
+
+        for(int i=0;i<n2;i++)
+
+            scanf("%d",&Lb.L[i]);
+
+        Lb.length=n2;
+
+        show(La);
+
+        show(Lb);
+
+
+
+        Union(La,Lb);
+
+        printf("\n");
+
+    }
+
+     return 1;
+
+}
