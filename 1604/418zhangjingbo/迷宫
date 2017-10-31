@@ -1,96 +1,106 @@
 #include<stdio.h>
-#include<stdlib.h>
-#define MAX 100
+#define MAXSIZE 100
 
-int maze[MAX][MAX];
-int move[8][2] = { {-1,-1},{-1,0},{-1,1},{0,-1},{0,1},{1,-1},{1,0}, {1,1} };
+int maze[MAXSIZE][MAXSIZE];
+int move[4][2] = {{1,0},{-1,0},{0,1},{0,-1}};
 
-typedef struct Stack {
-	int i;
-	int j;
-	int fl;
+typedef struct Stack{
+    int i;
+    int j;
+    int dir;
 }Stack;
-int top = -1;
+int top=-1;
 
-void find(int m, int n);
-//建立迷宫,以9为终点
-void create() {
-	int m, n, i, j;
-	scanf("%d %d", &m, &n);
-	for (i = 0; i < m + 2; i++) {
-		maze[i][0] = 1;
-		maze[i][n + 1] = 1;
-	}
-	for (j = 0; j < n; j++) {
-		maze[0][j] = 1;
-		maze[m + 1][j] = 1;
-	}
-	for (i = 1; i < m + 1; i++) {
-		for (j = 1; j < n + 1; j++) {
-			scanf("%d", &maze[i][j]);
-		}
-	}
-	find(m + 1, n + 1);
+int Push(Stack *S,int i,int j,int dir){
+    S->i = i;
+    S->j = j;
+    S->dir = dir;
+    return 1;
 }
 
-void find(int m,int n) {
-	int i=0,j=0,fl,findn;
-	int x, y, k;
-	Stack stack[MAX];
-	top++;
-	stack[top].i = 1;
-	stack[top].j = 1;
-	stack[top].fl = -1;
-	maze[1][1] = -1;
-	while (top > -1) {
-		if (maze[i][j] == 9) {
-			for (x = 1; x < m + 1; x++) {
-				for (y = 1; y < n + 1; y++) {
-					for (k = 0; k < top; k++) {
-						if (x == stack[k].i && y == stack[k].j) {
-							maze[x][y] = 9;
-						}
-					}
-				}
-			}
-			for (x = 1; x < m + 1; x++) {
-				for (y = 1; y < n + 1; y++) {
-					printf("%d ", maze[x][y]);
-				}
-				printf("\n");
-			}
-			return;
-		}
-
-		i = stack[top].i;
-		j = stack[top].j;
-		fl = stack[top].fl;
-		findn = 0;
-		while (fl <= 7&&findn==0) {
-			fl++;
-			i = stack[top].i + move[fl][0];
-			j = stack[top].j + move[fl][1];
-			if (maze[i][j] == 0) {
-				findn = 1;
-				break;
-			}
-		}
-		if (findn == 1) {	//入栈
-			stack[top].fl = fl;
-			top++;
-			stack[top].i = i;
-			stack[top].j = j;
-			stack[top].fl = -1;
-			maze[i][j] = -1;
-		}
-		else {
-			maze[stack[top].i][stack[top].j] = 0;	//退栈
-			top--;
-		}
-	}
-	printf("没有通路\n");
+int GetTop(Stack *S, int *i,int *j,int *dir){
+        *i = S->i;
+        *j = S->j;
+        *dir = S->dir;
+        return 1;
 }
-int main() {
-	create();
-	return 0;
+
+//以9为终点，0表示通路，1表示障碍，结果用8表示路线
+void find(int m,int n){
+    Stack stack[MAXSIZE];
+    int i,j,dir,findn,tn;
+    int x,y,k;
+    for(i=0;i<m+2;i++){
+        maze[i][0] = 1;
+        maze[i][n+1] = 1;
+    }
+    for(j=0;j<n+2;j++){
+        maze[0][j] = 1;
+        maze[m+1][j] = 1;
+    }
+    for(i=1;i<m+1;i++){
+        for(j=1;j<n+1;j++){
+            scanf("%d",&maze[i][j]);
+        }
+    }
+    i=1;
+    j=1;
+    top++;
+    Push(&stack[top],1,1,-1);
+    maze[1][1] = -1;
+    while(top>-1){
+        if(maze[i][j]==9){
+            for(x=1;x<m+1;x++){
+                for(y=1;y<n+1;y++){
+                    for(k=0;k<top;k++){
+                        if(x == stack[k].i && y == stack[k].j){
+                            maze[x][y] = 8;
+                        }
+                    }
+                }
+            }
+            for(x=1;x<m+1;x++){
+                for(y=1;y<n+1;y++){
+                    printf("%d ",maze[x][y]);
+                }
+                printf("\n");
+            }
+            return;
+        }
+        GetTop(&stack[top],&i,&j,&dir);
+        findn=0;
+        while(dir<4&&findn==0){
+            dir++;
+            GetTop(&stack[top],&i,&j,&tn);
+            i+=move[dir][0];
+            j+=move[dir][1];
+            if(maze[i][j]==0 || maze[i][j]==9){
+                findn=1;
+                break;
+            }
+        }
+        if(findn==1 && maze[i][j]!=9){
+            stack[top].dir = dir;
+            top++;
+            Push(&stack[top],i,j,-1);
+            maze[i][j]=-1;
+        }
+        if(findn==0){
+            maze[stack[top].i][stack[top].j] = 0;
+            top--;
+        }
+        if(findn==1 && maze[i][j]==9){
+            stack[top].dir = dir;
+            top++;
+            Push(&stack[top],i,j,-1);
+        }
+    }
+    printf("No\n");
+}
+
+int main(){
+    int m,n;
+    scanf("%d %d",&m,&n);
+    find(m,n);
+    return 0;
 }
