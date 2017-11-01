@@ -1,0 +1,112 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define SIZE 10
+#define MAXSIZE 9
+void enterQ(int *cp,int *f,int *r,int x)
+{
+    if((*r+1)%SIZE==*f)
+    {
+        printf("Error!\n");
+        return;
+    }
+    else
+    {
+        if(*r<SIZE-1)
+    {cp[*r]=x;
+    *r=(*r+1)%SIZE;}
+    else
+    {
+        cp[0]=x;
+        *r=1;
+    }
+    }
+
+}
+void deleteQ(int *cp,int *f,int *r,int *x)
+{
+    if(*f==*r)
+    {
+        printf("Error!\n");
+        return;
+    }
+    else
+    {
+        if(*f<MAXSIZE-1)
+         {
+        *x=cp[*f%9];
+        cp[*f%9]=0;
+        *f=(*f+1)%SIZE;}
+        else
+        {
+            *x=cp[*f];
+            cp[*f]=0;
+            *f=0;
+        }
+    }
+}
+int main()
+{
+    int front=0;
+    int rear=0;
+    int group=1;
+    int i,j,temp1,temp2,tempf,tempr;
+    int cp[MAXSIZE]={0,0,0,0,0,0,0,0,0};
+    int result[MAXSIZE]={0,0,0,0,0,0,0,0,0};
+    int newr[MAXSIZE]={0,0,0,0,0,0,0,0,0};
+    int a[MAXSIZE]={1,2,3,4,5,6,7,8,9};
+    int r[MAXSIZE][MAXSIZE]={0,1,0,0,0,0,0,0,0,
+                             1,0,0,0,1,1,0,1,1,
+                             0,0,0,0,0,1,1,0,0,
+                             0,0,0,0,1,0,0,0,1,
+                             0,1,0,1,0,1,1,0,1,
+                             0,1,1,0,1,0,1,0,0,
+                             0,0,1,0,1,1,0,0,0,
+                             0,1,0,0,0,0,0,0,0,
+                             0,1,0,1,1,0,0,0,0};
+    for(i=0;i<MAXSIZE;i++)
+        enterQ(cp,&front,&rear,a[i]);
+    while(front!=rear)
+    {
+        tempf=front%9;
+        tempr=rear%10;
+        deleteQ(cp,&front,&rear,&temp1);
+        result[temp1-1]=group;
+        for(i=0;i<MAXSIZE;i++)
+            newr[i]=r[temp1-1][i];
+        for(j=tempf+1;j<tempr;j++)
+        {
+            if(newr[cp[j]-1]==1)
+            {
+                deleteQ(cp,&front,&rear,&temp2);
+                enterQ(cp,&front,&rear,temp2);
+            }
+            else
+            {
+                deleteQ(cp,&front,&rear,&temp2);
+                result[temp2-1]=group;
+                for(i=temp2;i<tempr;i++)
+                {
+                    if(r[temp2-1][i]==1)
+                        newr[i]=r[temp2-1][i];
+                }
+            }
+        }
+        if(rear==front+1&&cp[tempf+1]!=0)
+        {
+            deleteQ(cp,&front,&rear,&temp2);
+                result[temp2-1]=group;
+        }
+        group++;
+    }
+    for(i=0;i<group-1;i++)
+    {
+        printf("Group %d: ",i+1);
+        for(j=0;j<MAXSIZE;j++)
+        {
+            if(result[j]==i+1)
+                printf("%d ",a[j]);
+        }
+        printf("\n");
+    }
+    return 0;
+}
