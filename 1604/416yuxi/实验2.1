@@ -1,0 +1,90 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include<malloc.h>
+#define MAXSIZE 50
+typedef struct
+{
+    int a[MAXSIZE];
+    int front;
+    int rear;
+}SeqQueue;
+void InitQueue(SeqQueue *Q)
+{
+    Q->front=0;Q->rear=0;
+}
+void EnterQueue(SeqQueue *Q,int x)
+{
+    if((Q->rear+1)%MAXSIZE==Q->front)
+    {
+        printf("Error!\n");
+        return;
+    }
+    Q->a[Q->rear]=x;
+    Q->rear=(Q->rear+1)%MAXSIZE;
+}
+void deletequeue(SeqQueue *Q,int *x)
+{
+    if(Q->front==Q->rear)
+    {
+        printf("Error!\n");
+        return;
+    }
+    *x=Q->a[Q->front];
+    Q->front=(Q->front+1)%MAXSIZE;
+}
+typedef struct
+{
+    int a[MAXSIZE];
+    int top;
+}SeqStack;
+void InitStack(SeqStack *S)
+{
+    S->top=-1;
+}
+void push(SeqStack *S,int x)
+{
+    if(S->top==MAXSIZE-1)
+    {
+        printf("Error\n");
+        return;
+    }
+    S->top++;
+    S->a[S->top]=x;
+}
+void pop(SeqStack *S,int *x)
+{
+    if(S->top==-1)
+    {
+        printf("Error\n");
+        return;
+    }
+    *x=S->a[S->top];
+    S->top--;
+}
+int main()
+{
+    SeqQueue q;
+    InitQueue(&q);
+    SeqStack s;
+    InitStack(&s);
+    int x,y,i;
+    while(~scanf("%d",&x))
+    {
+        EnterQueue(&q,x);
+    }
+    while(q.front!=q.rear)
+    {
+        deletequeue(&q,&y);
+        push(&s,y);
+    }
+    while(s.top!=-1)
+    {
+        pop(&s,&y);
+        EnterQueue(&q,y);
+    }
+    for(i=q.front;i<q.rear;i++)
+    {
+        printf("%d ",q.a[i]);
+    }
+    return 0;
+}
