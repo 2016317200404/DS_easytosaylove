@@ -1,0 +1,143 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <malloc.h>
+#define MAXSIZE 50
+int maze[7][7]={1,1,1,1,1,1,1,
+                1,0,0,0,0,0,1,
+                1,1,1,1,1,0,1,
+                1,0,0,0,0,0,1,
+                1,0,1,1,1,1,1,
+                1,0,0,0,0,0,1,
+                1,1,1,1,1,1,1};
+int m=5,n=5;
+typedef struct
+{
+    int row;
+    int col;
+    int next;
+}Pos;
+Pos move[5];
+void initmove(Pos move[])
+{
+    move[1].row=0;
+    move[1].col=1;
+    move[2].row=1;
+    move[2].col=0;
+    move[3].row=0;
+    move[3].col=-1;
+    move[4].row=-1;
+    move[4].col=0;
+}
+typedef struct
+{
+    Pos line[MAXSIZE];
+    int top;
+}Stack;
+void initStack(Stack *S)
+{
+    (*S).top=-1;
+}
+int isEmpty(Stack S)
+{
+    if(S.top==-1)
+        return 0;
+    else
+        return 1;
+}
+void pushS(Stack *S,Pos E)
+{
+    (*S).top++;
+    (*S).line[(*S).top].row=E.row;
+    (*S).line[(*S).top].col=E.col;
+    (*S).line[(*S).top].next=E.next;
+}
+void popS(Stack *S,Pos *E)
+{
+    if(isEmpty(*S)==0)
+    {
+        printf("the stack is empty!\n");
+        return;
+    }
+    else
+    {
+        E->row=(*S).line[(*S).top].row;
+        E->col=(*S).line[(*S).top].col;
+        E->next=(*S).line[(*S).top].next;
+        (*S).top--;
+    }
+}
+void searchP(Stack *S,Pos move[5])
+{
+    int x,y,n,i,j;
+    Pos e;
+    e.col=1;
+    e.row=1;
+    e.next=0;
+    maze[1][1]=1;
+    pushS(S,e);
+    while(isEmpty(*S))
+    {
+        x=e.row;
+        y=e.col;
+        n=e.next+1;
+        while(n<5)
+        {
+            i=x+move[n].row;
+            j=y+move[n].col;
+            if(maze[i][j]==0)
+            {
+                (*S).line[(*S).top].next=n;
+                e.row=i;
+                e.col=j;
+                pushS(S,e);
+                x=i;
+                y=j;
+                maze[x][y]=1;
+                if(x==5&&y==5)
+                {
+                    printf("Bingo!\n");
+                    return;
+                }
+                else
+                    n=1;
+            }
+            else
+                n++;
+        }
+        popS(S,&e);
+    }
+    printf("Not Found!\n");
+    return;
+}
+void Gyaku(Stack *S1,Stack *S2)
+{
+    Pos e;
+    while(isEmpty(*S1))
+    {
+        popS(S1,&e);
+        pushS(S2,e);
+    }
+}
+void printS(Stack S)
+{
+    int t=S.top;
+    while(t!=-1)
+    {
+        printf("(%d,",S.line[t].row);
+        printf("%d,",S.line[t].col);
+        printf("%d)\n",S.line[t].next);
+        t--;
+    }
+}
+int main()
+{
+    Stack S1;
+    Stack S2;
+    initStack(&S1);
+    initStack(&S2);
+    initmove(move);
+    searchP(&S1,move);
+    Gyaku(&S1,&S2);
+    printS(S2);
+    return 0;
+}
