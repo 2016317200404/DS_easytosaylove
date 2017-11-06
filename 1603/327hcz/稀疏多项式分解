@@ -1,0 +1,33 @@
+typedef struct Polynode
+{
+    int coef;
+    int exp;
+    struct Polynode *next;
+}Polynode,*Polylist;
+
+void Poly_Divide(Polylist *Po,Polylist *A,Polylist *B)//PO,A,B为头结点
+{
+    Polynode *p,*q,*taila,*tailb;
+    p = Po->next;
+    taila = A->next;
+    tailb = B->next;
+    while(p!=Po)
+    {
+        if(p->exp%2==0)
+        {
+            taila = p;
+            taila = taila->next;
+            Po->next = p->next;
+            p = p->next;
+        }
+        else
+        {
+            tailb = p;
+            tailb = tailb->next;
+            Po->next = p->next;
+            p = p->next;
+        }
+    }
+    taila = NULL;
+    tailb = NULL;
+}
