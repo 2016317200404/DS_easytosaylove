@@ -1,0 +1,103 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define N 50
+int len;
+typedef int ElemType;
+typedef struct Node
+{
+    ElemType data;
+    struct Node *next;
+}Node,*Linklist;
+void Initlist(Linklist *L)
+{
+    *L=(Node*)malloc(sizeof(Node));
+    (*L)->next=NULL;
+}
+void CreatFromTail(Linklist *L)
+{
+    int i,c;
+    Node *p,*s;
+    p=*L;
+    printf("Input the length of array:");
+    scanf("%d",&len);
+    printf("Input them:");
+
+    scanf("%d",&c);
+    p->data=c;
+
+    for(i=1;i<len;i++)
+    {
+        scanf("%d",&c);
+        s=(Node*)malloc(sizeof(Node));
+        if(s)
+        {
+            s->data=c;
+            p->next=s;
+            p=s;
+        }
+    }
+    p->next=*L;
+}
+void Run(Linklist *L)
+{
+    int i=1,j,m,count;
+    Node *p,*s;
+    p=*L;
+    printf("Input the substense of beginner:");
+    scanf("%d",&m);
+    printf("Input the circle:");
+    scanf("%d",&count);
+    while(p->data!=m)
+        p=p->next;
+    if(count==1)
+    {
+        while(p->next!=p)
+        {
+            printf("%d ",p->data);
+            p=p->next;
+        }
+        printf("%d\n",p->data);
+    }
+    else
+    {
+        while(p->next!=p)
+        {
+            for(j=1;j<count;j++)
+            {
+                s=p;
+                p=p->next;
+            }
+            s->next=p->next;
+            printf("%d ",p->data);
+            count=p->data;
+            free(p);
+            p=s->next;
+        }
+        printf("%d\n",p->data);
+        /*while(p->next!=p)
+        {
+            s=p;
+            p=p->next;
+            i++;
+            if(i==count)
+            {
+                s->next=p->next;
+                printf("%d ",p->data);
+                count=p->data;
+                free(p);
+                p=s->next;
+                i=1;
+            }
+        }
+        printf("%d\n",p->data);*/
+    }
+}
+int main()
+{
+    Linklist L;
+    Initlist(&L);
+    CreatFromTail(&L);
+    Run(&L);
+
+    return 0;
+}
