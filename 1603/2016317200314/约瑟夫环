@@ -1,0 +1,41 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define N 50
+int main()
+{
+    int arr[N];
+    int i,j,m,k,len,count=0,flag=0;
+    printf("Input the sum of people:");
+    scanf("%d",&len);
+    printf("Input them:");
+    for(i=0;i<len;i++)
+        scanf("%d",&arr[i]);
+    printf("Input the beginner:");
+    scanf("%d",&m);
+    printf("Input the circle:");
+    scanf("%d",&k);
+
+    j=0;
+    while(count<len)
+    {
+        for(i=m-1;i<len;i++)
+        {
+            flag=1;
+            if(arr[i]!=-1)
+                j++;
+            if(j==k)
+            {
+                count++;
+                printf("%d ",arr[i]);
+                k=arr[i];
+                arr[i]=-1;
+                j=0;
+            }
+        }
+        if(flag==1)
+            m=1;
+    }
+    printf("\n");
+
+    return 0;
+}
